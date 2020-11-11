@@ -50,6 +50,7 @@ contract MyBlock {
      * 
      */
     function viewPost(uint postID) public payable returns(string memory){
+        require(postID >= 0 && postID < n_posts, "INVALID POST ID");
         Post storage p = posts[postID];
         
         if(!p.payed[msg.sender] || msg.sender == p.owner){
@@ -67,6 +68,7 @@ contract MyBlock {
      * @param like - determines if post is to be liked or disliked
      */
     function ratePost(uint postID, bool like) public{
+            require(postID >= 0 && postID < n_posts, "INVALID POST ID");
             Post storage p = posts[postID];
             require(p.payed[msg.sender], "POST NOT PURCHASED");
             require(!p.liked[msg.sender], "POST ALREADY RATED");
@@ -85,6 +87,7 @@ contract MyBlock {
      * @return description of a respective post
      */
     function getDescription(uint postID) public view returns (bytes32){
+        require(postID >= 0 && postID < n_posts, "INVALID POST ID");
         return stringToBytes32(posts[postID].description);
     }
     
@@ -94,6 +97,7 @@ contract MyBlock {
      * @return likes of a respective post
      */
     function getLikes(uint postID) public view returns (uint){
+        require(postID >= 0 && postID < n_posts, "INVALID POST ID");
         return posts[postID].likes;
     }
     
@@ -103,6 +107,7 @@ contract MyBlock {
      * @return dislikes of a respective post
      */
     function getDislikes(uint postID) public view returns (uint){
+        require(postID >= 0 && postID < n_posts, "INVALID POST ID");
         return posts[postID].dislikes;
     }
     
