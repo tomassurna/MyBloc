@@ -37,8 +37,8 @@ contract MyBlock {
             likes : 0,
             dislikes : 0
         });
-        users[msg.sender].push(newPost.id);
         posts[newPost.id] = newPost;
+        users[msg.sender].push(newPost.id);
         n_posts++;
         
         return true;
@@ -52,7 +52,7 @@ contract MyBlock {
     function viewPost(uint postID) public payable returns(string memory){
         Post storage p = posts[postID];
         
-        if(!p.payed[msg.sender]){
+        if(!p.payed[msg.sender] || msg.sender == p.owner){
             require(msg.value >= p.fee, "Need to pay at least minimum of fee");
             p.owner.transfer(msg.value);
             p.payed[msg.sender] = true;
@@ -111,7 +111,9 @@ contract MyBlock {
      * @dev searches for post based on description
      * @param search - description to search for
      */
-    function searchPost(string memory search) public returns(bytes32[] memory descriptions){
+    function searchPost(string memory search) public returns(bytes32[] memory){
+        
+        
         
     }
     
@@ -124,14 +126,14 @@ contract MyBlock {
      *      source - https://ethereum.stackexchange.com/questions/9142/how-to-convert-a-string-to-bytes32
      */
     function stringToBytes32(string memory source) private pure returns (bytes32 result) {
-    bytes memory tempEmptyStringTest = bytes(source);
-    if (tempEmptyStringTest.length == 0) {
-        return 0x0;
+        bytes memory tempEmptyStringTest = bytes(source);
+        if (tempEmptyStringTest.length == 0) {
+            return 0x0;
+        }
+    
+        assembly {
+            result := mload(add(source, 32))
+        }
     }
-
-    assembly {
-        result := mload(add(source, 32))
-    }
-}
     
 }
