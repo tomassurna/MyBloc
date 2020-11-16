@@ -3,10 +3,10 @@ import { TheContent, TheFooter, TheHeader } from "./index";
 
 const TheLayout = () => {
   return (
-    <div className="c-app c-default-layout">
-      <div className="c-wrapper">
+    <div className="c-app c-default-layout" >
+      <div className="c-wrapper" >
         <TheHeader />
-        <div className="c-body">
+        <div className="c-body" style={{width: "75%", margin: "auto"}}>
           <TheContent />
         </div>
         <TheFooter />
