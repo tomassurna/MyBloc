@@ -12,7 +12,7 @@ class Post extends React.Component {
 
     this.state = {
       previewBuffer: null,
-      previewHash: "QmP18n1vvhih5K5k9cRGSSUc7cAQLbrr8Hf7MKqqiBcJmc",
+      imageHash: "QmP18n1vvhih5K5k9cRGSSUc7cAQLbrr8Hf7MKqqiBcJmc",
       description: "",
       fee: 0,
     };
@@ -84,7 +84,7 @@ class Post extends React.Component {
           <div className="card-body">
             <div class="mb-3" className="form-group" style={{}}>
 
-              <img src={`https://ipfs.infura.io/ipfs/${this.state.previewHash}`} width="100%" alt="[image preview]"/>
+              <img src={`https://ipfs.infura.io/ipfs/${this.state.imageHash}`} width="100%" alt="[image preview]"/>
 
               <form onSubmit={this.onSubmit}>
                 <input type='file' onChange={this.loadPost}/>
