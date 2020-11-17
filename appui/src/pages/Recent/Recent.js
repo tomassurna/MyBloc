@@ -11,34 +11,23 @@ class Recent extends React.Component {
     };
 
     this.loadRecentPosts();
-  }
+  } 
 
   async loadRecentPosts() {
-    var hasElements = true;
-    var index = 0;
-
     var postDetails = [];
+    var n_posts = await myBlockContract.methods.n_posts().call();
 
-    while (hasElements) {
-      try {
-        var postId = await myBlockContract.methods.postIdList(index).call();
-        const post = await myBlockContract.methods
-          .getPostDetails(postId)
-          .call();
+    for (var i = n_posts-1; i > Math.max(0, n_posts-11); i--) {
+      const post = await myBlockContract.methods.getPostDetails(i).call();
 
-        postDetails.push({
-          description: post.description,
-          dislikes: post.dislikes,
-          fee: post.fee,
-          id: post.id,
-          likes: post.likes,
-        });
-        this.setState({ postDetails });
-
-        index++;
-      } catch (err) {
-        hasElements = false;
-      }
+      postDetails.push({
+        description: post.description,
+        dislikes: post.dislikes,
+        fee: post.fee,
+        id: post.id,
+        likes: post.likes,
+      });
+      this.setState({ postDetails });
     }
   }
 
