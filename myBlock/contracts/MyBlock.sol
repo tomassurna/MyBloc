@@ -31,7 +31,7 @@ contract MyBlock {
     mapping(uint256 => Post) private posts;
     uint256 public n_posts;
 
-    constructor(){
+    constructor() public{
         n_posts = 1;
     }
 
