@@ -35,7 +35,7 @@ contract MyBlock {
         n_posts = 1;
     }
 
-    /**TODO - actual post implementation, current supports string description to post
+    /**
      * @dev push a post to MyBlock
      * @param _ipfsHash - hash reference of image
      * @param _description - string description of post
@@ -43,7 +43,6 @@ contract MyBlock {
      */
     function pushPost(string memory _ipfsHash, string memory _description, uint256 _fee)
         public
-        returns (bool)
     {
         
         Post storage newPost = posts[n_posts];
@@ -57,11 +56,9 @@ contract MyBlock {
         
         users[msg.sender].push(newPost.id);
         n_posts++;
-
-        return true;
     }
 
-    /**TODO - actual post implementation, current supports strings description return
+    /**
      * @dev buy a post and pay owner
      * @param postID - ID of post to buy
      *
@@ -70,7 +67,7 @@ contract MyBlock {
         require(postID >= 0 && postID < n_posts, "INVALID POST ID");
         Post storage p = posts[postID];
 
-        if (!p.payed[msg.sender] || msg.sender == p.owner) {
+        if (!(p.payed[msg.sender] || msg.sender == p.owner)) {
             require(msg.value >= p.fee, "Need to pay at least minimum of fee");
             p.owner.transfer(msg.value);
             p.payed[msg.sender] = true;
