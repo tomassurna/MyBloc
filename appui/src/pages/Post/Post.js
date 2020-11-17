@@ -29,8 +29,6 @@ class Post extends React.Component {
     }
   }
 
-  // "QmP18n1vvhih5K5k9cRGSSUc7cAQLbrr8Hf7MKqqiBcJmc"
-  // https://ipfs.infura.io/ipfs/QmP18n1vvhih5K5k9cRGSSUc7cAQLbrr8Hf7MKqqiBcJmc
   onSubmit = (event) =>{
     event.preventDefault();
     console.log("Submitting image to ipfs...");
