@@ -42,7 +42,7 @@ class Post extends React.Component {
     ipfs.add(this.state.previewBuffer, (error, result) => {
         console.log('adding');
         console.log(result);
-        this.setState({previewHash: result[0]})
+        this.setState({previewHash: result[0].hash})
         if(error){
           console.error(error);
           return
