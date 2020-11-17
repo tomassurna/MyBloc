@@ -1,7 +1,7 @@
 import Web3 from "web3";
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-let account0 = "0x5986f327CC0377Bb6488c8517Af5C6c8E2cAA464";
+let account0 = "0xF3a850A891e81F670Fe694ef6ca4f0384dE17dfd";
 let myBlockABI = [
   {
     inputs: [],
@@ -11,8 +11,8 @@ let myBlockABI = [
   },
   {
     constant: true,
-    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    name: "postIdList",
+    inputs: [],
+    name: "n_posts",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     payable: false,
     stateMutability: "view",
@@ -54,33 +54,6 @@ let myBlockABI = [
   {
     constant: true,
     inputs: [{ internalType: "uint256", name: "postID", type: "uint256" }],
-    name: "getDescription",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [{ internalType: "uint256", name: "postID", type: "uint256" }],
-    name: "getLikes",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [{ internalType: "uint256", name: "postID", type: "uint256" }],
-    name: "getDislikes",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [{ internalType: "uint256", name: "postID", type: "uint256" }],
     name: "getPostDetails",
     outputs: [
       {
@@ -102,15 +75,18 @@ let myBlockABI = [
   },
   {
     constant: false,
-    inputs: [{ internalType: "string", name: "search", type: "string" }],
+    inputs: [
+      { internalType: "string", name: "_search", type: "string" },
+      { internalType: "uint256", name: "start", type: "uint256" },
+    ],
     name: "searchPost",
-    outputs: [{ internalType: "bytes32[]", name: "", type: "bytes32[]" }],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
 ];
-let myBlockAddress = "0x6156314dD11687AD730fB3e9323862a89f7322B6"; // Initialize the rating contract with web3
+let myBlockAddress = "0x5c84dF96876560589f4C5f1CC384866D269C1456"; // Initialize the rating contract with web3
 // Reference: https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html
 const myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
 export { myBlockContract, account0 };
