@@ -11,7 +11,7 @@ contract MyBlock {
         uint256 likes;
         uint256 dislikes;
         mapping(address => bool) payed;
-        mapping(address => bool) liked;
+        mapping(address => bool) rated;
     }
 
     struct PostDetails {
@@ -20,11 +20,6 @@ contract MyBlock {
         uint256 fee;
         uint256 likes;
         uint256 dislikes;
-    }
-
-    struct Profile{
-        uint256[] posted;
-        uint256[] owned;
     }
 
     mapping(address => uint256[]) private users;
@@ -79,19 +74,19 @@ contract MyBlock {
     /**
      * @dev rate a post positively or negatively
      * @param postID - ID of post to like or dislike
-     * @param like - determines if post is to be liked or disliked
+     * @param like - determines if post is to be rated or disrated
      */
     function ratePost(uint256 postID, bool like) public {
         require(postID >= 0 && postID < n_posts, "INVALID POST ID");
         Post storage p = posts[postID];
         require(p.payed[msg.sender], "POST NOT PURCHASED");
-        require(!p.liked[msg.sender], "POST ALREADY RATED");
+        require(!p.rated[msg.sender], "POST ALREADY RATED");
         if (like) {
             p.likes++;
         } else {
             p.dislikes++;
         }
-        p.liked[msg.sender] = true;
+        p.rated[msg.sender] = true;
     }
 
     /**
