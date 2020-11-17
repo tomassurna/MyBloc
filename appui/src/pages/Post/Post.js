@@ -7,9 +7,21 @@ class Post extends React.Component {
     super(props);
 
     this.state = {
+      image: null,
       description: "",
       fee: 0,
     };
+  }
+
+  previewPost = (event) =>{
+    event.preventDefault();
+    // console.log('File caputered!');
+    const file = event.target.files[0];
+    const reader = new window.FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onloadend=()=>{
+      console.log('buffer', Buffer(reader.result));
+    }
   }
 
   onAddPost() {
@@ -41,6 +53,11 @@ class Post extends React.Component {
         <div className="card">
           <div className="card-body">
             <div class="mb-3" className="form-group" style={{}}>
+
+              <form>
+                <input type='file' onChange={this.previewPost}/>
+              </form>
+
               <label
                 htmlFor="description"
                 style={{ "font-size": "15px", width: "100%" }}
