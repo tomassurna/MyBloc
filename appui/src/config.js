@@ -21,11 +21,12 @@ let myBlockABI = [
   {
     constant: false,
     inputs: [
-      { internalType: "string", name: "description", type: "string" },
-      { internalType: "uint256", name: "fee", type: "uint256" },
+      { internalType: "string", name: "_ipfsHash", type: "string" },
+      { internalType: "string", name: "_description", type: "string" },
+      { internalType: "uint256", name: "_fee", type: "uint256" },
     ],
     name: "pushPost",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
@@ -74,7 +75,7 @@ let myBlockABI = [
     type: "function",
   },
   {
-    constant: false,
+    constant: true,
     inputs: [
       { internalType: "string", name: "_search", type: "string" },
       { internalType: "uint256", name: "start", type: "uint256" },
@@ -82,7 +83,7 @@ let myBlockABI = [
     name: "searchPost",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     payable: false,
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
 ];
