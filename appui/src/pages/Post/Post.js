@@ -59,12 +59,13 @@ class Post extends React.Component {
       fee: this.state.fee,
     };
 
-    console.log(post);
+    const app = this;
 
     myBlockContract.methods
       .pushPost(this.state.description, this.state.fee)
       .send({ from: account0, gas: 6700000 }, (error, transactionHash) => {
         if (!error) {
+          app.setState({ description: "", fee: 0 });
         } else {
           alert(error.message);
         }
