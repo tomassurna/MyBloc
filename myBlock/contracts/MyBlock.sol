@@ -16,10 +16,16 @@ contract MyBlock {
 
     struct PostDetails {
         uint256 id;
+        //post;
         string description;
         uint256 fee;
         uint256 likes;
         uint256 dislikes;
+    }
+
+    struct Profile{
+        uint256[] posted;
+        uint256[] owned;
     }
 
     mapping(address => uint256[]) private users;
@@ -118,14 +124,12 @@ contract MyBlock {
      */
     function searchPost(string memory _search, uint256 start)
         public
-        returns (bytes32[] memory)
+        returns (uint256)
     {
         bytes32 search = stringToBytes32(_search);
-        uint[] storage results = new uint[](256);
         
         while(start < n_posts){
             if (stringToBytes32(posts[start].description)==search){
-                results.push(posts[start].id);
                 return(posts[start].id);
             }
             start++;
