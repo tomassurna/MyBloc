@@ -2,26 +2,55 @@ import { CButton } from "@coreui/react";
 import React from "react";
 import { account0, myBlockContract } from "../../config";
 
+
+const ipfsClient = require('ipfs-http-client');
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+
 class Post extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      image: null,
+      previewBuffer: null,
+      previewHash: "QmP18n1vvhih5K5k9cRGSSUc7cAQLbrr8Hf7MKqqiBcJmc",
       description: "",
       fee: 0,
     };
   }
 
-  previewPost = (event) =>{
+  loadPost = (event) =>{
     event.preventDefault();
-    // console.log('File caputered!');
+    console.log('File caputered!');
     const file = event.target.files[0];
     const reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
     reader.onloadend=()=>{
-      console.log('buffer', Buffer(reader.result));
+      this.setState({previewBuffer: Buffer(reader.result)});
     }
+  }
+
+  // "QmP18n1vvhih5K5k9cRGSSUc7cAQLbrr8Hf7MKqqiBcJmc"
+  // https://ipfs.infura.io/ipfs/QmP18n1vvhih5K5k9cRGSSUc7cAQLbrr8Hf7MKqqiBcJmc
+  onSubmit = (event) =>{
+    event.preventDefault();
+    console.log("Submitting image to ipfs...");
+
+    if(this.state.previewBuffer == null){
+      console.log("Null Image Submitted...")
+      return
+    }
+    ipfs.add(this.state.previewBuffer, (error, result) => {
+        console.log('adding');
+        console.log(result);
+        this.setState({previewHash: result[0]})
+        if(error){
+          console.error(error);
+          return
+        }
+    })
+    console.log("Success!");
+
+    //store on blockchain
   }
 
   onAddPost() {
@@ -54,10 +83,12 @@ class Post extends React.Component {
           <div className="card-body">
             <div class="mb-3" className="form-group" style={{}}>
 
-              <form>
-                <input type='file' onChange={this.previewPost}/>
-              </form>
+              <img src={`https://ipfs.infura.io/ipfs/${this.state.previewHash}`} width="100%" alt="[image preview]"/>
 
+              <form onSubmit={this.onSubmit}>
+                <input type='file' onChange={this.loadPost}/>
+                <input type='submit'/>
+              </form>
               <label
                 htmlFor="description"
                 style={{ "font-size": "15px", width: "100%" }}
