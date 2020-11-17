@@ -2,68 +2,69 @@ import { CButton } from "@coreui/react";
 import React from "react";
 import { account0, myBlockContract } from "../../config";
 
-
-const ipfsClient = require('ipfs-http-client');
-const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+const ipfsClient = require("ipfs-http-client");
+const ipfs = ipfsClient({
+  host: "ipfs.infura.io",
+  port: 5001,
+  protocol: "https",
+});
 
 class Post extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      previewBuffer: null,
-      imageHash: "QmP18n1vvhih5K5k9cRGSSUc7cAQLbrr8Hf7MKqqiBcJmc",
+      imageBuffer: null,
+      image: null,
+      imageHash: "",
       description: "",
       fee: 0,
     };
   }
 
-  loadPost = (event) =>{
+  loadPost = (event) => {
     event.preventDefault();
-    console.log('File caputered!');
+    console.log("File caputered!");
     const file = event.target.files[0];
     const reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
-    reader.onloadend=()=>{
-      this.setState({previewBuffer: Buffer(reader.result)});
-    }
-  }
-
-  onSubmit = (event) =>{
-    event.preventDefault();
-    console.log("Submitting image to ipfs...");
-
-    if(this.state.previewBuffer == null){
-      console.log("Null Image Submitted...")
-      return
-    }
-    ipfs.add(this.state.previewBuffer, (error, result) => {
-        console.log('adding');
-        console.log(result);
-        this.setState({previewHash: result[0].hash})
-        if(error){
-          console.error(error);
-          return
-        }
-    })
-    console.log("Success!");
-
-    //store on blockchain
-  }
+    reader.onloadend = () => {
+      this.setState({
+        imageBuffer: Buffer(reader.result),
+        image: URL.createObjectURL(event.target.files[0]),
+      });
+    };
+  };
 
   onAddPost() {
-    const post = {
-      description: this.state.description,
-      fee: this.state.fee,
-    };
+    console.log("Submitting image to ipfs...");
+
+    if (this.state.imageBuffer == null) {
+      console.log("Null Image Submitted...");
+      return;
+    }
+    ipfs.add(this.state.imageBuffer, (error, result) => {
+      console.log(result);
+      this.setState({ imageHash: result[0].hash });
+      if (error) {
+        console.error(error);
+        return;
+      }
+    });
+    console.log("Success!");
 
     const app = this;
 
     myBlockContract.methods
-      .pushPost(this.state.description, this.state.fee)
+      .pushPost(this.state.imageHash, this.state.description, this.state.fee)
       .send({ from: account0, gas: 6700000 }, (error, transactionHash) => {
         if (!error) {
-          app.setState({ description: "", fee: 0 });
+          app.setState({
+            image: null,
+            imageHash: "",
+            description: "",
+            fee: 0,
+          });
         } else {
           alert(error.message);
         }
@@ -81,13 +82,11 @@ class Post extends React.Component {
         <div className="card">
           <div className="card-body">
             <div class="mb-3" className="form-group" style={{}}>
-
-              <img src={`https://ipfs.infura.io/ipfs/${this.state.imageHash}`} width="100%" alt="[image preview]"/>
-
-              <form onSubmit={this.onSubmit}>
-                <input type='file' onChange={this.loadPost}/>
-                <input type='submit'/>
+              <img src={this.state.image} width="100%" />
+              <form>
+                <input type="file" onChange={this.loadPost} />
               </form>
+
               <label
                 htmlFor="description"
                 style={{ "font-size": "15px", width: "100%" }}
