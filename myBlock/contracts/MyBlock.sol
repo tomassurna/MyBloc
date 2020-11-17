@@ -16,19 +16,24 @@ contract MyBlock {
 
     struct PostDetails {
         uint256 id;
+        //post;
         string description;
         uint256 fee;
         uint256 likes;
         uint256 dislikes;
     }
 
+    struct Profile{
+        uint256[] posted;
+        uint256[] owned;
+    }
+
     mapping(address => uint256[]) private users;
     mapping(uint256 => Post) private posts;
-    uint256 private n_posts;
-    uint256[] public postIdList;
+    uint256 public n_posts;
 
     constructor() public {
-        n_posts = 0;
+        n_posts = 1;
     }
 
     /**TODO - actual post implementation, current supports string description to post
@@ -49,7 +54,6 @@ contract MyBlock {
             dislikes: 0
         });
         posts[newPost.id] = newPost;
-        postIdList.push(newPost.id);
         users[msg.sender].push(newPost.id);
         n_posts++;
 
@@ -71,7 +75,7 @@ contract MyBlock {
             p.payed[msg.sender] = true;
         }
 
-        return p.description;
+        return p.description; // replace with post data
     }
 
     /**
@@ -93,35 +97,9 @@ contract MyBlock {
     }
 
     /**
-     * @dev returns description of specified post
-     * @param postID - ID of post to return
-     * @return description of a respective post
-     */
-    function getDescription(uint256 postID) public view returns (bytes32) {
-        require(postID >= 0 && postID < n_posts, "INVALID POST ID");
-        return stringToBytes32(posts[postID].description);
-    }
-
-    /**
-     * @dev returns uint of likes of specified post
-     * @param postID - ID of post to return
-     * @return likes of a respective post
-     */
-    function getLikes(uint256 postID) public view returns (uint256) {
-        require(postID >= 0 && postID < n_posts, "INVALID POST ID");
-        return posts[postID].likes;
-    }
-
-    /**
-     * @dev returns uint of dislikes of specified post
-     * @param postID - ID of post to return
-     * @return dislikes of a respective post
-     */
-    function getDislikes(uint256 postID) public view returns (uint256) {
-        require(postID >= 0 && postID < n_posts, "INVALID POST ID");
-        return posts[postID].dislikes;
-    }
-
+     * @dev return details of a post
+     * @param postID - ID of post for which details are returned
+     * @return PostDetails */
     function getPostDetails(uint256 postID)
         public
         view
@@ -140,14 +118,24 @@ contract MyBlock {
             });
     }
 
-    /**TODO
+    /**
      * @dev searches for post based on description
-     * @param search - description to search for
+     * @param _search - description to search for
      */
-    function searchPost(string memory search)
+    function searchPost(string memory _search, uint256 start)
         public
-        returns (bytes32[] memory)
-    {}
+        returns (uint256)
+    {
+        bytes32 search = stringToBytes32(_search);
+        
+        while(start < n_posts){
+            if (stringToBytes32(posts[start].description)==search){
+                return(posts[start].id);
+            }
+            start++;
+        }
+        return 0;
+    }
 
     /**
      * @dev utility method to conver string to bytes32
