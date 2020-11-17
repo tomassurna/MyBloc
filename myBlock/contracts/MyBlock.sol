@@ -4,7 +4,7 @@ pragma experimental ABIEncoderV2;
 contract MyBlock {
     struct Post {
         uint256 id;
-        //bytes32 post;
+        string ipfsHash;
         address payable owner;
         string description;
         uint256 fee;
@@ -16,7 +16,6 @@ contract MyBlock {
 
     struct PostDetails {
         uint256 id;
-        //post;
         string description;
         uint256 fee;
         uint256 likes;
@@ -32,28 +31,30 @@ contract MyBlock {
     mapping(uint256 => Post) private posts;
     uint256 public n_posts;
 
-    constructor() public {
+    constructor(){
         n_posts = 1;
     }
 
     /**TODO - actual post implementation, current supports string description to post
      * @dev push a post to MyBlock
-     * @param description - string description of post
-     * @param fee - int cost to access post
+     * @param _ipfsHash - hash reference of image
+     * @param _description - string description of post
+     * @param _fee - int cost to access post
      */
-    function pushPost(string memory description, uint256 fee)
+    function pushPost(string memory _ipfsHash, string memory _description, uint256 _fee)
         public
         returns (bool)
     {
-        Post memory newPost = Post({
-            id: n_posts, // TODO: INITIALIZE POST ITSELF
-            owner: msg.sender,
-            description: description,
-            fee: fee,
-            likes: 0,
-            dislikes: 0
-        });
-        posts[newPost.id] = newPost;
+        
+        Post storage newPost = posts[n_posts];
+        newPost.id = n_posts;
+        newPost.ipfsHash = _ipfsHash;
+        newPost.owner = msg.sender;
+        newPost.description = _description;
+        newPost.fee = _fee;
+        newPost.likes = 0;
+        newPost.dislikes = 0;
+        
         users[msg.sender].push(newPost.id);
         n_posts++;
 
@@ -75,7 +76,7 @@ contract MyBlock {
             p.payed[msg.sender] = true;
         }
 
-        return p.description; // replace with post data
+        return p.ipfsHash;
     }
 
     /**
@@ -123,7 +124,7 @@ contract MyBlock {
      * @param _search - description to search for
      */
     function searchPost(string memory _search, uint256 start)
-        public
+        public view
         returns (uint256)
     {
         bytes32 search = stringToBytes32(_search);
