@@ -1,7 +1,7 @@
 import Web3 from "web3";
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-let account0 = "0xF3a850A891e81F670Fe694ef6ca4f0384dE17dfd";
+let account0 = "0x812cb4dA48441A4A50524Bca858267609A6ddD5b";
 let myBlockABI = [
   {
     inputs: [],
@@ -34,10 +34,19 @@ let myBlockABI = [
   {
     constant: false,
     inputs: [{ internalType: "uint256", name: "postID", type: "uint256" }],
-    name: "viewPost",
-    outputs: [{ internalType: "string", name: "", type: "string" }],
+    name: "buyPost",
+    outputs: [],
     payable: true,
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [{ internalType: "uint256", name: "postID", type: "uint256" }],
+    name: "viewPost",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -87,7 +96,7 @@ let myBlockABI = [
     type: "function",
   },
 ];
-let myBlockAddress = "0x5c84dF96876560589f4C5f1CC384866D269C1456"; // Initialize the rating contract with web3
+let myBlockAddress = "0x2Bc90F62B990b40e28eDeCf615e6fd698a3fF8f7"; // Initialize the rating contract with web3
 // Reference: https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html
 const myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
 export { myBlockContract, account0 };
