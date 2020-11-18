@@ -36,29 +36,27 @@ class Post extends React.Component {
     };
   };
 
-  onAddPost() {
+  async onAddPost() {
     console.log("Submitting image to ipfs...");
 
     if (this.state.imageBuffer == null) {
       console.log("Null Image Submitted...");
       return;
     }
-    ipfs.add(this.state.imageBuffer, (error, result) => {
-      console.log(result);
-      this.setState({ imageHash: result[0].hash });
-      if (error) {
+    await ipfs.add(this.state.imageBuffer, (error, result) => {
+      if (!error) {
+        this.setState({ imageHash: result[0].hash });
+      } else {
         console.error(error);
         return;
       }
     });
 
-    const app = this;
-
-    myBlockContract.methods
+    await myBlockContract.methods
       .pushPost(this.state.imageHash, this.state.description, this.state.fee)
       .send({ from: account0, gas: 6700000 }, (error, transactionHash) => {
         if (!error) {
-          app.setState({
+          this.setState({
             image: null,
             imageHash: "",
             description: "",
@@ -68,7 +66,6 @@ class Post extends React.Component {
           alert(error.message);
         }
       });
-      console.log("Success!");
   }
 
   render() {

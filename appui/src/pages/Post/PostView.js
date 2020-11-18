@@ -30,25 +30,44 @@ class Post extends React.Component {
     const post = await myBlockContract.methods
       .getPostDetails(this.state.id)
       .call();
-    const ipfsHash = await myBlockContract.methods
-      .viewPost(this.state.id)
-      .call();
+    try {
+      const ipfsHash = await myBlockContract.methods
+        .viewPost(this.state.id)
+        .call();
 
-    this.setState({
-      description: post.description,
-      dislikes: post.dislikes,
-      fee: post.fee,
-      likes: post.likes,
-      ipfsHash: ipfsHash,
-    });
+      console.log(ipfsHash);
+
+      this.setState({
+        description: post.description,
+        dislikes: post.dislikes,
+        fee: post.fee,
+        likes: post.likes,
+        ipfsHash: ipfsHash,
+      });
+    } catch (err) {
+      console.log(err);
+
+      this.setState({
+        description: post.description,
+        dislikes: post.dislikes,
+        fee: post.fee,
+        likes: post.likes,
+      });
+    }
+
+
   }
 
   async purchasePost() {
     const app = this;
 
     const something = await myBlockContract.methods
-      .viewPost(this.state.id)
-      .send({ from: account0, value: this.state.fee });
+      .buyPost(this.state.id)
+      .send({ from: account0, value: this.state.fee })
+      .on("receipt", function (receipt) {
+        // receipt example
+        console.log(receipt);
+      });
 
     console.log(something);
 
