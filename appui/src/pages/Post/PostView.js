@@ -19,7 +19,7 @@ class Post extends React.Component {
       description: "",
       dislikes: 0,
       fee: 0,
-      id: props.match.params.postId,
+      id: parseInt(props.match.params.postId),
       likes: 0,
     };
 
@@ -33,9 +33,7 @@ class Post extends React.Component {
     try {
       const ipfsHash = await myBlockContract.methods
         .viewPost(this.state.id)
-        .call();
-
-      console.log(ipfsHash);
+        .call({ from: account0 });
 
       this.setState({
         description: post.description,
@@ -54,44 +52,31 @@ class Post extends React.Component {
         likes: post.likes,
       });
     }
-
-
   }
 
   async purchasePost() {
-    const app = this;
-
-    const something = await myBlockContract.methods
+    await myBlockContract.methods
       .buyPost(this.state.id)
       .send({ from: account0, value: this.state.fee })
       .on("receipt", function (receipt) {
         // receipt example
         console.log(receipt);
       });
-
-    console.log(something);
-
-    // (receipt) => {
-    //   console.log(receipt);
-
-    //   if (!receipt.error) {
-    //     console.log(receipt.ipfsHash);
-
-    //     app.setState({
-    //       ipfsHash: receipt.ipfsHash,
-    //     });
-    //   }
-    // }
   }
 
   async dislikePost() {
-    await myBlockContract.methods.ratePost(this.state.id, false).call();
-    this.setState({ dislikes: this.state.dislikes++ });
+    await myBlockContract.methods
+      .ratePost(this.state.id, false)
+      .call({ from: account0 });
+
+    this.setState({ dislikes: parseInt(this.state.dislikes) + 1 });
   }
 
   async likePost() {
-    await myBlockContract.methods.ratePost(this.state.id, true).call();
-    this.setState({ likes: this.state.likes++ });
+    await myBlockContract.methods
+      .ratePost(this.state.id, true)
+      .call({ from: account0 });
+    this.setState({ likes: parseInt(this.state.likes) + 1 });
   }
 
   render() {

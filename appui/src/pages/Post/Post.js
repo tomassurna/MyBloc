@@ -43,29 +43,33 @@ class Post extends React.Component {
       console.log("Null Image Submitted...");
       return;
     }
-    await ipfs.add(this.state.imageBuffer, (error, result) => {
+    ipfs.add(this.state.imageBuffer, (error, result) => {
       if (!error) {
         this.setState({ imageHash: result[0].hash });
+
+        myBlockContract.methods
+          .pushPost(
+            this.state.imageHash,
+            this.state.description,
+            this.state.fee
+          )
+          .send({ from: account0, gas: 6700000 }, (error, transactionHash) => {
+            if (!error) {
+              this.setState({
+                image: null,
+                imageHash: "",
+                description: "",
+                fee: 0,
+              });
+            } else {
+              alert(error.message);
+            }
+          });
       } else {
         console.error(error);
         return;
       }
     });
-
-    await myBlockContract.methods
-      .pushPost(this.state.imageHash, this.state.description, this.state.fee)
-      .send({ from: account0, gas: 6700000 }, (error, transactionHash) => {
-        if (!error) {
-          this.setState({
-            image: null,
-            imageHash: "",
-            description: "",
-            fee: 0,
-          });
-        } else {
-          alert(error.message);
-        }
-      });
   }
 
   render() {
