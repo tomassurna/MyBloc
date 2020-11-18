@@ -57,17 +57,22 @@ class Post extends React.Component {
   async purchasePost() {
     await myBlockContract.methods
       .buyPost(this.state.id)
-      .send({ from: account0, value: this.state.fee })
-      .on("receipt", function (receipt) {
-        // receipt example
-        console.log(receipt);
-      });
+      .send(
+        { from: account0, value: this.state.fee },
+        (error, transactionHash) => {
+          if (!error) {
+            this.loadPost();
+          } else {
+            console.log(error);
+          }
+        }
+      );
   }
 
   async dislikePost() {
     await myBlockContract.methods
       .ratePost(this.state.id, false)
-      .call({ from: account0 });
+      .send({ from: account0 });
 
     this.setState({ dislikes: parseInt(this.state.dislikes) + 1 });
   }
@@ -75,7 +80,7 @@ class Post extends React.Component {
   async likePost() {
     await myBlockContract.methods
       .ratePost(this.state.id, true)
-      .call({ from: account0 });
+      .send({ from: account0 });
     this.setState({ likes: parseInt(this.state.likes) + 1 });
   }
 
@@ -106,7 +111,7 @@ class Post extends React.Component {
                     {!!this.state.ipfsHash ? (
                       <img
                         src={`https://ipfs.infura.io/ipfs/${this.state.ipfsHash}`}
-                        width="100%"
+                        style={{maxWidth: "90%", maxHeight: "90%"}}
                       />
                     ) : (
                       <CButton
