@@ -51,7 +51,6 @@ class Post extends React.Component {
         return;
       }
     });
-    console.log("Success!");
 
     const app = this;
 
@@ -69,6 +68,7 @@ class Post extends React.Component {
           alert(error.message);
         }
       });
+      console.log("Success!");
   }
 
   render() {
