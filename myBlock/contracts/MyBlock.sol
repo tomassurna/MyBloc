@@ -10,7 +10,6 @@ contract MyBlock {
         uint256 fee;
         uint256 likes;
         uint256 dislikes;
-        mapping(address => bool) payed;
         mapping(address => bool) rated;
     }
 
@@ -22,7 +21,12 @@ contract MyBlock {
         uint256 dislikes;
     }
 
-    mapping(address => uint256[]) private users;
+    struct Profile {
+        uint256[] posted;
+        mapping(uint256 => bool) purchased;
+    }
+
+    mapping(address => Profile) private users;
     mapping(uint256 => Post) private posts;
     uint256 public n_posts;
 
@@ -49,7 +53,7 @@ contract MyBlock {
         newPost.likes = 0;
         newPost.dislikes = 0;
         
-        users[msg.sender].push(newPost.id);
+        users[msg.sender].posted.push(newPost.id);
         n_posts++;
     }
 
@@ -59,13 +63,13 @@ contract MyBlock {
      *
      */
     function viewPost(uint256 postID) public payable returns (string memory) {
-        require(postID >= 0 && postID < n_posts, "INVALID POST ID");
+        require(postID > 0 && postID < n_posts, "INVALID POST ID");
+        
         Post storage p = posts[postID];
-
-        if (!(p.payed[msg.sender] || msg.sender == p.owner)) {
+        if (!(users[msg.sender].purchased[postID] || msg.sender == p.owner)) {
             require(msg.value >= p.fee, "Need to pay at least minimum of fee");
             p.owner.transfer(msg.value);
-            p.payed[msg.sender] = true;
+            users[msg.sender].purchased[postID] = true;
         }
 
         return p.ipfsHash;
@@ -78,8 +82,8 @@ contract MyBlock {
      */
     function ratePost(uint256 postID, bool like) public {
         require(postID >= 0 && postID < n_posts, "INVALID POST ID");
+        require(users[msg.sender].purchased[postID], "POST NOT PURCHASED");
         Post storage p = posts[postID];
-        require(p.payed[msg.sender], "POST NOT PURCHASED");
         require(!p.rated[msg.sender], "POST ALREADY RATED");
         if (like) {
             p.likes++;
