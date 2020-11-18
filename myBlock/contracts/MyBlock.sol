@@ -60,19 +60,30 @@ contract MyBlock {
     /**
      * @dev buy a post and pay owner
      * @param postID - ID of post to buy
-     *
      */
-    function viewPost(uint256 postID) public payable returns (string memory) {
+    function buyPost(uint256 postID) public payable{
         require(postID > 0 && postID < n_posts, "INVALID POST ID");
         
         Post storage p = posts[postID];
-        if (!(users[msg.sender].purchased[postID] || msg.sender == p.owner)) {
-            require(msg.value >= p.fee, "Need to pay at least minimum of fee");
-            p.owner.transfer(msg.value);
-            users[msg.sender].purchased[postID] = true;
-        }
+        require( !(users[msg.sender].purchased[postID] || msg.sender == p.owner), "ALREADY OWN POST");
 
-        return p.ipfsHash;
+        require(msg.value >= p.fee, "Need to pay at least minimum of fee");
+        p.owner.transfer(msg.value);
+        users[msg.sender].purchased[postID] = true;
+    }
+
+    /**
+     * @dev view a post
+     * @param postID - ID of post to view
+     * @return string - hash of post
+     */
+    function viewPost(uint256 postID) public view returns (string memory) {
+        require(postID > 0 && postID < n_posts, "INVALID POST ID");
+        
+        Post storage p = posts[postID];
+        require(users[msg.sender].purchased[postID] || msg.sender == p.owner, "DO NOT OWN POST");
+
+        return posts[postID].ipfsHash;
     }
 
     /**
