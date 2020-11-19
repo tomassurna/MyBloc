@@ -1,6 +1,9 @@
 import "./scss/style.scss";
 import React from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
+import Alert from "react-s-alert";
+import "../node_modules/react-s-alert/dist/s-alert-default.css";
+import "../node_modules/react-s-alert/dist/s-alert-css-effects/stackslide.css";
 
 const loading = (
   <div className="pt-3 text-center">
@@ -18,29 +21,32 @@ const Page500 = React.lazy(() => import("./pages/errors/Page500"));
 class App extends React.Component {
   render() {
     return (
-      <HashRouter>
-        <React.Suspense fallback={loading}>
-          <Switch>
-            <Route
-              exact
-              path="/404"
-              name="Page 404"
-              render={(props) => <Page404 {...props} />}
-            />
-            <Route
-              exact
-              path="/500"
-              name="Page 500"
-              render={(props) => <Page500 {...props} />}
-            />
-            <Route
-              path="/"
-              name="Home"
-              render={(props) => <TheLayout {...props} />}
-            />
-          </Switch>
-        </React.Suspense>
-      </HashRouter>
+      <>
+        <Alert stack={{ limit: 3 }} timeout={"10"} />
+        <HashRouter>
+          <React.Suspense fallback={loading}>
+            <Switch>
+              <Route
+                exact
+                path="/404"
+                name="Page 404"
+                render={(props) => <Page404 {...props} />}
+              />
+              <Route
+                exact
+                path="/500"
+                name="Page 500"
+                render={(props) => <Page500 {...props} />}
+              />
+              <Route
+                path="/"
+                name="Home"
+                render={(props) => <TheLayout {...props} />}
+              />
+            </Switch>
+          </React.Suspense>
+        </HashRouter>
+      </>
     );
   }
 }

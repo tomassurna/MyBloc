@@ -1,6 +1,7 @@
-import { CButton } from "@coreui/react";
+import { CButton, CInput } from "@coreui/react";
 import React from "react";
 import { account0, myBlockContract } from "../../config";
+import processError from "../../util/ErrorUtil";
 
 const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient({
@@ -37,10 +38,7 @@ class Post extends React.Component {
   };
 
   async onAddPost() {
-    console.log("Submitting image to ipfs...");
-
     if (this.state.imageBuffer == null) {
-      console.log("Null Image Submitted...");
       return;
     }
     ipfs.add(this.state.imageBuffer, (error, result) => {
@@ -66,7 +64,7 @@ class Post extends React.Component {
             }
           });
       } else {
-        console.error(error);
+        processError(error);
         return;
       }
     });
@@ -83,10 +81,26 @@ class Post extends React.Component {
         <div className="card">
           <div className="card-body">
             <div class="mb-3" className="form-group" style={{}}>
-              <img src={this.state.image} width="100%" />
-              <form>
-                <input type="file" onChange={this.loadPost} />
-              </form>
+              <div
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                }}
+              >
+                {!!this.state.image ? (
+                  <img
+                    src={this.state.image}
+                    style={{
+                      maxWidth: "90%",
+                      maxHeight: "90%",
+                      marginBottom: "1vh",
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
 
               <label
                 htmlFor="description"
@@ -118,10 +132,29 @@ class Post extends React.Component {
                 ></input>
               </label>
 
-              <div style={{ float: "right" }}>
-                <CButton color="success" onClick={this.onAddPost.bind(this)}>
-                  Add Post
-                </CButton>
+              <div style={{ marginTop: "1vh" }}>
+                <div style={{ float: "right", display: "inline-block" }}>
+                  <div style={{ display: "flex" }}>
+                    <CButton
+                      color="success"
+                      onClick={this.onAddPost.bind(this)}
+                      style={{ height: "2.5rem" }}
+                    >
+                      Add Post
+                    </CButton>
+                  </div>
+                </div>
+                <div style={{ float: "left" }}>
+                  <label class="custom-file">
+                    <input
+                      type="file"
+                      id="file2"
+                      class="custom-file-input"
+                      onChange={this.loadPost}
+                    ></input>
+                    <span class="custom-file-control"></span>
+                  </label>
+                </div>
               </div>
             </div>
           </div>

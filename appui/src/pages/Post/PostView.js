@@ -3,6 +3,7 @@ import { account0, myBlockContract } from "../../config";
 import CIcon from "@coreui/icons-react";
 import { freeSet, brandSet } from "@coreui/icons";
 import { CCard, CCardBody, CCol, CButton } from "@coreui/react";
+import processError from "../../util/ErrorUtil";
 
 const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient({
@@ -27,61 +28,80 @@ class Post extends React.Component {
   }
 
   async loadPost() {
-    const post = await myBlockContract.methods
-      .getPostDetails(this.state.id)
-      .call();
     try {
-      const ipfsHash = await myBlockContract.methods
-        .viewPost(this.state.id)
-        .call({ from: account0 });
+      const post = await myBlockContract.methods
+        .getPostDetails(this.state.id)
+        .call();
 
-      this.setState({
-        description: post.description,
-        dislikes: post.dislikes,
-        fee: post.fee,
-        likes: post.likes,
-        ipfsHash: ipfsHash,
-      });
+      try {
+        const ipfsHash = await myBlockContract.methods
+          .viewPost(this.state.id)
+          .call({ from: account0 });
+
+        this.setState({
+          description: post.description,
+          dislikes: post.dislikes,
+          fee: post.fee,
+          likes: post.likes,
+          ipfsHash: ipfsHash,
+        });
+      } catch (err) {
+        processError(err);
+
+        this.setState({
+          description: post.description,
+          dislikes: post.dislikes,
+          fee: post.fee,
+          likes: post.likes,
+        });
+      }
     } catch (err) {
-      console.log(err);
-
-      this.setState({
-        description: post.description,
-        dislikes: post.dislikes,
-        fee: post.fee,
-        likes: post.likes,
-      });
+      // invalid post
+      processError(err);
     }
   }
 
   async purchasePost() {
-    await myBlockContract.methods
-      .buyPost(this.state.id)
-      .send(
-        { from: account0, value: this.state.fee },
-        (error, transactionHash) => {
-          if (!error) {
-            this.loadPost();
-          } else {
-            console.log(error);
+    try {
+      await myBlockContract.methods
+        .buyPost(this.state.id)
+        .send(
+          { from: account0, value: this.state.fee },
+          (error, transactionHash) => {
+            if (!error) {
+              this.loadPost();
+            } else {
+              console.log(error);
+            }
           }
-        }
-      );
+        );
+    } catch (err) {
+      processError(err);
+    }
   }
 
   async dislikePost() {
-    await myBlockContract.methods
-      .ratePost(this.state.id, false)
-      .send({ from: account0 });
+    try {
+      await myBlockContract.methods
+        .ratePost(this.state.id, false)
+        .send({ from: account0 });
 
-    this.setState({ dislikes: parseInt(this.state.dislikes) + 1 });
+      this.setState({ dislikes: parseInt(this.state.dislikes) + 1 });
+    } catch (err) {
+      processError(err);
+    }
   }
 
   async likePost() {
-    await myBlockContract.methods
-      .ratePost(this.state.id, true)
-      .send({ from: account0 });
-    this.setState({ likes: parseInt(this.state.likes) + 1 });
+    try {
+      await myBlockContract.methods
+        .ratePost(this.state.id, true)
+        .send({ from: account0 });
+
+      this.setState({ likes: parseInt(this.state.likes) + 1 });
+    } catch (err) {
+      processError(err);
+    }
   }
 
   render() {
@@ -111,7 +131,7 @@ class Post extends React.Component {
                     {!!this.state.ipfsHash ? (
                       <img
                         src={`https://ipfs.infura.io/ipfs/${this.state.ipfsHash}`}
-                        style={{maxWidth: "90%", maxHeight: "90%"}}
+                        style={{ maxWidth: "90%", maxHeight: "90%" }}
                       />
                     ) : (
                       <CButton

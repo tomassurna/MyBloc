@@ -1,13 +1,9 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  CHeader,
-  CHeaderNav,
-  CHeaderNavItem,
-  CCreateElement,
-} from "@coreui/react";
+import { CHeader, CHeaderNav } from "@coreui/react";
 import Web3 from "web3";
 import { account0 } from "../config";
+import { brandSet } from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
 
 let web3;
 
@@ -25,13 +21,13 @@ class Header extends React.Component {
   async getBalance() {
     const balance = await web3.eth.getBalance(account0);
 
-    this.setState({ balance: balance });
+    this.setState({ balance: web3.utils.fromWei(balance) });
   }
 
   render() {
     return (
       <CHeader withSubheader>
-        <CHeaderNav className="px-3" style={{width: "100%"}}>
+        <CHeaderNav className="px-3" style={{ width: "100%" }}>
           <a class="c-header-brand" href="#">
             <h3 style={{ display: "inline" }}>MyBlock</h3>
           </a>
@@ -61,7 +57,11 @@ class Header extends React.Component {
             </li>
           </ul>
           <div style={{ float: "right" }}>
-            <span>{account0 + " - " + this.state.balance}</span>
+            <span>{account0 + " - "}</span>
+            <span>
+              <CIcon content={brandSet.cibEthereum} />
+              {this.state.balance}
+            </span>
           </div>
         </CHeaderNav>
       </CHeader>

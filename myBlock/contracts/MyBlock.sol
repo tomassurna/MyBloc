@@ -30,7 +30,7 @@ contract MyBlock {
     mapping(uint256 => Post) private posts;
     uint256 public n_posts;
 
-    constructor() public{
+    constructor() public {
         n_posts = 1;
     }
 
@@ -40,10 +40,11 @@ contract MyBlock {
      * @param _description - string description of post
      * @param _fee - int cost to access post
      */
-    function pushPost(string memory _ipfsHash, string memory _description, uint256 _fee)
-        public
-    {
-        
+    function pushPost(
+        string memory _ipfsHash,
+        string memory _description,
+        uint256 _fee
+    ) public {
         Post storage newPost = posts[n_posts];
         newPost.id = n_posts;
         newPost.ipfsHash = _ipfsHash;
@@ -52,22 +53,34 @@ contract MyBlock {
         newPost.fee = _fee;
         newPost.likes = 0;
         newPost.dislikes = 0;
-        
+
         users[msg.sender].posted.push(newPost.id);
         n_posts++;
     }
 
     /**
+        E001 - Invalid post id
+        E002 - Already owns post
+        E003 - Minnium fee required
+        E004 - Do not own post
+        E005 - Post already rated
+        E006 - Owner cannot vote their post
+     */
+
+    /**
      * @dev buy a post and pay owner
      * @param postID - ID of post to buy
      */
-    function buyPost(uint256 postID) public payable{
-        require(postID > 0 && postID < n_posts, "INVALID POST ID");
-        
-        Post storage p = posts[postID];
-        require( !(users[msg.sender].purchased[postID] || msg.sender == p.owner), "ALREADY OWN POST");
+    function buyPost(uint256 postID) public payable {
+        require(postID > 0 && postID < n_posts, "E001");
 
-        require(msg.value >= p.fee, "Need to pay at least minimum of fee");
+        Post storage p = posts[postID];
+        require(
+            !(users[msg.sender].purchased[postID] || msg.sender == p.owner),
+            "E002"
+        );
+
+        require(msg.value >= p.fee, "E003");
         p.owner.transfer(msg.value);
         users[msg.sender].purchased[postID] = true;
     }
@@ -78,12 +91,15 @@ contract MyBlock {
      * @return string - hash of post
      */
     function viewPost(uint256 postID) public view returns (string memory) {
-        require(postID > 0 && postID < n_posts, "INVALID POST ID");
-        
-        Post storage p = posts[postID];
-        require(users[msg.sender].purchased[postID] || msg.sender == p.owner, "DO NOT OWN POST");
+        require(postID > 0 && postID < n_posts, "E001");
 
-        return posts[postID].ipfsHash;
+        Post storage p = posts[postID];
+        require(
+            users[msg.sender].purchased[postID] || msg.sender == p.owner,
+            "E004"
+        );
+
+        return p.ipfsHash;
     }
 
     /**
@@ -92,10 +108,11 @@ contract MyBlock {
      * @param like - determines if post is to be rated or disrated
      */
     function ratePost(uint256 postID, bool like) public {
-        require(postID >= 0 && postID < n_posts, "INVALID POST ID");
-        require(users[msg.sender].purchased[postID], "POST NOT PURCHASED");
+        require(postID >= 0 && postID < n_posts, "E001");
         Post storage p = posts[postID];
-        require(!p.rated[msg.sender], "POST ALREADY RATED");
+        require(p.owner != msg.sender, "E006");
+        require(users[msg.sender].purchased[postID], "E004");
+        require(!p.rated[msg.sender], "E005");
         if (like) {
             p.likes++;
         } else {
@@ -113,7 +130,7 @@ contract MyBlock {
         view
         returns (PostDetails memory)
     {
-        require(postID >= 0 && postID < n_posts, "INVALID POST ID");
+        require(postID >= 0 && postID < n_posts, "E001");
         Post storage p = posts[postID];
 
         return
@@ -131,14 +148,15 @@ contract MyBlock {
      * @param _search - description to search for
      */
     function searchPost(string memory _search, uint256 start)
-        public view
+        public
+        view
         returns (uint256)
     {
         bytes32 search = stringToBytes32(_search);
-        
-        while(start < n_posts){
-            if (stringToBytes32(posts[start].description)==search){
-                return(posts[start].id);
+
+        while (start < n_posts) {
+            if (stringToBytes32(posts[start].description) == search) {
+                return (posts[start].id);
             }
             start++;
         }
