@@ -10,7 +10,7 @@ class DescriptionViewComponent extends React.Component {
 
   render() {
     return (
-      <div style={{ width: "50%" }}>
+      <div style={{ width: "80%" }}>
         <div>
           <span style={{ fontWeight: "bold" }}>Description: </span>
           {" " + this.state.description}

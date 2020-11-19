@@ -110,9 +110,10 @@ class Post extends React.Component {
                 <textarea
                   type="textarea"
                   class="form-control"
+                  maxlength="800"
                   id="description"
                   value={this.state.description}
-                  placeholder="Add Description"
+                  placeholder="Add Description - 800 Characters"
                   onChange={(event) =>
                     this.setState({ description: event.target.value })
                   }

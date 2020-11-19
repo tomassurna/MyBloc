@@ -51,7 +51,7 @@ class Recent extends React.Component {
                 <CCol>
                   <CCard style={{ margin: "20px 0px 20px 0px" }}>
                     <CCardBody style={{ display: "flex" }}>
-                      {/* <div style={{ width: "50%" }}>
+                      {/* <div style={{ width: "80%" }}>
                         <div>
                           <span style={{ fontWeight: "bold" }}>
                             Description:{" "}
@@ -62,7 +62,7 @@ class Recent extends React.Component {
                       <DescriptionViewComponent
                         description={this.state.description}
                       />
-                      <div style={{ width: "50%" }}>
+                      <div style={{ width: "20%" }}>
                         <div
                           style={{ float: "right" }}
                           className={"icon-holder"}
