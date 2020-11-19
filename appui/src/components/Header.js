@@ -19,12 +19,16 @@ class Header extends React.Component {
   }
 
   async getBalance() {
-    const balance = await web3.eth.getBalance(account0);
+    const balance = web3.utils.fromWei(await web3.eth.getBalance(account0));
 
-    this.setState({ balance: web3.utils.fromWei(balance) });
+    if (balance != this.state.balance) {
+      this.setState({ balance: balance });
+    }
   }
 
   render() {
+    this.getBalance();
+
     return (
       <CHeader withSubheader>
         <CHeaderNav className="px-3" style={{ width: "100%" }}>
@@ -35,11 +39,6 @@ class Header extends React.Component {
             <span class="c-header-toggler-icon"></span>
           </span>
           <ul class="c-header-nav mr-auto">
-            <li class="c-header-nav-item active">
-              <a class="c-header-nav-link" href="#">
-                Home
-              </a>
-            </li>
             <li class="c-header-nav-item">
               <a class="c-header-nav-link" href="#/pages/recent">
                 Recent
@@ -53,6 +52,11 @@ class Header extends React.Component {
             <li class="c-header-nav-item">
               <a class="c-header-nav-link" href="#/pages/post">
                 Post
+              </a>
+            </li>
+            <li class="c-header-nav-item active">
+              <a class="c-header-nav-link" href="#/pages/aboutUs">
+                About Us
               </a>
             </li>
           </ul>

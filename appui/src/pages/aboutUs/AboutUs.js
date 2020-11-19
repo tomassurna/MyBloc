@@ -10,7 +10,7 @@ class Home extends React.Component {
       <>
         <div className="card">
           <div className="card-header">
-            <h3 style={{ display: "inline" }}>Home</h3>
+            <h3 style={{ display: "inline" }}>About Us</h3>
           </div>
         </div>
       </>
