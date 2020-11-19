@@ -3,6 +3,7 @@ import React from "react";
 import { account0, myBlockContract } from "../../config";
 import CIcon from "@coreui/icons-react";
 import { freeSet, brandSet } from "@coreui/icons";
+import DescriptionViewComponent from "./DescriptionViewComponent";
 
 class Recent extends React.Component {
   constructor(props) {
@@ -50,14 +51,17 @@ class Recent extends React.Component {
                 <CCol>
                   <CCard style={{ margin: "20px 0px 20px 0px" }}>
                     <CCardBody style={{ display: "flex" }}>
-                      <div style={{ width: "50%" }}>
+                      {/* <div style={{ width: "50%" }}>
                         <div>
                           <span style={{ fontWeight: "bold" }}>
                             Description:{" "}
                           </span>
                           {" " + post.description}
                         </div>
-                      </div>
+                      </div> */}
+                      <DescriptionViewComponent
+                        description={this.state.description}
+                      />
                       <div style={{ width: "50%" }}>
                         <div
                           style={{ float: "right" }}

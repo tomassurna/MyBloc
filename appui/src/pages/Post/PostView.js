@@ -4,6 +4,7 @@ import CIcon from "@coreui/icons-react";
 import { freeSet, brandSet } from "@coreui/icons";
 import { CCard, CCardBody, CCol, CButton } from "@coreui/react";
 import processError from "../../util/ErrorUtil";
+import DescriptionViewComponent from "./DescriptionViewComponent";
 
 const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient({
@@ -146,14 +147,17 @@ class Post extends React.Component {
                     )}
                   </div>
                   <div style={{ display: "flex" }}>
-                    <div style={{ width: "50%" }}>
+                    {/* <div style={{ width: "50%" }}>
                       <div>
                         <span style={{ fontWeight: "bold" }}>
                           Description:{" "}
                         </span>
                         {" " + this.state.description}
                       </div>
-                    </div>
+                    </div> */}
+                    <DescriptionViewComponent
+                      description={this.state.description}
+                    />
                     <div style={{ width: "50%" }}>
                       <div
                         style={{ float: "right" }}
