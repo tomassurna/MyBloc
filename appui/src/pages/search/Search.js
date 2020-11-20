@@ -20,32 +20,53 @@ class Search extends React.Component {
     const searchValue = event.target.value;
     console.log("sv", searchValue);
 
-    let i = 0;
-    do {
-      i++;
-      const result = await myBlockContract.methods
-        .searchPost(searchValue, i)
-        .call();
-
+    let result = 1;
+    while((result = await myBlockContract.methods
+        .searchPost(searchValue, result)
+        .call()) != 0) {
       console.log("result", result);
 
       const post = await myBlockContract.methods.getPostDetails(result).call();
 
-      if (result != 0) {
-        postDetails.push({
-          title: post.title,
-          description: post.description,
-          dislikes: post.dislikes,
-          fee: post.fee,
-          id: post.id,
-          likes: post.likes,
-        });
-      }
-
-      i = result;
-      console.log("i ", i);
-    } while (i != 0);
+      postDetails.push({
+        title: post.title,
+        description: post.description,
+        dislikes: post.dislikes,
+        fee: post.fee,
+        id: post.id,
+        likes: post.likes,
+      });
+      result++;
+    }
     this.setState({ postDetails });
+
+
+  //   let i = 0;
+  //   do {
+  //     i++;
+  //     const result = await myBlockContract.methods
+  //       .searchPost(searchValue, i)
+  //       .call();
+
+  //     console.log("result", result);
+
+  //     const post = await myBlockContract.methods.getPostDetails(result).call();
+
+  //     if (result != 0) {
+  //       postDetails.push({
+  //         title: post.title,
+  //         description: post.description,
+  //         dislikes: post.dislikes,
+  //         fee: post.fee,
+  //         id: post.id,
+  //         likes: post.likes,
+  //       });
+  //     }
+
+  //     i = result;
+  //     console.log("i ", i);
+  //   } while (i != 0);
+  //   this.setState({ postDetails });
   }
 
   render() {
