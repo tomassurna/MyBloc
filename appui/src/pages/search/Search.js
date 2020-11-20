@@ -5,18 +5,44 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
 
-    this.search.bind(this);
+    this.state = {
+      postDetails: [],
+    };
+
+    this.search = this.search.bind(this);
   }
 
   async search(event) {
+    var postDetails = []
+    this.setState({postDetails});
+
     const searchValue = event.target.value;
-    console.log(searchValue);
+    console.log("sv", searchValue);
 
-    const result = await myBlockContract.methods
-      .searchPost(searchValue, 1)
+    let i = 0;
+    do{
+      i++;
+      const result = await myBlockContract.methods
+      .searchPost(searchValue, i)
       .call();
+      
+      console.log("result", result);
 
-    console.log(result);
+      const post = await myBlockContract.methods.getPostDetails(result).call();
+      
+      postDetails.push({
+        title: post.title,
+        description: post.description,
+        dislikes: post.dislikes,
+        fee: post.fee,
+        id: post.id,
+        likes: post.likes,
+      });
+
+      i = result;
+      console.log("i ", i);
+    }while(i != 0);
+    this.setState({ postDetails });
   }
 
   render() {
