@@ -18,6 +18,7 @@ class Post extends React.Component {
     super(props);
 
     this.state = {
+      title: "",
       description: "",
       dislikes: 0,
       fee: 0,
@@ -40,6 +41,7 @@ class Post extends React.Component {
           .call({ from: account0 });
 
         this.setState({
+          title: post.title,
           description: post.description,
           dislikes: post.dislikes,
           fee: post.fee,
@@ -50,6 +52,7 @@ class Post extends React.Component {
         processError(err);
 
         this.setState({
+          title: post.title,
           description: post.description,
           dislikes: post.dislikes,
           fee: post.fee,
@@ -156,6 +159,7 @@ class Post extends React.Component {
                       </div>
                     </div> */}
                     <DescriptionViewComponent
+                      title={this.state.title}
                       description={this.state.description}
                     />
                     <div style={{ width: "50%" }}>

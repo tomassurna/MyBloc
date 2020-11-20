@@ -3,7 +3,7 @@ import React from "react";
 import { account0, myBlockContract } from "../../config";
 import CIcon from "@coreui/icons-react";
 import { freeSet, brandSet } from "@coreui/icons";
-import DescriptionViewComponent from "./DescriptionViewComponent";
+import DescriptionViewComponent from "../Post/DescriptionViewComponent";
 
 class Recent extends React.Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class Recent extends React.Component {
       const post = await myBlockContract.methods.getPostDetails(i).call();
 
       postDetails.push({
+        title: post.title,
         description: post.description,
         dislikes: post.dislikes,
         fee: post.fee,
@@ -60,6 +61,7 @@ class Recent extends React.Component {
                         </div>
                       </div> */}
                       <DescriptionViewComponent
+                        title={this.state.title}
                         description={this.state.description}
                       />
                       <div style={{ width: "20%" }}>

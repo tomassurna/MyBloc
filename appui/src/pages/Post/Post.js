@@ -18,6 +18,7 @@ class Post extends React.Component {
       imageBuffer: null,
       image: null,
       imageHash: "",
+      title:"",
       description: "",
       fee: 0,
     };
@@ -48,6 +49,7 @@ class Post extends React.Component {
         myBlockContract.methods
           .pushPost(
             this.state.imageHash,
+            this.state.title,
             this.state.description,
             this.state.fee
           )
@@ -56,6 +58,7 @@ class Post extends React.Component {
               this.setState({
                 image: null,
                 imageHash: "",
+                title: "",
                 description: "",
                 fee: 0,
               });
@@ -101,6 +104,24 @@ class Post extends React.Component {
                   <></>
                 )}
               </div>
+
+              <label
+                htmlFor="title"
+                style={{ "font-size": "15px", width: "100%" }}
+              >
+                Title
+                <textarea
+                  type="textarea"
+                  class="form-control"
+                  maxlength="25"
+                  id="title"
+                  value={this.state.title}
+                  placeholder="Title - 25 Characters"
+                  onChange={(event) =>
+                    this.setState({ title: event.target.value })
+                  }
+                ></textarea>
+              </label>
 
               <label
                 htmlFor="description"

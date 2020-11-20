@@ -6,6 +6,7 @@ contract MyBlock {
         uint256 id;
         string ipfsHash;
         address payable owner;
+        string title;
         string description;
         uint256 fee;
         uint256 likes;
@@ -15,6 +16,7 @@ contract MyBlock {
 
     struct PostDetails {
         uint256 id;
+        string title;
         string description;
         uint256 fee;
         uint256 likes;
@@ -42,6 +44,7 @@ contract MyBlock {
      */
     function pushPost(
         string memory _ipfsHash,
+        string memory _title,
         string memory _description,
         uint256 _fee
     ) public {
@@ -49,6 +52,7 @@ contract MyBlock {
         newPost.id = n_posts;
         newPost.ipfsHash = _ipfsHash;
         newPost.owner = msg.sender;
+        newPost.title = _title;
         newPost.description = _description;
         newPost.fee = _fee;
         newPost.likes = 0;
@@ -136,6 +140,7 @@ contract MyBlock {
         return
             PostDetails({
                 id: p.id,
+                title: p.title,
                 description: p.description,
                 fee: p.fee,
                 likes: p.likes,
@@ -145,17 +150,16 @@ contract MyBlock {
 
     /**
      * @dev searches for post based on description
-     * @param _search - description to search for
+     * @param search - description to search for
+     * @return true if substring
      */
-    function searchPost(string memory _search, uint256 start)
+    function searchPost(string memory search, uint256 start)
         public
         view
         returns (uint256)
     {
-        bytes32 search = stringToBytes32(_search);
-
         while (start < n_posts) {
-            if (stringToBytes32(posts[start].description) == search) {
+            if(isSub(search, posts[start].description) || isSub(search, posts[start].title)){
                 return (posts[start].id);
             }
             start++;
@@ -183,5 +187,30 @@ contract MyBlock {
         assembly {
             result := mload(add(source, 32))
         }
+    }
+
+    /**
+     * @dev utility to match substrings for searching
+     * @param _sub sequence to search for
+     * @param _seq to search in
+     * @return bool
+     */
+     function isSub(string memory _sub, string memory _seq) public pure returns(bool){
+        uint256 i = 0;
+        uint256 j = 0;
+        
+        bytes memory sub = bytes(_sub);
+        bytes memory seq = bytes(_seq);
+        
+        while(j < bytes(seq).length){
+            if(sub[i] == seq[j]){
+                i++;
+                if(i==sub.length){
+                    return true;
+                }
+            }
+            j++;
+        }
+        return false;
     }
 }
