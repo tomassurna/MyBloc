@@ -1,10 +1,6 @@
-import { CCard, CCardBody, CCol } from "@coreui/react";
 import React from "react";
-import { account0, myBlockContract } from "../../config";
-import CIcon from "@coreui/icons-react";
-import { freeSet, brandSet } from "@coreui/icons";
-import DescriptionViewComponent from "../post/DescriptionViewComponent";
-import FeeLikeIconComponent from "../post/FeeLikeIconComponent";
+import { myBlockContract } from "../../config";
+import PostSummaryComponent from "./PostSummaryComponent";
 
 class Recent extends React.Component {
   constructor(props) {
@@ -46,27 +42,7 @@ class Recent extends React.Component {
         </div>
         <div className="card">
           {this.state.postDetails.map((post) => {
-            return (
-              <a href={"#/pages/postView/" + post.id}>
-                <CCol>
-                  <CCard style={{ margin: "20px 0px 20px 0px" }}>
-                    <CCardBody style={{ display: "flex" }}>
-                      <DescriptionViewComponent
-                        title={post.title}
-                        description={post.description}
-                      />
-                      <FeeLikeIconComponent
-                        likes={post.likes}
-                        dislikes={post.dislikes}
-                        fee={post.fee}
-                        id={post.id}
-                        disableOnClick={true}
-                      />
-                    </CCardBody>
-                  </CCard>
-                </CCol>
-              </a>
-            );
+            return <PostSummaryComponent post={post} />;
           })}
         </div>
       </>

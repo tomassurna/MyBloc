@@ -1,7 +1,9 @@
 import Web3 from "web3";
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-let account0 = "0x812cb4dA48441A4A50524Bca858267609A6ddD5b";
+let account0 = "0x0Af0c1BF2e66d7b89389F6D9091662c25B1Cb32C";
+// let account0 = "0x926B19AC8a90852c7C371E76885aFacb00631DD1";
+// let account0 = "0x5a09C2E56FB9751480671B5Bde7f7A0B908Ab805";
 let myBlockABI = [
   {
     inputs: [],
@@ -22,6 +24,7 @@ let myBlockABI = [
     constant: false,
     inputs: [
       { internalType: "string", name: "_ipfsHash", type: "string" },
+      { internalType: "string", name: "_title", type: "string" },
       { internalType: "string", name: "_description", type: "string" },
       { internalType: "uint256", name: "_fee", type: "uint256" },
     ],
@@ -69,6 +72,7 @@ let myBlockABI = [
       {
         components: [
           { internalType: "uint256", name: "id", type: "uint256" },
+          { internalType: "string", name: "title", type: "string" },
           { internalType: "string", name: "description", type: "string" },
           { internalType: "uint256", name: "fee", type: "uint256" },
           { internalType: "uint256", name: "likes", type: "uint256" },
@@ -86,7 +90,7 @@ let myBlockABI = [
   {
     constant: true,
     inputs: [
-      { internalType: "string", name: "_search", type: "string" },
+      { internalType: "string", name: "search", type: "string" },
       { internalType: "uint256", name: "start", type: "uint256" },
     ],
     name: "searchPost",
@@ -95,8 +99,20 @@ let myBlockABI = [
     stateMutability: "view",
     type: "function",
   },
+  {
+    constant: true,
+    inputs: [
+      { internalType: "string", name: "_sub", type: "string" },
+      { internalType: "string", name: "_seq", type: "string" },
+    ],
+    name: "isSub",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    payable: false,
+    stateMutability: "pure",
+    type: "function",
+  },
 ];
-let myBlockAddress = "0x2Bc90F62B990b40e28eDeCf615e6fd698a3fF8f7"; // Initialize the rating contract with web3
+let myBlockAddress = "0x15e53d66136Ce76341727Ed10Da1588635f503Fd"; // Initialize the rating contract with web3
 // Reference: https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html
 const myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
 export { myBlockContract, account0 };
