@@ -1,5 +1,6 @@
 import React from "react";
-import { account0, myBlockContract } from "../../config";
+import { myBlockContract } from "../../config";
+import PostSummaryComponent from "./../recent/PostSummaryComponent";
 
 class Search extends React.Component {
   constructor(props) {
@@ -13,35 +14,37 @@ class Search extends React.Component {
   }
 
   async search(event) {
-    var postDetails = []
-    this.setState({postDetails});
+    var postDetails = [];
+    this.setState({ postDetails });
 
     const searchValue = event.target.value;
     console.log("sv", searchValue);
 
     let i = 0;
-    do{
+    do {
       i++;
       const result = await myBlockContract.methods
-      .searchPost(searchValue, i)
-      .call();
-      
+        .searchPost(searchValue, i)
+        .call();
+
       console.log("result", result);
 
       const post = await myBlockContract.methods.getPostDetails(result).call();
-      
-      postDetails.push({
-        title: post.title,
-        description: post.description,
-        dislikes: post.dislikes,
-        fee: post.fee,
-        id: post.id,
-        likes: post.likes,
-      });
+
+      if (result != 0) {
+        postDetails.push({
+          title: post.title,
+          description: post.description,
+          dislikes: post.dislikes,
+          fee: post.fee,
+          id: post.id,
+          likes: post.likes,
+        });
+      }
 
       i = result;
       console.log("i ", i);
-    }while(i != 0);
+    } while (i != 0);
     this.setState({ postDetails });
   }
 
@@ -65,6 +68,14 @@ class Search extends React.Component {
                 onChange={this.search}
               ></input>
             </label>
+          </div>
+        </div>
+
+        <div className="card">
+          <div className="card-body">
+            {this.state.postDetails.map((post) => {
+              return <PostSummaryComponent post={post} />;
+            })}
           </div>
         </div>
       </>
