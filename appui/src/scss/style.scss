@@ -32,10 +32,18 @@ body {
   float: left;
   display: block;
   text-align: center;
+  margin-top: 0.875rem;
 }
 
 .icon-holder .icon-text {
   display: block;
+}
+
+.post-icons {
+  width: 20%;
+  padding-left: 1.25rem;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 a,

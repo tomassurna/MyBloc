@@ -2,9 +2,9 @@ import Alert from "react-s-alert";
 
 const processError = (error) => {
   let errorCode = "";
-  const keys = Object.keys(error.data);
 
   try {
+    const keys = Object.keys(error.data);
     keys.forEach((key) => {
       if (error.data[key].hasOwnProperty("reason")) {
         errorCode = error.data[key].reason;
@@ -43,7 +43,6 @@ const processError = (error) => {
   Alert.error(errorMessage, {
     position: "top-right",
     effect: "stackslide",
-    timeout: "10",
     offset: "50",
   });
 

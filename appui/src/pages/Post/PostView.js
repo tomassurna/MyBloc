@@ -5,6 +5,7 @@ import { freeSet, brandSet } from "@coreui/icons";
 import { CCard, CCardBody, CCol, CButton } from "@coreui/react";
 import processError from "../../util/ErrorUtil";
 import DescriptionViewComponent from "./DescriptionViewComponent";
+import FeeLikeIconComponent from "./FeeLikeIconComponent";
 
 const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient({
@@ -26,10 +27,10 @@ class Post extends React.Component {
       likes: 0,
     };
 
-    this.loadPost();
+    this.loadPost(true);
   }
 
-  async loadPost() {
+  async loadPost(initialLoad) {
     try {
       const post = await myBlockContract.methods
         .getPostDetails(this.state.id)
@@ -49,7 +50,9 @@ class Post extends React.Component {
           ipfsHash: ipfsHash,
         });
       } catch (err) {
-        processError(err);
+        if (!initialLoad) {
+          processError(err);
+        }
 
         this.setState({
           title: post.title,
@@ -73,36 +76,12 @@ class Post extends React.Component {
           { from: account0, value: this.state.fee },
           (error, transactionHash) => {
             if (!error) {
-              this.loadPost();
+              this.loadPost(false);
             } else {
               console.log(error);
             }
           }
         );
-    } catch (err) {
-      processError(err);
-    }
-  }
-
-  async dislikePost() {
-    try {
-      await myBlockContract.methods
-        .ratePost(this.state.id, false)
-        .send({ from: account0 });
-
-      this.setState({ dislikes: parseInt(this.state.dislikes) + 1 });
-    } catch (err) {
-      processError(err);
-    }
-  }
-
-  async likePost() {
-    try {
-      await myBlockContract.methods
-        .ratePost(this.state.id, true)
-        .send({ from: account0 });
-
-      this.setState({ likes: parseInt(this.state.likes) + 1 });
     } catch (err) {
       processError(err);
     }
@@ -150,49 +129,16 @@ class Post extends React.Component {
                     )}
                   </div>
                   <div style={{ display: "flex" }}>
-                    {/* <div style={{ width: "50%" }}>
-                      <div>
-                        <span style={{ fontWeight: "bold" }}>
-                          Description:{" "}
-                        </span>
-                        {" " + this.state.description}
-                      </div>
-                    </div> */}
                     <DescriptionViewComponent
                       title={this.state.title}
                       description={this.state.description}
                     />
-                    <div style={{ width: "50%" }}>
-                      <div
-                        style={{ float: "right" }}
-                        className={"icon-holder hand-cursor"}
-                        onClick={this.likePost.bind(this)}
-                      >
-                        <CIcon content={freeSet.cilThumbUp} size="2xl" />
-                        <span className={"icon-text"}>
-                          {"x" + this.state.likes}
-                        </span>
-                      </div>
-                      <div
-                        style={{ float: "right", marginRight: "2vw" }}
-                        className={"icon-holder hand-cursor"}
-                        onClick={this.dislikePost.bind(this)}
-                      >
-                        <CIcon content={freeSet.cilThumbDown} size="2xl" />
-                        <span className={"icon-text"}>
-                          {"x" + this.state.dislikes}
-                        </span>
-                      </div>
-                      <div
-                        style={{ float: "right", marginRight: "2vw" }}
-                        className={"icon-holder"}
-                      >
-                        <CIcon content={brandSet.cibEthereum} size="2xl" />
-                        <span className={"icon-text"}>
-                          {"$" + this.state.fee}
-                        </span>
-                      </div>
-                    </div>
+                    <FeeLikeIconComponent
+                      likes={this.state.likes}
+                      dislikes={this.state.dislikes}
+                      fee={this.state.fee}
+                      id={this.state.id}
+                    />
                   </div>
                 </CCardBody>
               </CCard>

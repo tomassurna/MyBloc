@@ -3,13 +3,12 @@ import React from "react";
 import { account0, myBlockContract } from "../../config";
 import CIcon from "@coreui/icons-react";
 import { freeSet, brandSet } from "@coreui/icons";
-import DescriptionViewComponent from "../Post/DescriptionViewComponent";
+import DescriptionViewComponent from "../post/DescriptionViewComponent";
+import FeeLikeIconComponent from "../post/FeeLikeIconComponent";
 
 class Recent extends React.Component {
   constructor(props) {
     super(props);
-
-    console.log(props);
 
     this.state = {
       postDetails: [],
@@ -52,45 +51,17 @@ class Recent extends React.Component {
                 <CCol>
                   <CCard style={{ margin: "20px 0px 20px 0px" }}>
                     <CCardBody style={{ display: "flex" }}>
-                      {/* <div style={{ width: "80%" }}>
-                        <div>
-                          <span style={{ fontWeight: "bold" }}>
-                            Description:{" "}
-                          </span>
-                          {" " + post.description}
-                        </div>
-                      </div> */}
                       <DescriptionViewComponent
-                        title={this.state.title}
-                        description={this.state.description}
+                        title={post.title}
+                        description={post.description}
                       />
-                      <div style={{ width: "20%" }}>
-                        <div
-                          style={{ float: "right" }}
-                          className={"icon-holder"}
-                        >
-                          <CIcon content={freeSet.cilThumbUp} size="2xl" />
-                          <span className={"icon-text"}>
-                            {"x" + post.likes}
-                          </span>
-                        </div>
-                        <div
-                          style={{ float: "right", marginRight: "2vw" }}
-                          className={"icon-holder"}
-                        >
-                          <CIcon content={freeSet.cilThumbDown} size="2xl" />
-                          <span className={"icon-text"}>
-                            {"x" + post.dislikes}
-                          </span>
-                        </div>
-                        <div
-                          style={{ float: "right", marginRight: "2vw" }}
-                          className={"icon-holder"}
-                        >
-                          <CIcon content={brandSet.cibEthereum} size="2xl" />
-                          <span className={"icon-text"}>{"$" + post.fee}</span>
-                        </div>
-                      </div>
+                      <FeeLikeIconComponent
+                        likes={post.likes}
+                        dislikes={post.dislikes}
+                        fee={post.fee}
+                        id={post.id}
+                        disableOnClick={true}
+                      />
                     </CCardBody>
                   </CCard>
                 </CCol>
