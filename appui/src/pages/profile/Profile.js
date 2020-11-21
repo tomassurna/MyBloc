@@ -8,7 +8,7 @@ class Profile extends React.Component {
     super(props);
 
     this.state = {
-      owned: ["30"],
+      owned: [],
     };
 
     this.loadData();
