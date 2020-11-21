@@ -1,9 +1,11 @@
 import Web3 from "web3";
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-let account0 = "0x0Af0c1BF2e66d7b89389F6D9091662c25B1Cb32C";
-// let account0 = "0x926B19AC8a90852c7C371E76885aFacb00631DD1";
-// let account0 = "0x5a09C2E56FB9751480671B5Bde7f7A0B908Ab805";
+let account0 = "0x3aBf59392199C86c1df7756341B022b17A869c6A";
+// let account0 = "0xdeeea6C60F0fE9bBd2B115558C5E411C1628f163";
+// let account0 = "0x16282434A4c4a0ac33D9A9f759798882fBE978D8";
+// Initialize the rating contract with web3
+let myBlockAddress = "0x045F2e2dB45edd6b4E7B7dF9E9CC1A5410BF4b52";
 let myBlockABI = [
   {
     inputs: [],
@@ -101,6 +103,24 @@ let myBlockABI = [
   },
   {
     constant: true,
+    inputs: [],
+    name: "getUserOwned",
+    outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "getUserPosted",
+    outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
     inputs: [
       { internalType: "string", name: "_sub", type: "string" },
       { internalType: "string", name: "_seq", type: "string" },
@@ -112,7 +132,6 @@ let myBlockABI = [
     type: "function",
   },
 ];
-let myBlockAddress = "0x15e53d66136Ce76341727Ed10Da1588635f503Fd"; // Initialize the rating contract with web3
 // Reference: https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html
 const myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
 export { myBlockContract, account0 };

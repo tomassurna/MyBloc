@@ -11,14 +11,12 @@ class DescriptionViewComponent extends React.Component {
 
   render() {
     return (
-
-
-      <div style={{ width: "80%", textAlign:"justify" }}>
-        <div>
+      <div style={{ width: "80%", textAlign: "justify" }}>
+        <div style={{ fontSize: "1.5rem", marginBottom: ".5vh" }}>
           <span style={{ fontWeight: "bold" }}>Title: </span>
           {" " + this.state.title}
         </div>
-        <div>
+        <div style={{ marginLeft: "1vw" }}>
           <span style={{ fontWeight: "bold" }}>Description: </span>
           {" " + this.props.description}
         </div>

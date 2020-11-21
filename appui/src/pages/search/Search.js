@@ -8,17 +8,40 @@ class Search extends React.Component {
 
     this.state = {
       postDetails: [],
+      searchValue: "",
+      typing: false,
+      typingTimeout: 0,
+      searching: false,
     };
 
     this.search = this.search.bind(this);
+    this.onChangeSearchValue = this.onChangeSearchValue.bind(this);
   }
 
-  async search(event) {
+  onChangeSearchValue(event) {
+    const self = this;
+
+    if (this.state.typingTimeout) {
+      clearTimeout(this.state.typingTimeout);
+    }
+
+    this.setState({
+      searchValue: event.target.value,
+      typing: false,
+      typingTimeout: setTimeout(function () {
+        self.search(self.state.searchValue);
+      }, 500),
+      searching: true,
+    });
+  }
+
+  async search(searchValue) {
     var postDetails = [];
     this.setState({ postDetails });
 
-    const searchValue = event.target.value;
-    console.log("sv", searchValue);
+    if (!searchValue) {
+      return;
+    }
 
     let i = 0;
     do {
@@ -26,8 +49,6 @@ class Search extends React.Component {
       const result = await myBlockContract.methods
         .searchPost(searchValue, i)
         .call();
-
-      console.log("result", result);
 
       const post = await myBlockContract.methods.getPostDetails(result).call();
 
@@ -42,10 +63,11 @@ class Search extends React.Component {
         });
       }
 
+      this.setState({ postDetails });
+
       i = result;
-      console.log("i ", i);
     } while (i != 0);
-    this.setState({ postDetails });
+    this.setState({ postDetails, searching: false });
   }
 
   render() {
@@ -59,13 +81,14 @@ class Search extends React.Component {
 
         <div className="card">
           <div className="card-body">
-            <label style={{ width: "100%" }}>
-              Search:
+            <label htmlFor="search" style={{ fontSize: "15px", width: "100%" }}>
+              Search
               <input
                 style={{ width: "100%" }}
-                class="form-control"
+                id="search"
+                className="form-control"
                 placeholder={"Search"}
-                onChange={this.search}
+                onChange={this.onChangeSearchValue}
               ></input>
             </label>
           </div>
@@ -73,9 +96,15 @@ class Search extends React.Component {
 
         <div className="card">
           <div className="card-body">
-            {this.state.postDetails.map((post) => {
-              return <PostSummaryComponent post={post} />;
-            })}
+            {this.state.postDetails.length > 0 ? (
+              this.state.postDetails.map((post) => {
+                return <PostSummaryComponent post={post} />;
+              })
+            ) : (
+              <div style={{ textAlign: "center" }}>
+                {this.state.searching ? "Searching..." : "No Results"}
+              </div>
+            )}
           </div>
         </div>
       </>

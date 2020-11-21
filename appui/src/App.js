@@ -22,7 +22,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <Alert stack={{ limit: 3 }} timeout={"10"} />
+        <Alert stack={{ limit: 3 }} />
         <HashRouter>
           <React.Suspense fallback={loading}>
             <Switch>

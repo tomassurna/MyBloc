@@ -1,7 +1,8 @@
-import { CButton, CInput } from "@coreui/react";
+import { CButton } from "@coreui/react";
 import React from "react";
 import { account0, myBlockContract } from "../../config";
 import processError from "../../util/ErrorUtil";
+import randomWords from "random-words";
 
 const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient({
@@ -18,7 +19,7 @@ class Post extends React.Component {
       imageBuffer: null,
       image: null,
       imageHash: "",
-      title:"",
+      title: "",
       description: "",
       fee: 0,
     };
@@ -26,9 +27,10 @@ class Post extends React.Component {
 
   loadPost = (event) => {
     event.preventDefault();
-    console.log("File caputered!");
+
     const file = event.target.files[0];
     const reader = new window.FileReader();
+
     reader.readAsArrayBuffer(file);
     reader.onloadend = () => {
       this.setState({
@@ -42,36 +44,68 @@ class Post extends React.Component {
     if (this.state.imageBuffer == null) {
       return;
     }
-    ipfs.add(this.state.imageBuffer, (error, result) => {
-      if (!error) {
-        this.setState({ imageHash: result[0].hash });
 
-        myBlockContract.methods
-          .pushPost(
-            this.state.imageHash,
-            this.state.title,
-            this.state.description,
-            this.state.fee
-          )
-          .send({ from: account0, gas: 6700000 }, (error, transactionHash) => {
-            if (!error) {
-              this.setState({
-                image: null,
-                imageHash: "",
-                title: "",
-                description: "",
-                fee: 0,
-              });
-            } else {
-              alert(error.message);
-            }
-          });
-      } else {
+    const result = await ipfs.add(this.state.imageBuffer);
+
+    try {
+      this.setState({ imageHash: result[0].hash });
+
+      await myBlockContract.methods
+        .pushPost(
+          this.state.imageHash,
+          this.state.title,
+          this.state.description,
+          this.state.fee
+        )
+        .send({ from: account0, gas: 6700000 });
+
+      this.setState({
+        image: null,
+        imageHash: "",
+        title: "",
+        description: "",
+        fee: 0,
+      });
+    } catch (error) {
+      processError(error);
+      return;
+    }
+  }
+
+  async generateTestData() {
+    const imageBuffer = this.state.imageBuffer;
+    const imageHash = (await ipfs.add(imageBuffer))[0].hash;
+
+    for (let i = 0; i < 10; i++) {
+      const title = randomWords(8).join(" ").substring(0, 25);
+      const description = randomWords(100).join(" ").substring(0, 800);
+      const fee = Math.floor(Math.random() * 6700000);
+
+      try {
+        await myBlockContract.methods
+          .pushPost(imageHash, title, description, fee)
+          .send({ from: account0, gas: 6700000 });
+        console.log("Added post #" + i);
+      } catch (error) {
         processError(error);
         return;
       }
-    });
+    }
   }
+  // async generateTestData() {
+  //   const imageBuffer = this.state.imageBuffer;
+
+  //   for (let i = 0; i < 1000; i++) {
+  //     const title = randomWords(8).join(" ").substring(0, 25);
+  //     const description = randomWords(100).join(" ").substring(0, 800);
+  //     const fee = Math.floor(Math.random() * 1000000000000);
+
+  //     this.setState({ title, description, fee, imageBuffer });
+  //     await this.onAddPost();
+
+  //     console.log("Added post #" + i);
+  //   }
+  // }
 
   render() {
     return (
@@ -83,7 +117,7 @@ class Post extends React.Component {
         </div>
         <div className="card">
           <div className="card-body">
-            <div class="mb-3" className="form-group" style={{}}>
+            <div className="mb-3" className="form-group" style={{}}>
               <div
                 style={{
                   justifyContent: "center",
@@ -107,31 +141,30 @@ class Post extends React.Component {
 
               <label
                 htmlFor="title"
-                style={{ "font-size": "15px", width: "100%" }}
+                style={{ fontSize: "15px", width: "100%" }}
               >
                 Title
-                <textarea
-                  type="textarea"
-                  class="form-control"
-                  maxlength="25"
+                <input
+                  className="form-control"
+                  maxLength="25"
                   id="title"
                   value={this.state.title}
                   placeholder="Title - 25 Characters"
                   onChange={(event) =>
                     this.setState({ title: event.target.value })
                   }
-                ></textarea>
+                />
               </label>
 
               <label
                 htmlFor="description"
-                style={{ "font-size": "15px", width: "100%" }}
+                style={{ fontSize: "15px", width: "100%" }}
               >
                 Description
                 <textarea
                   type="textarea"
-                  class="form-control"
-                  maxlength="800"
+                  className="form-control"
+                  maxLength="800"
                   id="description"
                   value={this.state.description}
                   placeholder="Add Description - 800 Characters"
@@ -144,7 +177,7 @@ class Post extends React.Component {
                 Fee
                 <input
                   type="number"
-                  class="form-control"
+                  className="form-control"
                   min="0"
                   id="fee"
                   value={this.state.fee}
@@ -167,18 +200,29 @@ class Post extends React.Component {
                   </div>
                 </div>
                 <div style={{ float: "left" }}>
-                  <label class="custom-file">
+                  <label className="custom-file">
                     <input
                       type="file"
                       id="file2"
-                      class="custom-file-input"
+                      className="custom-file-input"
                       onChange={this.loadPost}
                     ></input>
-                    <span class="custom-file-control"></span>
+                    <span className="custom-file-control"></span>
                   </label>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-body">
+            <CButton
+              color="primary"
+              onClick={this.generateTestData.bind(this)}
+              style={{ height: "2.5rem" }}
+            >
+              Generate Test Data
+            </CButton>
           </div>
         </div>
       </>

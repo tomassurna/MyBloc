@@ -25,6 +25,7 @@ contract MyBlock {
 
     struct Profile {
         uint256[] posted;
+        uint256[] owned;
         mapping(uint256 => bool) purchased;
     }
 
@@ -87,6 +88,7 @@ contract MyBlock {
         require(msg.value >= p.fee, "E003");
         p.owner.transfer(msg.value);
         users[msg.sender].purchased[postID] = true;
+        users[msg.sender].owned.push(postID);
     }
 
     /**
@@ -159,12 +161,25 @@ contract MyBlock {
         returns (uint256)
     {
         while (start < n_posts) {
-            if(isSub(search, posts[start].description) || isSub(search, posts[start].title)){
+            if (
+                isSub(search, posts[start].description) ||
+                isSub(search, posts[start].title)
+            ) {
                 return (posts[start].id);
             }
             start++;
         }
         return 0;
+    }
+
+    function getUserOwned() public view returns (uint256[] memory) {
+        Profile storage profile = users[msg.sender];
+        return profile.owned;
+    }
+
+    function getUserPosted() public view returns (uint256[] memory) {
+        Profile storage profile = users[msg.sender];
+        return profile.posted;
     }
 
     /**
@@ -195,17 +210,21 @@ contract MyBlock {
      * @param _seq to search in
      * @return bool
      */
-     function isSub(string memory _sub, string memory _seq) public pure returns(bool){
+    function isSub(string memory _sub, string memory _seq)
+        public
+        pure
+        returns (bool)
+    {
         uint256 i = 0;
         uint256 j = 0;
-        
+
         bytes memory sub = bytes(_sub);
         bytes memory seq = bytes(_seq);
-        
-        while(j < bytes(seq).length){
-            if(sub[i] == seq[j]){
+
+        while (j < bytes(seq).length) {
+            if (sub[i] == seq[j]) {
                 i++;
-                if(i==sub.length){
+                if (i == sub.length) {
                     return true;
                 }
             }

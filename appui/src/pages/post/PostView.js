@@ -1,11 +1,7 @@
 import React from "react";
 import { account0, myBlockContract } from "../../config";
-import CIcon from "@coreui/icons-react";
-import { freeSet, brandSet } from "@coreui/icons";
-import { CCard, CCardBody, CCol, CButton } from "@coreui/react";
 import processError from "../../util/ErrorUtil";
-import DescriptionViewComponent from "./DescriptionViewComponent";
-import FeeLikeIconComponent from "./FeeLikeIconComponent";
+import PostViewComponent from "./PostViewComponent";
 
 const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient({
@@ -19,12 +15,8 @@ class Post extends React.Component {
     super(props);
 
     this.state = {
-      title: "",
-      description: "",
-      dislikes: 0,
-      fee: 0,
       id: parseInt(props.match.params.postId),
-      likes: 0,
+      post: null,
     };
 
     this.loadPost(true);
@@ -42,12 +34,7 @@ class Post extends React.Component {
           .call({ from: account0 });
 
         this.setState({
-          title: post.title,
-          description: post.description,
-          dislikes: post.dislikes,
-          fee: post.fee,
-          likes: post.likes,
-          ipfsHash: ipfsHash,
+          post: { ...post, ipfsHash: ipfsHash },
         });
       } catch (err) {
         if (!initialLoad) {
@@ -55,11 +42,7 @@ class Post extends React.Component {
         }
 
         this.setState({
-          title: post.title,
-          description: post.description,
-          dislikes: post.dislikes,
-          fee: post.fee,
-          likes: post.likes,
+          post,
         });
       }
     } catch (err) {
@@ -73,12 +56,12 @@ class Post extends React.Component {
       await myBlockContract.methods
         .buyPost(this.state.id)
         .send(
-          { from: account0, value: this.state.fee },
+          { from: account0, value: this.state.post.fee, gas: 6700000 },
           (error, transactionHash) => {
             if (!error) {
               this.loadPost(false);
             } else {
-              console.log(error);
+              processError(error);
             }
           }
         );
@@ -97,52 +80,14 @@ class Post extends React.Component {
         </div>
         <div className="card">
           <div className="card-body">
-            {" "}
-            <CCol>
-              <CCard style={{ margin: "20px 0px 20px 0px" }}>
-                <CCardBody>
-                  <div
-                    style={{
-                      width: "100%",
-                      marginBottom: "7vh",
-                      marginTop: "5vh",
-                      alignItems: "center",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {!!this.state.ipfsHash ? (
-                      <img
-                        src={`https://ipfs.infura.io/ipfs/${this.state.ipfsHash}`}
-                        style={{ maxWidth: "90%", maxHeight: "90%" }}
-                      />
-                    ) : (
-                      <CButton
-                        key={"purchasePost"}
-                        color={"primary"}
-                        size={"2xl"}
-                        onClick={this.purchasePost.bind(this)}
-                      >
-                        {" "}
-                        Purchase Post
-                      </CButton>
-                    )}
-                  </div>
-                  <div style={{ display: "flex" }}>
-                    <DescriptionViewComponent
-                      title={this.state.title}
-                      description={this.state.description}
-                    />
-                    <FeeLikeIconComponent
-                      likes={this.state.likes}
-                      dislikes={this.state.dislikes}
-                      fee={this.state.fee}
-                      id={this.state.id}
-                    />
-                  </div>
-                </CCardBody>
-              </CCard>
-            </CCol>
+            {!!this.state.post ? (
+              <PostViewComponent
+                post={this.state.post}
+                purchasePost={this.purchasePost.bind(this)}
+              />
+            ) : (
+              <div style={{ textAlign: "center" }}>Loading...</div>
+            )}
           </div>
         </div>
       </>

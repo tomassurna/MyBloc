@@ -60,27 +60,27 @@ class FeeLikeIconComponent extends React.Component {
   render() {
     return (
       <div className={"post-icons"}>
-        <div
-          style={{ float: "right" }}
-          className={"icon-holder hand-cursor"}
-          onClick={
-            this.state.disableOnClick ? this.likePost.bind(this) : () => {}
-          }
-        >
-          <CIcon content={freeSet.cilThumbUp} size="2xl" />
-          <span className={"icon-text"}>{"x" + this.state.likes}</span>
+        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+          <div
+            className={"icon-holder hand-cursor"}
+            onClick={
+              this.state.disableOnClick ? this.likePost.bind(this) : () => {}
+            }
+          >
+            <CIcon content={freeSet.cilThumbUp} size="2xl" />
+            <span className={"icon-text"}>{"x" + this.state.likes}</span>
+          </div>
+          <div
+            className={"icon-holder hand-cursor"}
+            onClick={
+              this.state.disableOnClick ? this.dislikePost.bind(this) : () => {}
+            }
+          >
+            <CIcon content={freeSet.cilThumbDown} size="2xl" />
+            <span className={"icon-text"}>{"x" + this.state.dislikes}</span>
+          </div>
         </div>
-        <div
-          style={{ float: "right" }}
-          className={"icon-holder hand-cursor"}
-          onClick={
-            this.state.disableOnClick ? this.dislikePost.bind(this) : () => {}
-          }
-        >
-          <CIcon content={freeSet.cilThumbDown} size="2xl" />
-          <span className={"icon-text"}>{"x" + this.state.dislikes}</span>
-        </div>
-        <div style={{ float: "right" }} className={"icon-holder"}>
+        <div className={"icon-holder"}>
           <CIcon content={brandSet.cibEthereum} size="2xl" />
           <span className={"icon-text"}>{"$" + this.state.fee}</span>
         </div>
