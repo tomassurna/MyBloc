@@ -1,0 +1,17 @@
+.MyBlock{
+    padding: 10px;
+    position: relative;
+}
+
+img{
+    height:200px;
+}
+
+.person{
+    display:flex;
+    padding-bottom:10px;
+}
+
+.bio{
+    padding-left:10px;
+}
