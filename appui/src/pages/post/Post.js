@@ -92,20 +92,6 @@ class Post extends React.Component {
       }
     }
   }
-  // async generateTestData() {
-  //   const imageBuffer = this.state.imageBuffer;
-
-  //   for (let i = 0; i < 1000; i++) {
-  //     const title = randomWords(8).join(" ").substring(0, 25);
-  //     const description = randomWords(100).join(" ").substring(0, 800);
-  //     const fee = Math.floor(Math.random() * 1000000000000);
-
-  //     this.setState({ title, description, fee, imageBuffer });
-  //     await this.onAddPost();
-
-  //     console.log("Added post #" + i);
-  //   }
-  // }
 
   render() {
     return (
