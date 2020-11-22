@@ -3,11 +3,9 @@
     position: relative;
 }
 
-
-
 .listrow{
     display:flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items:top;
 }
 
@@ -21,9 +19,27 @@ img{
 
 .person{
     display:flex;
-    padding-bottom:10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .bio{
-    padding-left:10px;
+    margin-top: 1vh;
+    width: 50%;
+}
+
+.person-row{
+    display: flex;
+     justify-content: space-between;
+}
+
+.person-row-item{
+    width: 45%;
+}
+
+.person-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
