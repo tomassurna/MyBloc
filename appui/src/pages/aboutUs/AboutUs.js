@@ -29,28 +29,36 @@ class AboutUs extends React.Component {
               However, Phillip disregarded this information and balled out to create MyBlock cause Tomas pinky promised to be his parter.
               Having his first follower, Phil set out to create the next social media empire, MyBlock.
             </p>
-              <b>Reasons to use MyBlock:</b>
-              <ul>
-                <li>Post images with anominity</li>
-                <li>Profit from your content</li>
-                <li>Funds sent directly to you</li>
-              </ul>
-              <b>MyBlock's current funcitonality</b>
-              <ul>
-                <li>Post images for other</li>
-                <li>Purchase images for viewing</li>
-                <li>Rate posts to inform other users</li>
-                <li>Search posts by keyword</li>
-                <li>Profile to display posts posted and owned</li>
-              </ul>
-              <b>Things a user should know before using MyBlock</b>
-              <ul>
-                <li>All posts are forever, you cannot delete or edit a current post.</li>
-                <li>You can't like your own post, why would you post something you didn't like?</li>
-                <li><b>THERE IS NO NSFW FILTER</b></li>
-              </ul>
-              <hr></hr>
-              <h4>Founders</h4>
+            <div className="listrow">
+              <div className="list">
+                <b>Reasons to use MyBlock:</b>
+                <ul>
+                  <li>Post images with anominity</li>
+                  <li>Profit from your content</li>
+                  <li>Funds sent directly to you</li>
+                </ul>
+              </div>
+              <div className="list">
+                <b>MyBlock's current funcitonality</b>
+                <ul>
+                  <li>Post images for other</li>
+                  <li>Purchase images for viewing</li>
+                  <li>Rate posts to inform other users</li>
+                  <li>Search posts by keyword</li>
+                  <li>Profile to display posts posted and owned</li>
+                </ul>
+              </div>
+              <div className="list">
+                <b>Things a user should know before using MyBlock</b>
+                <ul>
+                  <li>All posts are forever, you cannot delete or edit a current post.</li>
+                  <li>You can't like your own post, why would you post something you didn't like?</li>
+                  <li><b>THERE IS NO NSFW FILTER</b></li>
+                </ul>
+              </div>
+            </div>
+            <hr></hr>
+            <h3>Founders</h3>
             <div className="person">
               <div className="image">
                 <img src={phil} alt="[phil cover photo]"/>
