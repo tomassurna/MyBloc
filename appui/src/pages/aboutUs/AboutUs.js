@@ -65,7 +65,7 @@ class AboutUs extends React.Component {
                 <ul>
                   <li>Post, purchase, and rate images</li>
                   <li>Search posts by keyword</li>
-                  <li>diplay owned posts on profile</li>
+                  <li>Display owned posts on profile</li>
                 </ul>
               </CCardBody>
             </CCard>
