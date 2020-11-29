@@ -59,7 +59,7 @@ class AboutUs extends React.Component {
             </CCard>
             <CCard className="list no-border">
               <CCardHeader>
-                <b>MyBlock's current funcitonality</b>
+                <b>What MyBlock can do:</b>
               </CCardHeader>
               <CCardBody>
                 <ul>
@@ -71,7 +71,7 @@ class AboutUs extends React.Component {
             </CCard>
             <CCard className="list no-border">
               <CCardHeader>
-                <b>Things a user should know before using MyBlock</b>
+                <b>Disclaimers:</b>
               </CCardHeader>
               <CCardBody>
                 <ul>
