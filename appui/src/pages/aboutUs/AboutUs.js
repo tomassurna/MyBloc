@@ -37,7 +37,7 @@ class AboutUs extends React.Component {
           <div className="listrow">
             <div className="card list no-border">
               <div className="card-header">
-                <b>A Fortiori</b>
+                <b>Reasons to use MyBlock:</b>
               </div>
               <div className="card-body">
                 <ul>
@@ -49,7 +49,7 @@ class AboutUs extends React.Component {
             </div>{" "}
             <div className="card list no-border">
               <div className="card-header">
-                <b>Facultatem Nostram</b>
+                <b>MyBlock's current funcitonality</b>
               </div>
               <div className="card-body">
                 <ul>
@@ -61,7 +61,7 @@ class AboutUs extends React.Component {
             </div>{" "}
             <div className="card list no-border">
               <div className="card-header">
-                <b>Caveat Emptor</b>
+                <b>Things a user should know before using MyBlock</b>
               </div>
               <div className="card-body">
                 <ul>

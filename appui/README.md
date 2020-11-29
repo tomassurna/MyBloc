@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+# MyBlock
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
 
-## Available Scripts
+MyBlock is an image sharing market platform where users are profit from their posts. The initial project was a social media app that resembled classic moguls, however the implementation as a Dapp allowed changes to the traditional formula. MyBlock takes advantage of transactional capabilities of Ethereum and treats images as commerce and profit from them. Users select images to post that can be accessed by others for a minimum fee. The image itself is stored on IPFS with its reference hash stored on the blockchain. Using the hash, the image can be rendered easily to view. When a user purchases a post, it can be viewed alongside their original posts via the profile page, which is associated with the given address. Earnings from MyBlock go directly to the user without a percantage being taken.
 
-In the project directory, you can run:
+## Features
 
-### `yarn start`
+1. Post images for other
+2. Purchase images for viewing
+3. Rate posts to inform other users
+4. Search posts by keyword
+5. Profile to display posts posted and owned
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Getting Started
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Installation and Setup
 
-### `yarn test`
+1. Clone repository locally and navigate into the `/appui/` folder, then run:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   npm install
+   ```
 
-### `yarn build`
+2. Navigate to the `/myBlock/` folder, then run:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   npm install @truffle/hdwallet-provider
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   npm install -g ganache-cli
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Run
 
-### `yarn eject`
+1.  Open a terminal and run:
+    ```bash
+    ganache-cli
+    ```
+2.  Scroll to the top of the `ganche-cli` output and find the first account id
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    Example (values will differ):
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    ![Ganache CLI Output](/images/Ganache-CLI-Output.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+3.  Copy the first account's id
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+4.  Navigate to and open `/appui/src/config.js`
 
-## Learn More
+5.  Replace the variable value of `account0` to your id.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+        `let account0 = "<YOUR ACCOUNT0 ID>";`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+6.  Navigate to `/myBlock/` and run:
 
-### Code Splitting
+    ```bash
+    truffle migrate
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    You should notice the contract being deployed on your local Etheruem blockchain by looking at the `ganache-cli`.
 
-### Analyzing the Bundle Size
+7.  Once the deployment has finished, you will see the following:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    ![Truffle Migrate Deployment Output](/images/Truffle-Migrate-Output.png)
 
-### Making a Progressive Web App
+    Copy the contract address.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+8.  Navigate to and open `/appui/src/config.js`
 
-### Advanced Configuration
+9.  Replace the variable value of `myBlockAddress` to your id.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+        `let myBlockAddress = "<YOUR MYBLOCK CONTRACT ADDRESS>";`
 
-### Deployment
+10. Navigate to `/appui/` and run
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+    ```bash
+        npm start
+    ```
 
-### `yarn build` fails to minify
+11. The application UI will now be open in your browser and connected to the smart contract. If you want to change which account you are using, then simply change the `account0` variable in `config.js` to any existing account on the local `ganache` Etheruem blockchain.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Demo video
+
+Coming Soon
+
+## Contributors
+
+- Tomas Surna
+- Phil Roesch

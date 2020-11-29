@@ -49,8 +49,6 @@ class Search extends React.Component {
         .searchPost(searchValue, result)
         .call()) != 0
     ) {
-      console.log("result", result);
-
       const post = await myBlockContract.methods.getPostDetails(result).call();
 
       postDetails.push({
@@ -61,9 +59,13 @@ class Search extends React.Component {
         id: post.id,
         likes: post.likes,
       });
+
+      this.setState({ postDetails });
+
       result++;
     }
-    this.setState({ postDetails, searching: false });
+
+    this.setState({ searching: false });
   }
 
   render() {

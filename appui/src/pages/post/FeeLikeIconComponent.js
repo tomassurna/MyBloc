@@ -60,6 +60,10 @@ class FeeLikeIconComponent extends React.Component {
   render() {
     return (
       <div className={"post-icons"}>
+        <div className={"icon-holder"}>
+          <CIcon content={brandSet.cibEthereum} size="2xl" />
+          <span className={"icon-text"}>{"$" + this.state.fee}</span>
+        </div>
         <div style={{ display: "flex", justifyContent: "space-evenly" }}>
           <div
             className={"icon-holder hand-cursor"}
@@ -79,10 +83,6 @@ class FeeLikeIconComponent extends React.Component {
             <CIcon content={freeSet.cilThumbDown} size="2xl" />
             <span className={"icon-text"}>{"x" + this.state.dislikes}</span>
           </div>
-        </div>
-        <div className={"icon-holder"}>
-          <CIcon content={brandSet.cibEthereum} size="2xl" />
-          <span className={"icon-text"}>{"$" + this.state.fee}</span>
         </div>
       </div>
     );

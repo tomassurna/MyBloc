@@ -57,14 +57,24 @@
   "ast": {
     "absolutePath": "/C/Users/tomas/src/BlockChain-FinalProject/myBlock/contracts/Migrations.sol",
     "exportedSymbols": {
-      "Migrations": [32]
+      "Migrations": [
+        32
+      ]
     },
     "id": 33,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 1,
-        "literals": ["solidity", ">=", "0.4", ".22", "<", "0.8", ".0"],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.8",
+          ".0"
+        ],
         "nodeType": "PragmaDirective",
         "src": "33:32:0"
       },
@@ -75,7 +85,9 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 32,
-        "linearizedBaseContracts": [32],
+        "linearizedBaseContracts": [
+          32
+        ],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -264,7 +276,10 @@
                       "id": 9,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [438, 439],
+                      "overloadedDeclarations": [
+                        438,
+                        439
+                      ],
                       "referencedDeclaration": 439,
                       "src": "217:7:0",
                       "typeDescriptions": {
@@ -446,14 +461,24 @@
   "legacyAST": {
     "absolutePath": "/C/Users/tomas/src/BlockChain-FinalProject/myBlock/contracts/Migrations.sol",
     "exportedSymbols": {
-      "Migrations": [32]
+      "Migrations": [
+        32
+      ]
     },
     "id": 33,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 1,
-        "literals": ["solidity", ">=", "0.4", ".22", "<", "0.8", ".0"],
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.8",
+          ".0"
+        ],
         "nodeType": "PragmaDirective",
         "src": "33:32:0"
       },
@@ -464,7 +489,9 @@
         "documentation": null,
         "fullyImplemented": true,
         "id": 32,
-        "linearizedBaseContracts": [32],
+        "linearizedBaseContracts": [
+          32
+        ],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -653,7 +680,10 @@
                       "id": 9,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [438, 439],
+                      "overloadedDeclarations": [
+                        438,
+                        439
+                      ],
                       "referencedDeclaration": 439,
                       "src": "217:7:0",
                       "typeDescriptions": {
@@ -854,10 +884,46 @@
       "links": {},
       "address": "0xfB251591951b45Ad5Dc356cEF26Acfb4068F65E6",
       "transactionHash": "0xc29916bd992167dfa5e356a5bb071e14d49552877d4692de1ee0a41502acc5ec"
+    },
+    "1605891975467": {
+      "events": {},
+      "links": {},
+      "address": "0xaF256f6FeD0d01B25Ca96De7AB3219eD6A74F867",
+      "transactionHash": "0xbd37652da9683c3610c7cbf6a0fb93182e3b56ed6b6f80c7b1c664830e5152a1"
+    },
+    "1605928879351": {
+      "events": {},
+      "links": {},
+      "address": "0x19fF733E75e79b53843E12bcB46eCeb6AA0ec88b",
+      "transactionHash": "0x6772ecb73a87e31b0b02916df37f2452890e0fbf5ca95ff3d6b20c2575079425"
+    },
+    "1605929304141": {
+      "events": {},
+      "links": {},
+      "address": "0x68aD393d12f36d98cEbc689E5A6142966d394127",
+      "transactionHash": "0x78cee8bb3ffe7264031acb02892237ac5abe3f8d656cabdc67515cc35fcf926c"
+    },
+    "1606084548347": {
+      "events": {},
+      "links": {},
+      "address": "0xD3f75f60c2050B65bE59FC3f0Ff323Ad1a331fEd",
+      "transactionHash": "0x394f5dd3e9ce4c90a35ab6dbec373c40c7443b288767b0b1663991ddc36fffdc"
+    },
+    "1606160996244": {
+      "events": {},
+      "links": {},
+      "address": "0x9742C75d361c9AbF21D4D0994aCf3416FabeEBE3",
+      "transactionHash": "0x520d3352249805ea584586447070626a5a2f398169708d93aca787a0bc53715e"
+    },
+    "1606665786860": {
+      "events": {},
+      "links": {},
+      "address": "0xD9D9F4BD60fd740de6D8856868cd9F0B835939ac",
+      "transactionHash": "0x9ef2a097d7464bb269b106bc73f402fdc0dfe8b8667e8a985d2ce4d9c32e53e4"
     }
   },
   "schemaVersion": "3.3.1",
-  "updatedAt": "2020-11-16T04:36:02.643Z",
+  "updatedAt": "2020-11-29T16:03:33.609Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
