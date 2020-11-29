@@ -15,135 +15,145 @@ class AboutUs extends React.Component {
       <>
         <div className="card">
           <div className="card-header">
-            <h3 style={{ display: "inline" }}>About Us</h3>
+            <h3>About Us</h3>
           </div>
         </div>
         <div className="card">
           <div className="card-header">
-            <h3 style={{ display: "inline" }}>What is MyBlock?</h3>
+            <h3>What is MyBlock?</h3>
           </div>
           <div className="card-body">
             <p>
-              MyBlock is an image sharing platform where users are paid for
-              their posts. When posting an images, the user selects an access
-              fee that is to be paid by other users. There is no percentage of
-              your earnings deducted. This is effectively blockchain OnlyFans.
-            </p>
-            <p>
-              Phillip Roesch and Tomas Surna founded MyBlock as their final
-              project for the course Blockchain Technologies instructed by Prof.
-              Coung Pham. Upon starting this project, Phillip set out to be the
-              next Mark Zuckerberg, King of the Lizard People. Tomas responded
-              saying, "This is just qualifiers, there is no reason to go this
-              hard." However, Phillip disregarded this information and balled
-              out to create MyBlock cause Tomas pinky promised to be his parter.
-              Having his first follower, Phil set out to create the next social
-              media empire, MyBlock.
+              MyBlock is an image sharing market platform where users are profit from their posts.
+              The initial project was a social media app that resembled classic moguls, however the implementation as a Dapp allowed changes to the traditional formula.
+              MyBlock takes advantage of transactional capabilities of Ethereum and treats images as commerce and profit from them. 
+              Users select images to post that can be accessed by others for a minimum fee.
+              The image itself is stored on <a href="//www.ipfs.com/"><u>IPFS</u></a> with its reference hash stored on the blockchain.
+              Using the hash, the image can be rendered easily to view.
+              When a user purchases a post, it can be viewed alongside their original posts via the profile page, which is associated with the given address.
+              Earnings from MyBlock go directly to the user without a percantage being taken.
             </p>
           </div>
-        </div>
-
-        <div className="listrow">
-          <div className="card list">
-            <div className="card-header">
-              <b>Reasons to use MyBlock:</b>
-            </div>
-            <div className="card-body">
-              <ul>
-                <li>Post images with anominity</li>
-                <li>Profit from your content</li>
-                <li>Funds sent directly to you</li>
-              </ul>
-            </div>
-          </div>{" "}
-          <div className="card list">
-            <div className="card-header">
-              <b>MyBlock's current funcitonality</b>
-            </div>
-            <div className="card-body">
-              <ul>
-                <li>Post images for other</li>
-                <li>Purchase images for viewing</li>
-                <li>Rate posts to inform other users</li>
-                <li>Search posts by keyword</li>
-                <li>Profile to display posts posted and owned</li>
-              </ul>
-            </div>
-          </div>{" "}
-          <div className="card list">
-            <div className="card-header">
-              <b>Things a user should know before using MyBlock</b>
-            </div>
-            <div className="card-body">
-              <ul>
-                <li>
-                  All posts are forever, you cannot delete or edit a current
-                  post.
-                </li>
-                <li>
-                  You can't like your own post, why would you post something you
-                  didn't like?
-                </li>
-                <li>
-                  <b>THERE IS NO NSFW FILTER</b>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-header">
-            <h3 style={{ display: "inline" }}>Founders</h3>
-          </div>
-        </div>
-        <div className="person-row">
-          <div className="card person-row-item">
-            <div className="card-header person-header">
-              <h3 style={{ display: "inline" }}>Phillip Roesch</h3>
-              <a href="//www.linkedin.com/in/phillip-roesch">
-                <CIcon
-                  content={brandSet.cibLinkedin}
-                  size={"2xl"}
-                  style={{ marginLeft: "1vw" }}
-                />
-              </a>
-            </div>
-            <div className="card-body">
-              <div className="person">
-                <div className="image">
-                  <img src={phil} alt="[phil cover photo]" />
-                </div>
-                <div className="bio">
-                  <p>
-                    Phillip Roesch is a current student at Wentworth Institute
-                    of Technology, set to graduate Summer 2022.
-                  </p>
-                </div>
+          <div className="listrow">
+            <div className="card list no-border">
+              <div className="card-header">
+                <b>A Fortiori</b>
+              </div>
+              <div className="card-body">
+                <ul>
+                  <li>Post images with anominity</li>
+                  <li>Full profit from your content</li>
+                  <li>Unlimited image access</li>
+                </ul>
+              </div>
+            </div>{" "}
+            <div className="card list no-border">
+              <div className="card-header">
+                <b>Facultatem Nostram</b>
+              </div>
+              <div className="card-body">
+                <ul>
+                  <li>Post, purchase, and rate images</li>
+                  <li>Search posts by keyword</li>
+                  <li>diplay owned posts on profile</li>
+                </ul>
+              </div>
+            </div>{" "}
+            <div className="card list no-border">
+              <div className="card-header">
+                <b>Caveat Emptor</b>
+              </div>
+              <div className="card-body">
+                <ul>
+                  <li>
+                    <b>THERE IS NO NSFW FILTER</b>
+                  </li>
+                  <li>
+                    All posts are forever
+                  </li>
+                  <li>
+                    You can't like your own post
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
-          <div className="card person-row-item">
-            <div className="card-header person-header">
-              <h3 style={{ display: "inline" }}>Tomas Surna</h3>
+        </div>
 
-              <a href="//www.linkedin.com/in/tomassurna">
-                <CIcon
-                  content={brandSet.cibLinkedin}
-                  size={"2xl"}
-                  style={{ marginLeft: "1vw" }}
-                />
-              </a>
-            </div>
-            <div className="card-body">
-              <div className="person">
-                <div className="image">
-                  <img src={tomas} alt="[tomas cover photo]" />
+        <div className="card">
+          <div className="card-header">
+            <h3>Founders</h3>
+          </div>
+          <div className="card-body">
+            <p>
+              Phillip "Maverick" Roesch and Tomas "Iceman" Surna met attending TOPGUN in 1986. 
+              Their friendship initially began as a rivaly with Tom considering Phil's attitude "foolish" and his flying "dangerous."
+              During a combined training mission, Phil and Tomas were separately training an opposing A-4.
+              In an attempt to out-manuever and take down the enemy aircraft, Phil inadvertently flew through Tom's jet wash sending him into a flat spin.
+              While Phil was able to eject to safety his Radar Intercept Officer, Nick "Goose" Bradshaw, collided with the jettisoned aircraft canopy head-first and was killed.a1
+              Following their graduation from TOPGUN, Phil and Tom were deployed to provide air support for the rescue of a stricken ship that difted into hostile waters. 
+              After the success of their mission, Tom said to Phil, "You can be my wingman anytime!"
+              To which Phil responded, "You can be mine!"
+              Phil took Tom up on his offer, and they both then started MyBlock.
+              <br/>
+              <sub>*Please note this is the plot of <i>Top Gun</i> (1986)</sub>
+            </p>
+          </div>
+          <div className="person-row">
+            <div className="card person-row-item no-border">
+              <div className="card-header person-header">
+                <h3>Phillip Roesch, Wentworth IT '22</h3>
+                <a href="//www.linkedin.com/in/phillip-roesch">
+                  <CIcon
+                    content={brandSet.cibLinkedin}
+                    size={"2xl"}
+                  />
+                </a>
+              </div>
+              <div className="card-body">
+                <div className="person">
+                  <div className="image">
+                    <img src={phil} alt="[phil cover photo]" />
+                  </div>
+                  <div className="bio">
+                    <p>
+                      Phil worked as a taxicab driver in New York City before encountering Leeloo, the Fifth Element. 
+                      Both are sent to retrieve four stones representing individual elements from opera singer Plavalaguna. 
+                      They are attacked by Mangalores while retrieving the stones and escape back to Earth.
+                      Leeloo is able to combine with the four stones to the defeat the great evil with divine light.
+                      <br/>
+                      <sub>*Please noe this is the plot of <i>The Fifth Element</i> (1997)</sub>
+                    </p>
+                  </div>
                 </div>
-                <div className="bio">
-                  <p>
-                    Tomas Surna is a current student at Wentworth Institute of
-                    Technology set to graduate Summer 2021.
-                  </p>
+              </div>
+            </div>
+            <div className="card person-row-item no-border">
+              <div className="card-header person-header">
+                <h3>Tomas Surna, Wentworth IT '21</h3>
+                <a href="//www.linkedin.com/in/tomassurna">
+                  <CIcon
+                    content={brandSet.cibLinkedin}
+                    size={"2xl"}
+                  />
+                </a>
+              </div>
+              <div className="card-body">
+                <div className="person">
+                  <div className="image">
+                    <img src={tomas} alt="[tomas cover photo]" />
+                  </div>
+                  <div className="bio">
+                    <p>
+                      Tomas was a simple Hobbit living in the Shire. 
+                      However, Gandalf came and tricked Tomas into joining his group of dwarves to reclaim the kingdom of Erebor.
+                      He is lead through trecherous lands swarming with orcs, goblins, and other dangers. 
+                      The pinnacle of his journey lead him face to face with the fearsome dragon, Smaug. 
+                      Returning home, he swore off adventuring ever again to live his life in his home, Bag End.
+                      <br/>
+                      <sub>*Please note this is the plot of <i>The Hobbit</i> (1937)</sub>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

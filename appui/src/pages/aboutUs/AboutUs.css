@@ -1,45 +1,57 @@
-.MyBlock{
+.MyBlock {
     padding: 10px;
     position: relative;
 }
 
-.listrow{
-    display:flex;
+.listrow {
+    display: flex;
     justify-content: space-between;
-    align-items:top;
+    align-items: top;
 }
 
-.list{
-    width:30%;
+.list {
+    width: 30%;
 }
 
-img{
-    height:200px;
+img {
+    height: 200px;
 }
 
-.person{
-    display:flex;
+.person {
+    display: flex;
     flex-direction: row;
-    align-items: center;
+    /* align-items: center; */
     justify-content: space-around;
 }
 
-.bio{
+.bio {
     margin-top: 1vh;
     width: 50%;
 }
 
-.person-row{
+.person-row {
     display: flex;
-     justify-content: space-between;
+    justify-content: space-between;
 }
 
-.person-row-item{
+.person-row-item {
     width: 45%;
 }
 
-.person-header{
+.person-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.no-border {
+    border: unset !important;
+}
+
+h3 {
+    display: inline;
+}
+
+CIcon {
+    margin-left: 1vw
 }
