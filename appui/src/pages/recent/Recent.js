@@ -20,7 +20,7 @@ class Recent extends React.Component {
       .n_posts()
       .call({ gas: 6700000 });
 
-      // grab the latest 10 posts
+    // grab the latest 10 posts
     for (var i = n_posts - 1; i > Math.max(0, n_posts - 11); i--) {
       const post = await myBlockContract.methods.getPostDetails(i).call();
 
