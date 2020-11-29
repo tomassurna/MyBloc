@@ -101,7 +101,7 @@ class AboutUs extends React.Component {
               flew through Tom's jet wash sending him into a flat spin. While
               Phil was able to eject to safety his Radar Intercept Officer, Nick
               "Goose" Bradshaw, collided with the jettisoned aircraft canopy
-              head-first and was killed.a1 Following their graduation from
+              head-first and was killed. Following their graduation from
               TOPGUN, Phil and Tom were deployed to provide air support for the
               rescue of a stricken ship that difted into hostile waters. After
               the success of their mission, Tom said to Phil, "You can be my

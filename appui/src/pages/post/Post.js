@@ -101,7 +101,7 @@ class Post extends React.Component {
       <>
         <CCard>
           <CCardHeader>
-            <h3 className="display-inline">>Post</h3>
+            <h3 className="display-inline">Post</h3>
           </CCardHeader>
         </CCard>
         <CCard>
