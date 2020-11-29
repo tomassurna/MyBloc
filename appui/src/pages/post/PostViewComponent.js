@@ -1,7 +1,8 @@
 import React from "react";
-import { CCard, CCardBody, CCol, CButton } from "@coreui/react";
+import { CCard, CCardBody, CCol, CButton, CCardHeader } from "@coreui/react";
 import DescriptionViewComponent from "./DescriptionViewComponent";
 import FeeLikeIconComponent from "./FeeLikeIconComponent";
+import "./Post.scss";
 
 class PostViewComponent extends React.Component {
   constructor(props) {
@@ -11,22 +12,13 @@ class PostViewComponent extends React.Component {
   render() {
     return (
       <CCol>
-        <CCard style={{ margin: "20px 0px 20px 0px" }}>
+        <CCard className="post-view-margin">
           <CCardBody>
-            <div
-              style={{
-                width: "100%",
-                marginBottom: "7vh",
-                marginTop: "5vh",
-                alignItems: "center",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
+            <div className="post-view-image-container">
               {!!this.props.post.ipfsHash ? (
                 <img
                   src={`https://ipfs.infura.io/ipfs/${this.props.post.ipfsHash}`}
-                  style={{ maxWidth: "90%", maxHeight: "90%" }}
+                  className="image"
                 />
               ) : !!this.props.purchasePost ? (
                 <CButton
@@ -39,10 +31,10 @@ class PostViewComponent extends React.Component {
                   Purchase Post
                 </CButton>
               ) : (
-                <div style={{ textAlign: "center" }}>Post Image Missing</div>
+                <div className="text-align-center">Post Image Missing</div>
               )}
             </div>
-            <div style={{ display: "flex" }}>
+            <div className="display-flex">
               <DescriptionViewComponent
                 title={this.props.post.title}
                 description={this.props.post.description}

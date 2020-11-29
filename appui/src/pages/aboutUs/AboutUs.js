@@ -1,8 +1,9 @@
 import React from "react";
-import "./AboutUs.css";
+import "./AboutUs.scss";
 import phil from "./philcover.jpg";
 import tomas from "./tomascover.jpg";
 import CIcon from "@coreui/icons-react";
+import { CCard, CCardHeader, CCardBody } from "@coreui/react";
 import { brandSet } from "@coreui/icons";
 
 class AboutUs extends React.Component {
@@ -13,152 +14,171 @@ class AboutUs extends React.Component {
   render() {
     return (
       <>
-        <div className="card">
-          <div className="card-header">
+        <CCard>
+          <CCardHeader>
             <h3>About Us</h3>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-header">
+          </CCardHeader>
+        </CCard>
+        <CCard>
+          <CCardHeader>
             <h3>What is MyBlock?</h3>
-          </div>
-          <div className="card-body">
+          </CCardHeader>
+          <CCardBody>
             <p>
-              MyBlock is an image sharing market platform where users are profit from their posts.
-              The initial project was a social media app that resembled classic moguls, however the implementation as a Dapp allowed changes to the traditional formula.
-              MyBlock takes advantage of transactional capabilities of Ethereum and treats images as commerce and profit from them. 
-              Users select images to post that can be accessed by others for a minimum fee.
-              The image itself is stored on <a href="//www.ipfs.com/"><u>IPFS</u></a> with its reference hash stored on the blockchain.
-              Using the hash, the image can be rendered easily to view.
-              When a user purchases a post, it can be viewed alongside their original posts via the profile page, which is associated with the given address.
-              Earnings from MyBlock go directly to the user without a percantage being taken.
+              MyBlock is an image sharing market platform where users are profit
+              from their posts. The initial project was a social media app that
+              resembled classic moguls, however the implementation as a Dapp
+              allowed changes to the traditional formula. MyBlock takes
+              advantage of transactional capabilities of Ethereum and treats
+              images as commerce and profit from them. Users select images to
+              post that can be accessed by others for a minimum fee. The image
+              itself is stored on{" "}
+              <a href="//www.ipfs.com/">
+                <u>IPFS</u>
+              </a>{" "}
+              with its reference hash stored on the blockchain. Using the hash,
+              the image can be rendered easily to view. When a user purchases a
+              post, it can be viewed alongside their original posts via the
+              profile page, which is associated with the given address. Earnings
+              from MyBlock go directly to the user without a percantage being
+              taken.
             </p>
-          </div>
+          </CCardBody>
           <div className="listrow">
-            <div className="card list no-border">
-              <div className="card-header">
+            <CCard className="list no-border">
+              <CCardHeader>
                 <b>Reasons to use MyBlock:</b>
-              </div>
-              <div className="card-body">
+              </CCardHeader>
+              <CCardBody>
                 <ul>
                   <li>Post images with anominity</li>
                   <li>Full profit from your content</li>
                   <li>Unlimited image access</li>
                 </ul>
-              </div>
-            </div>{" "}
-            <div className="card list no-border">
-              <div className="card-header">
+              </CCardBody>
+            </CCard>
+            <CCard className="list no-border">
+              <CCardHeader>
                 <b>MyBlock's current funcitonality</b>
-              </div>
-              <div className="card-body">
+              </CCardHeader>
+              <CCardBody>
                 <ul>
                   <li>Post, purchase, and rate images</li>
                   <li>Search posts by keyword</li>
                   <li>diplay owned posts on profile</li>
                 </ul>
-              </div>
-            </div>{" "}
-            <div className="card list no-border">
-              <div className="card-header">
+              </CCardBody>
+            </CCard>
+            <CCard className="list no-border">
+              <CCardHeader>
                 <b>Things a user should know before using MyBlock</b>
-              </div>
-              <div className="card-body">
+              </CCardHeader>
+              <CCardBody>
                 <ul>
                   <li>
                     <b>THERE IS NO NSFW FILTER</b>
                   </li>
-                  <li>
-                    All posts are forever
-                  </li>
-                  <li>
-                    You can't like your own post
-                  </li>
+                  <li>All posts are forever</li>
+                  <li>You can't like your own post</li>
                 </ul>
-              </div>
-            </div>
+              </CCardBody>
+            </CCard>
           </div>
-        </div>
+        </CCard>
 
-        <div className="card">
-          <div className="card-header">
+        <CCard>
+          <CCardHeader>
             <h3>Founders</h3>
-          </div>
-          <div className="card-body">
+          </CCardHeader>
+          <CCardBody>
             <p>
-              Phillip "Maverick" Roesch and Tomas "Iceman" Surna met attending TOPGUN in 1986. 
-              Their friendship initially began as a rivaly with Tom considering Phil's attitude "foolish" and his flying "dangerous."
-              During a combined training mission, Phil and Tomas were separately training an opposing A-4.
-              In an attempt to out-manuever and take down the enemy aircraft, Phil inadvertently flew through Tom's jet wash sending him into a flat spin.
-              While Phil was able to eject to safety his Radar Intercept Officer, Nick "Goose" Bradshaw, collided with the jettisoned aircraft canopy head-first and was killed.a1
-              Following their graduation from TOPGUN, Phil and Tom were deployed to provide air support for the rescue of a stricken ship that difted into hostile waters. 
-              After the success of their mission, Tom said to Phil, "You can be my wingman anytime!"
-              To which Phil responded, "You can be mine!"
-              Phil took Tom up on his offer, and they both then started MyBlock.
-              <br/>
-              <sub>*Please note this is the plot of <i>Top Gun</i> (1986)</sub>
+              Phillip "Maverick" Roesch and Tomas "Iceman" Surna met attending
+              TOPGUN in 1986. Their friendship initially began as a rivaly with
+              Tom considering Phil's attitude "foolish" and his flying
+              "dangerous." During a combined training mission, Phil and Tomas
+              were separately training an opposing A-4. In an attempt to
+              out-manuever and take down the enemy aircraft, Phil inadvertently
+              flew through Tom's jet wash sending him into a flat spin. While
+              Phil was able to eject to safety his Radar Intercept Officer, Nick
+              "Goose" Bradshaw, collided with the jettisoned aircraft canopy
+              head-first and was killed.a1 Following their graduation from
+              TOPGUN, Phil and Tom were deployed to provide air support for the
+              rescue of a stricken ship that difted into hostile waters. After
+              the success of their mission, Tom said to Phil, "You can be my
+              wingman anytime!" To which Phil responded, "You can be mine!" Phil
+              took Tom up on his offer, and they both then started MyBlock.
+              <br />
+              <sub>
+                *Please note this is the plot of <i>Top Gun</i> (1986)
+              </sub>
             </p>
-          </div>
+          </CCardBody>
           <div className="person-row">
-            <div className="card person-row-item no-border">
-              <div className="card-header person-header">
+            <CCard className="person-row-item no-border">
+              <CCardHeader className="person-header">
                 <h3>Phillip Roesch, Wentworth IT '22</h3>
                 <a href="//www.linkedin.com/in/phillip-roesch">
-                  <CIcon
-                    content={brandSet.cibLinkedin}
-                    size={"2xl"}
-                  />
+                  <CIcon content={brandSet.cibLinkedin} size={"2xl"} />
                 </a>
-              </div>
-              <div className="card-body">
+              </CCardHeader>
+              <CCardBody>
                 <div className="person">
                   <div className="image">
                     <img src={phil} alt="[phil cover photo]" />
                   </div>
                   <div className="bio">
                     <p>
-                      Phil worked as a taxicab driver in New York City before encountering Leeloo, the Fifth Element. 
-                      Both are sent to retrieve four stones representing individual elements from opera singer Plavalaguna. 
-                      They are attacked by Mangalores while retrieving the stones and escape back to Earth.
-                      Leeloo is able to combine with the four stones to the defeat the great evil with divine light.
-                      <br/>
-                      <sub>*Please noe this is the plot of <i>The Fifth Element</i> (1997)</sub>
+                      Phil worked as a taxicab driver in New York City before
+                      encountering Leeloo, the Fifth Element. Both are sent to
+                      retrieve four stones representing individual elements from
+                      opera singer Plavalaguna. They are attacked by Mangalores
+                      while retrieving the stones and escape back to Earth.
+                      Leeloo is able to combine with the four stones to the
+                      defeat the great evil with divine light.
+                      <br />
+                      <sub>
+                        *Please noe this is the plot of <i>The Fifth Element</i>
+                        (1997)
+                      </sub>
                     </p>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="card person-row-item no-border">
-              <div className="card-header person-header">
+              </CCardBody>
+            </CCard>
+            <CCard className="person-row-item no-border">
+              <CCardHeader className="person-header">
                 <h3>Tomas Surna, Wentworth IT '21</h3>
                 <a href="//www.linkedin.com/in/tomassurna">
-                  <CIcon
-                    content={brandSet.cibLinkedin}
-                    size={"2xl"}
-                  />
+                  <CIcon content={brandSet.cibLinkedin} size={"2xl"} />
                 </a>
-              </div>
-              <div className="card-body">
+              </CCardHeader>
+              <CCardBody>
                 <div className="person">
                   <div className="image">
                     <img src={tomas} alt="[tomas cover photo]" />
                   </div>
                   <div className="bio">
                     <p>
-                      Tomas was a simple Hobbit living in the Shire. 
-                      However, Gandalf came and tricked Tomas into joining his group of dwarves to reclaim the kingdom of Erebor.
-                      He is lead through trecherous lands swarming with orcs, goblins, and other dangers. 
-                      The pinnacle of his journey lead him face to face with the fearsome dragon, Smaug. 
-                      Returning home, he swore off adventuring ever again to live his life in his home, Bag End.
-                      <br/>
-                      <sub>*Please note this is the plot of <i>The Hobbit</i> (1937)</sub>
+                      Tomas was a simple Hobbit living in the Shire. However,
+                      Gandalf came and tricked Tomas into joining his group of
+                      dwarves to reclaim the kingdom of Erebor. He is lead
+                      through trecherous lands swarming with orcs, goblins, and
+                      other dangers. The pinnacle of his journey lead him face
+                      to face with the fearsome dragon, Smaug. Returning home,
+                      he swore off adventuring ever again to live his life in
+                      his home, Bag End.
+                      <br />
+                      <sub>
+                        *Please note this is the plot of <i>The Hobbit</i>
+                        (1937)
+                      </sub>
                     </p>
                   </div>
                 </div>
-              </div>
-            </div>
+              </CCardBody>
+            </CCard>
           </div>
-        </div>
+        </CCard>
       </>
     );
   }

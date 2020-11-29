@@ -2,6 +2,7 @@ import { CCard, CCardBody, CCol } from "@coreui/react";
 import React from "react";
 import DescriptionViewComponent from "../post/DescriptionViewComponent";
 import FeeLikeIconComponent from "../post/FeeLikeIconComponent";
+import "./Recent.scss";
 
 class PostSummaryComponent extends React.Component {
   constructor(props) {
@@ -12,8 +13,8 @@ class PostSummaryComponent extends React.Component {
     return (
       <a href={"#/pages/postView/" + this.props.post.id}>
         <CCol>
-          <CCard style={{ margin: "20px 0px 20px 0px" }}>
-            <CCardBody style={{ display: "flex" }}>
+          <CCard className="icon-margin">
+            <CCardBody className="display-flex">
               <DescriptionViewComponent
                 title={this.props.post.title}
                 description={this.props.post.description}

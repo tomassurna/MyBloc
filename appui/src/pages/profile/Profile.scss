@@ -1,0 +1,32 @@
+.profile-posts-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.width-49 {
+  width: 49%;
+}
+
+.no-posts {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 1vh;
+}
+
+.title-and-carrot-holder {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 1 0%;
+}
+
+.fullscreen-icon {
+  margin-left: 1vw;
+  cursor: pointer;
+}
+
+.post-tile {
+  margin-bottom: 0.5rem;
+}

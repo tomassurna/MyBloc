@@ -4,6 +4,7 @@ import Web3 from "web3";
 import { account0 } from "../config";
 import { brandSet, freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
+import "./Components.scss";
 
 let web3;
 
@@ -31,9 +32,9 @@ class Header extends React.Component {
 
     return (
       <CHeader withSubheader>
-        <CHeaderNav className="px-3" style={{ width: "100%" }}>
+        <CHeaderNav className="px-3 width-100">
           <a className="c-header-brand" href="#">
-            <h3 style={{ display: "inline" }}>MyBlock</h3>
+            <h3 className="display-inline">MyBlock</h3>
           </a>
           <span className="c-header-toggler">
             <span className="c-header-toggler-icon"></span>
@@ -65,14 +66,7 @@ class Header extends React.Component {
               </a>
             </li>
           </ul>
-          <div
-            style={{
-              float: "right",
-              padding: "5px",
-              color: "rgba(0, 0, 21, 0.5)",
-              cursor: "pointer",
-            }}
-          >
+          <div className="profile-info">
             <a href="#/pages/profile">
               <span>{account0 + " - "}</span>
               <span>
@@ -82,7 +76,7 @@ class Header extends React.Component {
               <CIcon
                 content={freeSet.cilAddressBook}
                 size={"2xl"}
-                style={{ marginLeft: "1vw" }}
+                className="contract-book-icon"
               />
             </a>
           </div>

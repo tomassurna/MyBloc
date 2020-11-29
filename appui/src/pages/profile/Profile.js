@@ -1,4 +1,5 @@
-import { CCollapse, CButton } from "@coreui/react";
+import { CCard, CCardBody, CCardHeader } from "@coreui/react";
+import "./Profile.scss";
 import React from "react";
 import { account0, myBlockContract } from "../../config";
 import ProfilePostCollapseComponent from "./ProfilePostCollapseComponent";
@@ -28,64 +29,42 @@ class Profile extends React.Component {
   render() {
     return (
       <>
-        <div className="card">
-          <div className="card-header">
-            <h3 style={{ display: "inline" }}>Profile</h3>
-          </div>
-        </div>
+        <CCard>
+          <CCardHeader>
+            <h3 className="display-inline">Profile</h3>
+          </CCardHeader>
+        </CCard>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-          }}
-        >
-          <div className="card" style={{ width: "49%" }}>
-            <div className="card-header">
-              <h3 style={{ display: "inline" }}>Posted Posts</h3>
-            </div>
-            <div className="card-body">
+        <div className="profile-posts-container">
+          <CCard className="width-49">
+            <CCardHeader>
+              <h3 className="display-inline">Posted Posts</h3>
+            </CCardHeader>
+            <CCardBody>
               {!!this.state.posted && this.state.posted.length > 0 ? (
                 this.state.posted.map((postId) => {
                   return <ProfilePostCollapseComponent postId={postId} />;
                 })
               ) : (
-                <div
-                  style={{
-                    textAlign: "center",
-                    fontSize: "1.20rem",
-                    padding: "1vh",
-                  }}
-                >
-                  No Posts
-                </div>
+                <div className="no-posts">No Posts</div>
               )}
-            </div>
-          </div>
+            </CCardBody>
+          </CCard>
 
-          <div className="card" style={{ width: "49%" }}>
-            <div className="card-header">
-              <h3 style={{ display: "inline" }}>Purchased Posts</h3>
-            </div>
-            <div className="card-body">
+          <CCard className="width-49">
+            <CCardHeader>
+              <h3 className="display-inline">Purchased Posts</h3>
+            </CCardHeader>
+            <CCardBody>
               {!!this.state.owned && this.state.owned.length > 0 ? (
                 this.state.owned.map((postId) => {
                   return <ProfilePostCollapseComponent postId={postId} />;
                 })
               ) : (
-                <div
-                  style={{
-                    textAlign: "center",
-                    fontSize: "1.20rem",
-                    padding: "1vh",
-                  }}
-                >
-                  No Posts
-                </div>
+                <div className="no-posts">No Posts</div>
               )}
-            </div>
-          </div>
+            </CCardBody>
+          </CCard>
         </div>
       </>
     );

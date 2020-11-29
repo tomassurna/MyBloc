@@ -2,13 +2,8 @@ import React from "react";
 import { account0, myBlockContract } from "../../config";
 import processError from "../../util/ErrorUtil";
 import PostViewComponent from "./PostViewComponent";
-
-const ipfsClient = require("ipfs-http-client");
-const ipfs = ipfsClient({
-  host: "ipfs.infura.io",
-  port: 5001,
-  protocol: "https",
-});
+import "./Post.scss";
+import { CCard, CCardHeader, CCardBody } from "@coreui/react";
 
 class Post extends React.Component {
   constructor(props) {
@@ -57,7 +52,7 @@ class Post extends React.Component {
         .buyPost(this.state.id)
         .send(
           { from: account0, value: this.state.post.fee, gas: 6700000 },
-          (error, transactionHash) => {
+          (error) => {
             if (!error) {
               this.loadPost(false);
             } else {
@@ -73,23 +68,23 @@ class Post extends React.Component {
   render() {
     return (
       <>
-        <div className="card">
-          <div className="card-header">
-            <h3 style={{ display: "inline" }}>{"Post #" + this.state.id}</h3>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-body">
+        <CCard>
+          <CCardHeader>
+            <h3 className="display-inline">{"Post #" + this.state.id}</h3>
+          </CCardHeader>
+        </CCard>
+        <CCard>
+          <CCardBody>
             {!!this.state.post ? (
               <PostViewComponent
                 post={this.state.post}
                 purchasePost={this.purchasePost.bind(this)}
               />
             ) : (
-              <div style={{ textAlign: "center" }}>Loading...</div>
+              <div className="text-align-center">Loading...</div>
             )}
-          </div>
-        </div>
+          </CCardBody>
+        </CCard>
       </>
     );
   }

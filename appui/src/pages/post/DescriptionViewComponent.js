@@ -1,4 +1,5 @@
 import React from "react";
+import "./Post.scss";
 
 class DescriptionViewComponent extends React.Component {
   constructor(props) {
@@ -11,11 +12,9 @@ class DescriptionViewComponent extends React.Component {
 
   render() {
     return (
-      <div style={{ width: "80%", textAlign: "justify" }}>
-        <div style={{ fontSize: "1.5rem", marginBottom: ".5vh" }}>
-          {" " + this.state.title}
-        </div>
-        <div style={{ marginLeft: "1vw" }}>{" " + this.props.description}</div>
+      <div className="description-container">
+        <div className="description-title">{" " + this.state.title}</div>
+        <div className="description-text">{" " + this.props.description}</div>
       </div>
     );
   }

@@ -3,6 +3,8 @@ import React from "react";
 import { account0, myBlockContract } from "../../config";
 import processError from "../../util/ErrorUtil";
 import randomWords from "random-words";
+import "./Post.scss";
+import { CCard, CCardHeader, CCardBody } from "@coreui/react";
 
 const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient({
@@ -72,6 +74,7 @@ class Post extends React.Component {
     }
   }
 
+  // Util method for generating fake test data. You need to select an image in the UI first. This will then generate 10 posts.
   async generateTestData() {
     const imageBuffer = this.state.imageBuffer;
     const imageHash = (await ipfs.add(imageBuffer))[0].hash;
@@ -96,39 +99,23 @@ class Post extends React.Component {
   render() {
     return (
       <>
-        <div className="card">
-          <div className="card-header">
-            <h3 style={{ display: "inline" }}>Post</h3>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-body">
-            <div className="mb-3" className="form-group" style={{}}>
-              <div
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                }}
-              >
+        <CCard>
+          <CCardHeader>
+            <h3 className="display-inline">>Post</h3>
+          </CCardHeader>
+        </CCard>
+        <CCard>
+          <CCardBody>
+            <div className="mb-3 form-group">
+              <div className="image-Container">
                 {!!this.state.image ? (
-                  <img
-                    src={this.state.image}
-                    style={{
-                      maxWidth: "90%",
-                      maxHeight: "90%",
-                      marginBottom: "1vh",
-                    }}
-                  />
+                  <img src={this.state.image} className="image" />
                 ) : (
                   <></>
                 )}
               </div>
 
-              <label
-                htmlFor="title"
-                style={{ fontSize: "15px", width: "100%" }}
-              >
+              <label htmlFor="title" className="post-text">
                 Title
                 <input
                   className="form-control"
@@ -142,10 +129,7 @@ class Post extends React.Component {
                 />
               </label>
 
-              <label
-                htmlFor="description"
-                style={{ fontSize: "15px", width: "100%" }}
-              >
+              <label htmlFor="description" className="post-text">
                 Description
                 <textarea
                   type="textarea"
@@ -159,7 +143,7 @@ class Post extends React.Component {
                   }
                 ></textarea>
               </label>
-              <label htmlFor="fee" style={{ fontSize: "15px", width: "100%" }}>
+              <label htmlFor="fee" className="post-text">
                 Fee
                 <input
                   type="number"
@@ -173,19 +157,19 @@ class Post extends React.Component {
                 ></input>
               </label>
 
-              <div style={{ marginTop: "1vh" }}>
-                <div style={{ float: "right", display: "inline-block" }}>
-                  <div style={{ display: "flex" }}>
+              <div id="btn-group">
+                <div className="display-inline-block float-right">
+                  <div className="display-flex">
                     <CButton
                       color="success"
                       onClick={this.onAddPost.bind(this)}
-                      style={{ height: "2.5rem" }}
+                      className="height-25-rem"
                     >
                       Add Post
                     </CButton>
                   </div>
                 </div>
-                <div style={{ float: "left" }}>
+                <div className="float-left">
                   <label className="custom-file">
                     <input
                       type="file"
@@ -198,19 +182,19 @@ class Post extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-body">
+          </CCardBody>
+        </CCard>
+        <CCard>
+          <CCardBody>
             <CButton
               color="primary"
               onClick={this.generateTestData.bind(this)}
-              style={{ height: "2.5rem" }}
+              className="height-25-rem"
             >
               Generate Test Data
             </CButton>
-          </div>
-        </div>
+          </CCardBody>
+        </CCard>
       </>
     );
   }

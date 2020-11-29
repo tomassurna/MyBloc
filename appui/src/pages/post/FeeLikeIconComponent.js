@@ -3,6 +3,7 @@ import CIcon from "@coreui/icons-react";
 import { freeSet, brandSet } from "@coreui/icons";
 import { account0, myBlockContract } from "../../config";
 import processError from "../../util/ErrorUtil";
+import "./Post.scss";
 
 class FeeLikeIconComponent extends React.Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class FeeLikeIconComponent extends React.Component {
           <CIcon content={brandSet.cibEthereum} size="2xl" />
           <span className={"icon-text"}>{"$" + this.state.fee}</span>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+        <div className="thumbs-icon-holder">
           <div
             className={"icon-holder hand-cursor"}
             onClick={

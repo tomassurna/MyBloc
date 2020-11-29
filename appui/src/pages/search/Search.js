@@ -1,6 +1,8 @@
 import React from "react";
 import { myBlockContract } from "../../config";
 import PostSummaryComponent from "./../recent/PostSummaryComponent";
+import { CCard, CCardBody, CCardHeader } from "@coreui/react";
+import "./Search.scss";
 
 class Search extends React.Component {
   constructor(props) {
@@ -71,40 +73,39 @@ class Search extends React.Component {
   render() {
     return (
       <>
-        <div className="card">
-          <div className="card-header">
-            <h3 style={{ display: "inline" }}>Search</h3>
-          </div>
-        </div>
+        <CCard>
+          <CCardHeader>
+            <h3 className="display-inline">Search</h3>
+          </CCardHeader>
+        </CCard>
 
-        <div className="card">
-          <div className="card-body">
-            <label htmlFor="search" style={{ fontSize: "15px", width: "100%" }}>
+        <CCard>
+          <CCardBody>
+            <label htmlFor="search" className="width-100 search-title">
               Search
               <input
-                style={{ width: "100%" }}
                 id="search"
-                className="form-control"
+                className="form-control width-100"
                 placeholder={"Search"}
                 onChange={this.onChangeSearchValue}
               ></input>
             </label>
-          </div>
-        </div>
+          </CCardBody>
+        </CCard>
 
-        <div className="card">
-          <div className="card-body">
+        <CCard>
+          <CCardBody>
             {this.state.postDetails.length > 0 ? (
               this.state.postDetails.map((post) => {
                 return <PostSummaryComponent post={post} />;
               })
             ) : (
-              <div style={{ textAlign: "center" }}>
+              <div className="text-align-center">
                 {this.state.searching ? "Searching..." : "No Results"}
               </div>
             )}
-          </div>
-        </div>
+          </CCardBody>
+        </CCard>
       </>
     );
   }

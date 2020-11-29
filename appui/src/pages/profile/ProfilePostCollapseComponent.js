@@ -1,9 +1,10 @@
-import { CCollapse, CButton } from "@coreui/react";
+import { CCard, CCardBody, CCardHeader, CCollapse } from "@coreui/react";
+import "./Profile.scss";
 import React from "react";
 import { account0, myBlockContract } from "../../config";
 import PostViewComponent from "../post/PostViewComponent";
 import processError from "../../util/ErrorUtil";
-import { brandSet, freeSet } from "@coreui/icons";
+import { freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 
 class ProfilePostCollapseComponent extends React.Component {
@@ -49,39 +50,30 @@ class ProfilePostCollapseComponent extends React.Component {
 
   render() {
     return (
-      <div className="card" style={{ marginBottom: ".5rem" }}>
-        <div
-          className="card-header"
-          style={{ display: "flex", alignItems: "center" }}
-        >
+      <CCard className="post-tile">
+        <CCardHeader className="display-flex align-items-centerx">
           <div
             onClick={this.toggle.bind(this)}
-            style={{
-              cursor: "pointer",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flex: "1",
-            }}
+            className="title-and-carrot-holder"
           >
             <h3>{"Post #" + this.state.id}</h3>
             <CIcon size={"1xl"} content={freeSet.cilCaretBottom} />
           </div>
           <a href={"#/pages/postView/" + this.state.id}>
-            <div style={{ marginLeft: "1vw", cursor: "pointer" }}>
+            <div className="fullscreen-icon">
               <CIcon size={"1xl"} content={freeSet.cilFullscreen} />
             </div>
           </a>
-        </div>
+        </CCardHeader>
 
         <CCollapse show={this.state.collapse}>
           {!!this.state.post ? (
             <PostViewComponent post={this.state.post} />
           ) : (
-            <div style={{ textAlign: "center" }}>Unable To Load Post</div>
+            <div className="textalign-center">Unable To Load Post</div>
           )}
         </CCollapse>
-      </div>
+      </CCard>
     );
   }
 }

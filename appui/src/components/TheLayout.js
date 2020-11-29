@@ -6,7 +6,7 @@ const TheLayout = () => {
     <div className="c-app c-default-layout">
       <div className="c-wrapper">
         <TheHeader />
-        <div className="c-body" style={{ width: "75vw", margin: "auto" }}>
+        <div className="c-body layout">
           <TheContent />
         </div>
         <TheFooter />
