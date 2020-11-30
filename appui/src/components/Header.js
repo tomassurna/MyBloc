@@ -5,6 +5,7 @@ import { account0 } from "../config";
 import { brandSet, freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import "./Components.scss";
+import MyBlockLogo from "../MyBlockLogo.png";
 
 let web3;
 
@@ -33,8 +34,8 @@ class Header extends React.Component {
     return (
       <CHeader withSubheader>
         <CHeaderNav className="px-3 width-100">
-          <a className="c-header-brand" href="#">
-            <h3 className="display-inline">MyBlock</h3>
+          <a className="c-header-brand" href="//github.com/tomassurna/MyBlock">
+          <img src={MyBlockLogo} alt="[MyBlock Logo]"/>
           </a>
           <span className="c-header-toggler">
             <span className="c-header-toggler-icon"></span>
