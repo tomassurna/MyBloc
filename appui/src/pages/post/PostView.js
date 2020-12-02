@@ -97,7 +97,9 @@ class Post extends React.Component {
         const txObject = {
           nonce: web3.utils.toHex(txCount),
           gasLimit: web3.utils.toHex(6700000),
-          gasPrice: web3.utils.toHex((await web3.eth.getGasPrice()) * 1.15),
+          gasPrice: web3.utils.toHex(
+            Math.ceil((await web3.eth.getGasPrice()) * 1.25)
+          ),
           to: myBlockContract._address,
           value: web3.utils.toHex(this.state.post.fee),
           data: myBlockContract.methods.buyPost(this.state.id).encodeABI(),

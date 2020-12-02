@@ -68,7 +68,9 @@ class FeeLikeIconComponent extends React.Component {
         const txObject = {
           nonce: web3.utils.toHex(txCount),
           gasLimit: web3.utils.toHex(6700000),
-          gasPrice: web3.utils.toHex((await web3.eth.getGasPrice()) * 1.15),
+          gasPrice: web3.utils.toHex(
+            Math.ceil((await web3.eth.getGasPrice()) * 1.25)
+          ),
           to: myBlockContract._address,
           data: myBlockContract.methods
             .ratePost(this.state.id, false)
@@ -131,7 +133,9 @@ class FeeLikeIconComponent extends React.Component {
         const txObject = {
           nonce: web3.utils.toHex(txCount),
           gasLimit: web3.utils.toHex(6700000),
-          gasPrice: web3.utils.toHex((await web3.eth.getGasPrice()) * 1.15),
+          gasPrice: web3.utils.toHex(
+            Math.ceil((await web3.eth.getGasPrice()) * 1.25)
+          ),
           to: myBlockContract._address,
           data: myBlockContract.methods
             .ratePost(this.state.id, true)
