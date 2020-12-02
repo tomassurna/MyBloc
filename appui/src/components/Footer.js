@@ -13,7 +13,7 @@ const Footer = () => {
           MyBlock
         </a>
         <span className="ml-1">&copy; 2020</span>
-        <span className="ml-1 version">v5</span>
+        <span className="ml-1 version">v6</span>
       </div>
     </CFooter>
   );
