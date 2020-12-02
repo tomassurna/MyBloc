@@ -1,11 +1,15 @@
-import { CCard, CCardBody, CCardHeader, CCollapse } from "@coreui/react";
+import { CCard, CCardHeader, CCollapse } from "@coreui/react";
 import "./Profile.scss";
 import React from "react";
-import { myBlockContract } from "../../config";
+import { myBlockAddress, myBlockABI } from "../../config";
 import PostViewComponent from "../post/PostViewComponent";
 import processError from "../../util/ErrorUtil";
 import { freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
+import Web3 from "web3";
+
+let web3;
+let myBlockContract;
 
 class ProfilePostCollapseComponent extends React.Component {
   constructor(props) {
@@ -18,13 +22,25 @@ class ProfilePostCollapseComponent extends React.Component {
   }
 
   async toggle() {
-    if (!this.props.accountId) {
-      return;
-    }
-
-    this.setState({ collapse: !this.state.collapse });
-
     if (!this.state.post) {
+      // If private key is not set then do not proceed
+      if (!this.props.accountId) {
+        return;
+      }
+
+      // if web3 or contract haven't been intialized then do so
+      if (!web3 || !myBlockContract) {
+        web3 = new Web3(
+          new Web3.providers.HttpProvider(
+            !!this.props.privateKey
+              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+              : "http://localhost:8545"
+          )
+        );
+        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+      }
+      this.setState({ collapse: !this.state.collapse });
+
       try {
         const post = await myBlockContract.methods
           .getPostDetails(this.state.id)
@@ -55,17 +71,17 @@ class ProfilePostCollapseComponent extends React.Component {
   render() {
     return (
       <CCard className="post-tile">
-        <CCardHeader className="display-flex align-items-centerx">
+        <CCardHeader className="display-flex align-items-center">
           <div
             onClick={this.toggle.bind(this)}
             className="title-and-carrot-holder"
           >
             <h3>{"Post #" + this.state.id}</h3>
-            <CIcon size={"1xl"} content={freeSet.cilCaretBottom} />
+            <CIcon content={freeSet.cilCaretBottom} />
           </div>
           <a href={"#/pages/postView/" + this.state.id}>
             <div className="fullscreen-icon">
-              <CIcon size={"1xl"} content={freeSet.cilFullscreen} />
+              <CIcon content={freeSet.cilFullscreen} />
             </div>
           </a>
         </CCardHeader>

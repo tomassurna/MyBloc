@@ -8,10 +8,6 @@ import { CCard, CCardHeader, CCardBody } from "@coreui/react";
 import { brandSet } from "@coreui/icons";
 
 class AboutUs extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <>
@@ -135,11 +131,7 @@ class AboutUs extends React.Component {
               <CCardBody>
                 <div className="person">
                   <div>
-                    <img
-                      src={phil}
-                      className="cover"
-                      alt="[phil cover photo]"
-                    />
+                    <img src={phil} className="cover" alt="[phil cover]" />
                   </div>
                   <div className="bio">
                     <p>
@@ -170,11 +162,7 @@ class AboutUs extends React.Component {
               <CCardBody>
                 <div className="person">
                   <div>
-                    <img
-                      className="cover"
-                      src={tomas}
-                      alt="[tomas cover photo]"
-                    />
+                    <img className="cover" src={tomas} alt="[tomas cover]" />
                   </div>
                   <div className="bio">
                     <p>

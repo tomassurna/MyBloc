@@ -1,4 +1,4 @@
-export default [
+const headerData = [
   {
     _tag: "CHeaderNavItem",
     name: "Calendar",
@@ -25,3 +25,5 @@ export default [
     to: "/pages/search",
   },
 ];
+
+export default headerData;

@@ -1,9 +1,15 @@
 import { brandSet, freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import React from "react";
-import { myBlockContract } from "../../config";
+import { myBlockAddress, myBlockABI } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
+import Web3 from "web3";
+
+const Tx = require("ethereumjs-tx").Transaction;
+
+let web3;
+let myBlockContract;
 
 class FeeLikeIconComponent extends React.Component {
   constructor(props) {
@@ -35,29 +41,107 @@ class FeeLikeIconComponent extends React.Component {
   }
 
   async dislikePost() {
-    if (!this.props.accountId) {
-      return;
-    }
-
     try {
-      await myBlockContract.methods
-        .ratePost(this.state.id, false)
-        .send({ from: this.props.accountId });
+      // If private key is not set then do not proceed
+      if (!this.props.accountId) {
+        return;
+      }
+
+      // if web3 or contract haven't been intialized then do so
+      if (!web3 || !myBlockContract) {
+        web3 = new Web3(
+          new Web3.providers.HttpProvider(
+            !!this.props.privateKey
+              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+              : "http://localhost:8545"
+          )
+        );
+        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+      }
+
+      if (!!this.props.privateKey) {
+        const txCount = await web3.eth.getTransactionCount(
+          this.props.accountId
+        );
+
+        const txObject = {
+          nonce: web3.utils.toHex(txCount),
+          gasLimit: web3.utils.toHex(6700000),
+          gasPrice: web3.utils.toHex(web3.utils.toWei("10", "wei")),
+          to: myBlockContract._address,
+          data: myBlockContract.methods
+            .ratePost(this.state.id, false)
+            .encodeABI(),
+        };
+
+        const tx = new Tx(txObject, { chain: "ropsten" });
+        tx.sign(Buffer.from(this.props.privateKey.substr(2), "hex"));
+
+        const serializedTx = tx.serialize();
+        const raw = "0x" + serializedTx.toString("hex");
+
+        web3.eth.sendSignedTransaction(raw);
+      } else {
+        await myBlockContract.methods
+          .ratePost(this.state.id, false)
+          .send({ from: this.props.accountId });
+      }
 
       this.setState({ dislikes: parseInt(this.state.dislikes) + 1 });
     } catch (err) {
+      console.log(err);
       processError(err);
     }
   }
 
   async likePost() {
-    if (!this.props.accountId) {
-      return;
-    }
     try {
-      await myBlockContract.methods
-        .ratePost(this.state.id, true)
-        .send({ from: this.props.accountId });
+      // If private key is not set then do not proceed
+      if (!this.props.accountId) {
+        return;
+      }
+
+      // if web3 or contract haven't been intialized then do so
+      if (!web3 || !myBlockContract) {
+        web3 = new Web3(
+          new Web3.providers.HttpProvider(
+            !!this.props.privateKey
+              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+              : "http://localhost:8545"
+          )
+        );
+        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+      }
+
+      if (!!this.props.privateKey) {
+        const txCount = await web3.eth.getTransactionCount(
+          this.props.accountId
+        );
+
+        const txObject = {
+          nonce: web3.utils.toHex(txCount),
+          gasLimit: web3.utils.toHex(6700000),
+          gasPrice: web3.utils.toHex(web3.utils.toWei("10", "wei")),
+          to: myBlockContract._address,
+          data: myBlockContract.methods
+            .ratePost(this.state.id, true)
+            .encodeABI(),
+        };
+
+        const tx = new Tx(txObject, { chain: "ropsten" });
+        tx.sign(Buffer.from(this.props.privateKey.substr(2), "hex"));
+
+        const serializedTx = tx.serialize();
+        const raw = "0x" + serializedTx.toString("hex");
+
+        web3.eth.sendSignedTransaction(raw).catch((err) => {
+          processError(err);
+        });
+      } else {
+        await myBlockContract.methods
+          .ratePost(this.state.id, true)
+          .send({ from: this.props.accountId });
+      }
 
       this.setState({ likes: parseInt(this.state.likes) + 1 });
     } catch (err) {

@@ -5,10 +5,6 @@ import FeeLikeIconComponent from "../post/FeeLikeIconComponent";
 import "./Recent.scss";
 
 class PostSummaryComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <a href={"#/pages/postView/" + this.props.post.id}>

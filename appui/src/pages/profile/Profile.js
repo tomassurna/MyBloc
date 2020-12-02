@@ -1,8 +1,13 @@
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
-import { myBlockContract } from "../../config";
+import { myBlockAddress, myBlockABI } from "../../config";
 import "./Profile.scss";
 import ProfilePostCollapseComponent from "./ProfilePostCollapseComponent";
+import Web3 from "web3";
+import processError from "../../util/ErrorUtil";
+
+let web3;
+let myBlockContract;
 
 class Profile extends React.Component {
   constructor(props) {
@@ -16,18 +21,35 @@ class Profile extends React.Component {
   }
 
   async loadData() {
-    if (!this.props.accountId) {
-      return;
+    try {
+      // If private key is not set then do not proceed
+      if (!this.props.accountId) {
+        return;
+      }
+
+      // if web3 or contract haven't been intialized then do so
+      if (!web3 || !myBlockContract) {
+        web3 = new Web3(
+          new Web3.providers.HttpProvider(
+            !!this.props.privateKey
+              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+              : "http://localhost:8545"
+          )
+        );
+        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+      }
+
+      const owned = await myBlockContract.methods
+        .getUserOwned()
+        .call({ from: this.props.accountId });
+      const posted = await myBlockContract.methods
+        .getUserPosted()
+        .call({ from: this.props.accountId });
+
+      this.setState({ owned, posted });
+    } catch (error) {
+      processError(error);
     }
-
-    const owned = await myBlockContract.methods
-      .getUserOwned()
-      .call({ from: this.props.accountId });
-    const posted = await myBlockContract.methods
-      .getUserPosted()
-      .call({ from: this.props.accountId });
-
-    this.setState({ owned, posted });
   }
 
   render() {
@@ -52,6 +74,7 @@ class Profile extends React.Component {
                       accountId={this.props.accountId}
                       privateKey={this.props.privateKey}
                       postId={postId}
+                      key={postId}
                     />
                   );
                 })
@@ -73,6 +96,7 @@ class Profile extends React.Component {
                       accountId={this.props.accountId}
                       privateKey={this.props.privateKey}
                       postId={postId}
+                      key={postId}
                     />
                   );
                 })

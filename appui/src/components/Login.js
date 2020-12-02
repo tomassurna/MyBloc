@@ -9,8 +9,6 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-
     this.state = {
       accountId: this.props.accountId,
       privateKey: this.props.privateKey,
@@ -20,6 +18,14 @@ class Login extends React.Component {
   }
 
   onLogin() {
+    web3 = new Web3(
+      new Web3.providers.HttpProvider(
+        !!this.props.privateKey
+          ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+          : "http://localhost:8545"
+      )
+    );
+
     if (!!this.state.privateKey) {
       try {
         const account = web3.eth.accounts.privateKeyToAccount(
