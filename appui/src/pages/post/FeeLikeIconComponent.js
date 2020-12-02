@@ -171,7 +171,7 @@ class FeeLikeIconComponent extends React.Component {
       <div className={"post-icons"}>
         <div className={"icon-holder"}>
           <CIcon content={brandSet.cibEthereum} size="2xl" />
-          <span className={"icon-text"}>{"$" + this.state.fee}</span>
+          <span className={"icon-text"}>{"WEI " + this.state.fee}</span>
         </div>
         <div className="thumbs-icon-holder">
           <div
