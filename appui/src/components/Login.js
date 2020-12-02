@@ -29,17 +29,17 @@ class Login extends React.Component {
 
     if (!!this.state.privateKey) {
       try {
-        if (this.state.privateKey.startsWith("0x")) {
-          const account = web3.eth.accounts.privateKeyToAccount(
-            this.state.privateKey,
-            true
-          );
-
-          this.props.onLoginCallback(account.address, this.state.privateKey);
-          this.setState({ invalidPrivateKey: false });
-        } else {
-          this.setState({ invalidPrivateKey: true });
+        if (!this.state.privateKey.startsWith("0x")) {
+          this.setState({ privateKey: "0x" + this.state.privateKey });
         }
+
+        const account = web3.eth.accounts.privateKeyToAccount(
+          this.state.privateKey,
+          true
+        );
+
+        this.props.onLoginCallback(account.address, this.state.privateKey);
+        this.setState({ invalidPrivateKey: false });
       } catch (error) {
         this.setState({ invalidPrivateKey: true });
       }
@@ -73,10 +73,12 @@ class Login extends React.Component {
           </div>
           <div className={"modal-body"}>
             <div className={"form-group justify-content"}>
-              If the UI is being ran with a local blockchain then only input the
-              Account Id. Otherwise, if the UI is being used with a contract
-              deployed on Robsten network, then only input the Account's Private
-              Key. For the Private Key, make sure the key is prefixed with "0x".
+              <div>
+                <b>For Ropsten: </b> Only input private key.
+              </div>
+              <div>
+                <b>For Local (w/ Ganache): </b> Only input account id.
+              </div>
             </div>
 
             <div className={"form-group"}>
