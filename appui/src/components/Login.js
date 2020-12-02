@@ -29,10 +29,6 @@ class Login extends React.Component {
 
     if (!!this.state.privateKey) {
       try {
-        if (!this.state.privateKey.startsWith("0x")) {
-          this.setState({ privateKey: "0x" + this.state.privateKey });
-        }
-
         const account = web3.eth.accounts.privateKeyToAccount(
           this.state.privateKey,
           true
@@ -110,7 +106,9 @@ class Login extends React.Component {
                 className={"form-control"}
                 onChange={(event) => {
                   this.setState({
-                    privateKey: event.target.value,
+                    privateKey: event.target.value.startsWith("0x")
+                      ? event.target.value
+                      : "0x" + event.target.value,
                   });
                 }}
                 disabled={!!this.state.accountId}
