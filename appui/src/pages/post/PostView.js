@@ -1,9 +1,13 @@
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
-import { myBlockContract } from "../../config";
+import { myBlockAddress, myBlockABI } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
 import PostViewComponent from "./PostViewComponent";
+import Web3 from "web3";
+
+let web3;
+let myBlockContract;
 
 class Post extends React.Component {
   constructor(props) {
@@ -18,11 +22,24 @@ class Post extends React.Component {
   }
 
   async loadPost(initialLoad) {
-    if (!this.props.accountId) {
-      return;
-    }
-
     try {
+      // If private key is not set then do not proceed
+      if (!this.props.accountId) {
+        return;
+      }
+
+      // if web3 or contract haven't been intialized then do so
+      if (!web3 || !myBlockContract) {
+        web3 = new Web3(
+          new Web3.providers.HttpProvider(
+            !!this.props.privateKey
+              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+              : "http://localhost:8545"
+          )
+        );
+        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+      }
+
       const post = await myBlockContract.methods
         .getPostDetails(this.state.id)
         .call();
@@ -51,8 +68,21 @@ class Post extends React.Component {
   }
 
   async purchasePost() {
+    // If private key is not set then do not proceed
     if (!this.props.accountId) {
       return;
+    }
+
+    // if web3 or contract haven't been intialized then do so
+    if (!web3 || !myBlockContract) {
+      web3 = new Web3(
+        new Web3.providers.HttpProvider(
+          !!this.props.privateKey
+            ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+            : "http://localhost:8545"
+        )
+      );
+      myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
     }
 
     try {

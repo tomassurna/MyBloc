@@ -1,9 +1,5 @@
-import Web3 from "web3";
-const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-
-// Initialize the rating contract with web3
-let myBlockAddress = "0xBbc09D72C46C5c35556c61B0adDA69103b3BCa65";
-let myBlockABI = [
+const myBlockAddress = "0x27b7f7DB8285299681c9518AeBa77d8636F94f10";
+const myBlockABI = [
   {
     inputs: [],
     payable: false,
@@ -129,6 +125,5 @@ let myBlockABI = [
     type: "function",
   },
 ];
-// Reference: https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html
-const myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
-export { myBlockContract };
+
+export { myBlockAddress, myBlockABI };

@@ -3,10 +3,13 @@ import CIcon from "@coreui/icons-react";
 import { CHeader, CHeaderNav } from "@coreui/react";
 import React from "react";
 import Web3 from "web3";
+import { myBlockAddress, myBlockABI } from "../config";
 import MyBlockLogo from "../MyBlockLogo.png";
 import "./Components.scss";
+import processError from "../util/ErrorUtil";
 
 let web3;
+let myBlockContract;
 
 class Header extends React.Component {
   constructor(props) {
@@ -20,16 +23,35 @@ class Header extends React.Component {
   }
 
   async getBalance() {
-    if (!this.props.accountId) {
+    try {
+      // If private key is not set then do not proceed
+      if (!this.props.accountId) {
+        return;
+      }
+
+      // if web3 or contract haven't been intialized then do so
+      if (!web3 || !myBlockContract) {
+        web3 = new Web3(
+          new Web3.providers.HttpProvider(
+            !!this.props.privateKey
+              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+              : "http://localhost:8545"
+          )
+        );
+
+        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+      }
+
+      const balance = web3.utils.fromWei(
+        await web3.eth.getBalance(this.props.accountId)
+      );
+
+      if (balance !== this.state.balance) {
+        this.setState({ balance: balance });
+      }
+    } catch (error) {
+      processError(error);
       return;
-    }
-
-    const balance = web3.utils.fromWei(
-      await web3.eth.getBalance(this.props.accountId)
-    );
-
-    if (balance !== this.state.balance) {
-      this.setState({ balance: balance });
     }
   }
 

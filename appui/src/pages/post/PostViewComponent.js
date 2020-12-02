@@ -1,14 +1,10 @@
 import React from "react";
-import { CCard, CCardBody, CCol, CButton, CCardHeader } from "@coreui/react";
+import { CCard, CCardBody, CCol, CButton } from "@coreui/react";
 import DescriptionViewComponent from "./DescriptionViewComponent";
 import FeeLikeIconComponent from "./FeeLikeIconComponent";
 import "./Post.scss";
 
 class PostViewComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <CCol>
@@ -19,6 +15,7 @@ class PostViewComponent extends React.Component {
                 <img
                   src={`https://ipfs.infura.io/ipfs/${this.props.post.ipfsHash}`}
                   className="image"
+                  alt="Post"
                 />
               ) : !!this.props.purchasePost ? (
                 <CButton

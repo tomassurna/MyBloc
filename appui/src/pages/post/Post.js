@@ -1,9 +1,12 @@
 import { CButton, CCard, CCardBody, CCardHeader } from "@coreui/react";
 import randomWords from "random-words";
 import React from "react";
-import { myBlockContract } from "../../config";
+import { myBlockAddress, myBlockABI } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
+import Web3 from "web3";
+
+const Tx = require("ethereumjs-tx").Transaction;
 
 const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient({
@@ -11,6 +14,9 @@ const ipfs = ipfsClient({
   port: 5001,
   protocol: "https",
 });
+
+let web3;
+let myBlockContract;
 
 class Post extends React.Component {
   constructor(props) {
@@ -23,6 +29,7 @@ class Post extends React.Component {
       title: "",
       description: "",
       fee: 0,
+      loading: false,
     };
   }
 
@@ -42,27 +49,75 @@ class Post extends React.Component {
   };
 
   async onAddPost() {
-    if (!this.props.accountId) {
-      return;
-    }
-
-    if (this.state.imageBuffer == null) {
-      return;
-    }
-
-    const result = await ipfs.add(this.state.imageBuffer);
-
     try {
+      // If private key is not set then do not proceed
+      if (!this.props.accountId) {
+        return;
+      }
+
+      // if web3 or contract haven't been intialized then do so
+      if (!web3 || !myBlockContract) {
+        web3 = new Web3(
+          new Web3.providers.HttpProvider(
+            !!this.props.privateKey
+              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+              : "http://localhost:8545"
+          )
+        );
+        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+      }
+
+      if (this.state.imageBuffer == null) {
+        return;
+      }
+
+      const result = await ipfs.add(this.state.imageBuffer);
+
       this.setState({ imageHash: result[0].hash });
 
-      await myBlockContract.methods
-        .pushPost(
-          this.state.imageHash,
-          this.state.title,
-          this.state.description,
-          this.state.fee
-        )
-        .send({ from: this.props.accountId, gas: 6700000 });
+      if (!!this.props.privateKey) {
+        const txCount = await web3.eth.getTransactionCount(
+          this.props.accountId
+        );
+
+        const txObject = {
+          nonce: web3.utils.toHex(txCount),
+          gasLimit: web3.utils.toHex(6700000),
+          gasPrice: web3.utils.toHex(web3.utils.toWei("10", "wei")),
+          to: myBlockContract._address,
+          data: myBlockContract.methods
+            .pushPost(
+              this.state.imageHash,
+              this.state.title,
+              this.state.description,
+              this.state.fee
+            )
+            .encodeABI(),
+        };
+
+        const tx = new Tx(txObject, { chain: "ropsten" });
+        tx.sign(Buffer.from(this.props.privateKey.substr(2), "hex"));
+
+        const serializedTx = tx.serialize();
+        const raw = "0x" + serializedTx.toString("hex");
+
+        this.setState({ loading: true });
+
+        await web3.eth.sendSignedTransaction(raw).catch((err) => {
+          processError(err);
+        });
+
+        this.setState({ loading: false });
+      } else {
+        await myBlockContract.methods
+          .pushPost(
+            this.state.imageHash,
+            this.state.title,
+            this.state.description,
+            this.state.fee
+          )
+          .send({ from: this.props.accountId, gas: 6700000 });
+      }
 
       this.setState({
         image: null,
@@ -79,8 +134,21 @@ class Post extends React.Component {
 
   // Util method for generating fake test data. You need to select an image in the UI first. This will then generate 10 posts.
   async generateTestData() {
+    // If private key is not set then do not proceed
     if (!this.props.accountId) {
       return;
+    }
+
+    // if web3 or contract haven't been intialized then do so
+    if (!web3 || !myBlockContract) {
+      web3 = new Web3(
+        new Web3.providers.HttpProvider(
+          !!this.props.privateKey
+            ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+            : "http://localhost:8545"
+        )
+      );
+      myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
     }
 
     if (this.state.imageBuffer == null) {
@@ -117,8 +185,19 @@ class Post extends React.Component {
           <CCardBody>
             <div className="mb-3 form-group">
               <div className="image-Container">
+                {this.state.loading ? (
+                  <div className="processing-text">
+                    Processing Transaction...
+                  </div>
+                ) : (
+                  <> </>
+                )}
                 {!!this.state.image ? (
-                  <img src={this.state.image} className="image" />
+                  <img
+                    src={this.state.image}
+                    className="image"
+                    alt="User Uploaded"
+                  />
                 ) : (
                   <></>
                 )}
