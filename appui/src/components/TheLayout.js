@@ -23,6 +23,8 @@ class TheLayout extends React.Component {
       accountId: "",
       privateKey: "",
     });
+
+    window.location.reload();
   }
 
   render() {
