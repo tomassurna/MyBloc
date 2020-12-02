@@ -76,6 +76,9 @@ class Post extends React.Component {
 
   // Util method for generating fake test data. You need to select an image in the UI first. This will then generate 10 posts.
   async generateTestData() {
+    if(this.state.imageBuffer == null){
+      return;
+    }
     const imageBuffer = this.state.imageBuffer;
     const imageHash = (await ipfs.add(imageBuffer))[0].hash;
 

@@ -84,7 +84,7 @@ MyBlock is an image sharing market platform where users are profit from their po
 
 ## Demo video
 
-Coming Soon
+[![Demo Video](https://img.youtube.com/vi/pt4bprY6bd8/0.jpg)](https://www.youtube.com/watch?v=pt4bprY6bd8)
 
 ## Contributors
 

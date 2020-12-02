@@ -1,5 +1,6 @@
 import React from "react";
 import "./AboutUs.scss";
+import MyBlockLogo from "../../MyBlockLogo.png";
 import phil from "./philcover.jpg";
 import tomas from "./tomascover.jpg";
 import CIcon from "@coreui/icons-react";
@@ -24,25 +25,32 @@ class AboutUs extends React.Component {
             <h3>What is MyBlock?</h3>
           </CCardHeader>
           <CCardBody>
-            <p>
-              MyBlock is an image sharing market platform where users profit
-              from their posts. The initial project was a social media app that
-              resembled classic moguls, however the implementation as a Dapp
-              allowed changes to the traditional formula. MyBlock takes
-              advantage of the transactional capabilities of Ethereum and treats
-              images as commerce and profit from them. Users select images to
-              post that can be accessed by others for a minimum fee. The image
-              itself is stored on{" "}
-              <a href="//www.ipfs.com/">
-                <u>IPFS</u>
-              </a>{" "}
-              with its reference hash stored on the blockchain. Using the hash,
-              the image can be rendered easily to view. When a user purchases a
-              post, it can be viewed alongside their original posts via the
-              profile page, which is associated with the given address. Earnings
-              from MyBlock go directly to the user without a percentage being
-              taken.
-            </p>
+            <div className="person">
+              <div className="bio">
+              <p>
+                MyBlock is an image sharing market platform where users profit
+                from their posts. The initial project was a social media app that
+                resembled classic moguls, however the implementation as a Dapp
+                allowed changes to the traditional formula. MyBlock takes
+                advantage of the transactional capabilities of Ethereum and treats
+                images as commerce and profit from them. Users select images to
+                post that can be accessed by others for a minimum fee. The image
+                itself is stored on{" "}
+                <a href="//www.ipfs.com/">
+                  <u>IPFS</u>
+                </a>{" "}
+                with its reference hash stored on the blockchain. Using the hash,
+                the image can be rendered easily to view. When a user purchases a
+                post, it can be viewed alongside their original posts via the
+                profile page, which is associated with the given address. Earnings
+                from MyBlock go directly to the user without a percentage being
+                taken.
+                </p>
+              </div>
+              <div>
+                <img src={MyBlockLogo} className="cover" alt="[MyBlock Logo]"/>
+              </div>
+            </div>
           </CCardBody>
           <div className="listrow">
             <CCard className="list no-border">
@@ -91,27 +99,30 @@ class AboutUs extends React.Component {
             <h3>Founders</h3>
           </CCardHeader>
           <CCardBody>
-            <p>
-              Phillip "Maverick" Roesch and Tomas "Iceman" Surna met attending
-              TOPGUN in 1986. Their friendship initially began as a rivalry with
-              Tom considering Phil's attitude "foolish" and his flying
-              "dangerous." During a combined training mission, Phil and Tomas
-              were separately training an opposing A-4. In an attempt to
-              out-maneuver and take down the enemy aircraft, Phil inadvertently
-              flew through Tom's jet wash sending him into a flat spin. While
-              Phil was able to eject to safety his Radar Intercept Officer, Nick
-              "Goose" Bradshaw, collided with the jettisoned aircraft canopy
-              head-first and was killed. Following their graduation from TOPGUN,
-              Phil and Tom were deployed to provide air support for the rescue
-              of a stricken ship that drifted into hostile waters. After the
-              success of their mission, Tom said to Phil, "You can be my wingman
-              anytime!" To which Phil responded, "You can be mine!" Phil took
-              Tom up on his offer, and they both then started MyBlock.
-              <br />
-              <sub>
-                *Please note this is the plot of <i>Top Gun</i> (1986)
-              </sub>
-            </p>
+            <div className="bio">
+              <p>
+                Phillip "Maverick" Roesch and Tomas "Iceman" Surna met attending
+                TOPGUN in 1986. Their friendship initially began as a rivalry with
+                Tom considering Phil's attitude "foolish" and his flying
+                "dangerous." During a combined training mission, Phil and Tomas
+                were separately training an opposing A-4. In an attempt to
+                out-maneuver and take down the enemy aircraft, Phil inadvertently
+                flew through Tom's jet wash sending him into a flat spin. While
+                Phil was able to eject to safety his Radar Intercept Officer, Nick
+                "Goose" Bradshaw, collided with the jettisoned aircraft canopy
+                head-first and was killed. Following their graduation from TOPGUN,
+                Phil and Tom were deployed to provide air support for the rescue
+                of a stricken ship that drifted into hostile waters. After the
+                success of their mission, Tom said to Phil, "You can be my wingman
+                anytime!" To which Phil responded, "You can be mine!" Phil took
+                Tom up on his offer, and they both then started MyBlock.
+                <br />
+                <sub>
+                  *Please note this is the plot of <i>Top Gun</i> (1986)
+                </sub>
+              </p>
+            </div>
+           
           </CCardBody>
           <div className="person-row">
             <CCard className="person-row-item no-border">
@@ -123,8 +134,8 @@ class AboutUs extends React.Component {
               </CCardHeader>
               <CCardBody>
                 <div className="person">
-                  <div className="image">
-                    <img src={phil} alt="[phil cover photo]" />
+                  <div>
+                    <img src={phil} className="cover" alt="[phil cover photo]" />
                   </div>
                   <div className="bio">
                     <p>
@@ -154,8 +165,8 @@ class AboutUs extends React.Component {
               </CCardHeader>
               <CCardBody>
                 <div className="person">
-                  <div className="image">
-                    <img src={tomas} alt="[tomas cover photo]" />
+                  <div>
+                    <img className="cover" src={tomas} alt="[tomas cover photo]" />
                   </div>
                   <div className="bio">
                     <p>
