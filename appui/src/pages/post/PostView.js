@@ -1,7 +1,7 @@
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
 import Web3 from "web3";
-import { myBlockABI, myBlockAddress, projectId } from "../../config";
+import { MyBlocABI, MyBlocAddress, projectId } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
 import PostViewComponent from "./PostViewComponent";
@@ -9,7 +9,7 @@ import PostViewComponent from "./PostViewComponent";
 const Tx = require("ethereumjs-tx").Transaction;
 
 let web3;
-let myBlockContract;
+let MyBlocContract;
 
 class Post extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class Post extends React.Component {
       }
 
       // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlockContract) {
+      if (!web3 || !MyBlocContract) {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
@@ -40,15 +40,15 @@ class Post extends React.Component {
               : "http://localhost:8545"
           )
         );
-        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+        MyBlocContract = new web3.eth.Contract(MyBlocABI, MyBlocAddress);
       }
 
-      const post = await myBlockContract.methods
+      const post = await MyBlocContract.methods
         .getPostDetails(this.state.id)
         .call();
 
       try {
-        const ipfsHash = await myBlockContract.methods
+        const ipfsHash = await MyBlocContract.methods
           .viewPost(this.state.id)
           .call({ from: this.props.accountId });
 
@@ -78,7 +78,7 @@ class Post extends React.Component {
       }
 
       // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlockContract) {
+      if (!web3 || !MyBlocContract) {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
@@ -86,7 +86,7 @@ class Post extends React.Component {
               : "http://localhost:8545"
           )
         );
-        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+        MyBlocContract = new web3.eth.Contract(MyBlocABI, MyBlocAddress);
       }
 
       if (!!this.props.privateKey) {
@@ -100,9 +100,9 @@ class Post extends React.Component {
           gasPrice: web3.utils.toHex(
             Math.ceil((await web3.eth.getGasPrice()) * 1.25)
           ),
-          to: myBlockContract._address,
+          to: MyBlocContract._address,
           value: web3.utils.toHex(this.state.post.fee),
-          data: myBlockContract.methods.buyPost(this.state.id).encodeABI(),
+          data: MyBlocContract.methods.buyPost(this.state.id).encodeABI(),
         };
 
         const tx = new Tx(txObject, { chain: "ropsten" });
@@ -120,7 +120,7 @@ class Post extends React.Component {
         this.setState({ loading: false });
         this.loadPost(false);
       } else {
-        await myBlockContract.methods.buyPost(this.state.id).send(
+        await MyBlocContract.methods.buyPost(this.state.id).send(
           {
             from: this.props.accountId,
             value: this.state.post.fee,

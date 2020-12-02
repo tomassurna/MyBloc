@@ -2,7 +2,7 @@ import { CButton, CCard, CCardBody, CCardHeader } from "@coreui/react";
 import randomWords from "random-words";
 import React from "react";
 import Web3 from "web3";
-import { myBlockABI, myBlockAddress, projectId } from "../../config";
+import { MyBlocABI, MyBlocAddress, projectId } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
 
@@ -16,7 +16,7 @@ const ipfs = ipfsClient({
 });
 
 let web3;
-let myBlockContract;
+let MyBlocContract;
 
 class Post extends React.Component {
   constructor(props) {
@@ -60,7 +60,7 @@ class Post extends React.Component {
       }
 
       // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlockContract) {
+      if (!web3 || !MyBlocContract) {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
@@ -68,7 +68,7 @@ class Post extends React.Component {
               : "http://localhost:8545"
           )
         );
-        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+        MyBlocContract = new web3.eth.Contract(MyBlocABI, MyBlocAddress);
       }
 
       if (this.state.imageBuffer == null) {
@@ -92,8 +92,8 @@ class Post extends React.Component {
           gasPrice: web3.utils.toHex(
             Math.ceil((await web3.eth.getGasPrice()) * 1.25)
           ),
-          to: myBlockContract._address,
-          data: myBlockContract.methods
+          to: MyBlocContract._address,
+          data: MyBlocContract.methods
             .pushPost(
               this.state.imageHash,
               this.state.title,
@@ -113,7 +113,7 @@ class Post extends React.Component {
           processError(err);
         });
       } else {
-        await myBlockContract.methods
+        await MyBlocContract.methods
           .pushPost(
             this.state.imageHash,
             this.state.title,
@@ -147,7 +147,7 @@ class Post extends React.Component {
     }
 
     // if web3 or contract haven't been intialized then do so
-    if (!web3 || !myBlockContract) {
+    if (!web3 || !MyBlocContract) {
       web3 = new Web3(
         new Web3.providers.HttpProvider(
           !!this.props.privateKey
@@ -155,7 +155,7 @@ class Post extends React.Component {
             : "http://localhost:8545"
         )
       );
-      myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+      MyBlocContract = new web3.eth.Contract(MyBlocABI, MyBlocAddress);
     }
 
     if (this.state.imageBuffer == null) {
@@ -170,7 +170,7 @@ class Post extends React.Component {
       const fee = Math.floor(Math.random() * 6700000);
 
       try {
-        await myBlockContract.methods
+        await MyBlocContract.methods
           .pushPost(imageHash, title, description, fee)
           .send({ from: this.props.accountId, gas: 6700000 });
       } catch (error) {

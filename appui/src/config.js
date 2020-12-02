@@ -1,6 +1,6 @@
-const myBlockAddress = "0x65608b6e3845b9a9238d6d2F21129ed936F9Bf60";
+const MyBlocAddress = "0x65608b6e3845b9a9238d6d2F21129ed936F9Bf60";
 const projectId = "5fd774e20ff6441ab36b5954abae7e8c";
-const myBlockABI = [
+const MyBlocABI = [
   {
     inputs: [],
     payable: false,
@@ -127,4 +127,4 @@ const myBlockABI = [
   },
 ];
 
-export { myBlockAddress, myBlockABI, projectId };
+export { MyBlocAddress, MyBlocABI, projectId };

@@ -1,13 +1,13 @@
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
 import Web3 from "web3";
-import { myBlockABI, myBlockAddress, projectId } from "../../config";
+import { MyBlocABI, MyBlocAddress, projectId } from "../../config";
 import processError from "../../util/ErrorUtil";
 import PostSummaryComponent from "./../recent/PostSummaryComponent";
 import "./Search.scss";
 
 let web3;
-let myBlockContract;
+let MyBlocContract;
 
 class Search extends React.Component {
   constructor(props) {
@@ -50,7 +50,7 @@ class Search extends React.Component {
       }
 
       // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlockContract) {
+      if (!web3 || !MyBlocContract) {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
@@ -58,7 +58,7 @@ class Search extends React.Component {
               : "http://localhost:8545"
           )
         );
-        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+        MyBlocContract = new web3.eth.Contract(MyBlocABI, MyBlocAddress);
       }
 
       var postDetails = [];
@@ -71,12 +71,10 @@ class Search extends React.Component {
       let result = 1;
       while (
         (result = parseInt(
-          await myBlockContract.methods.searchPost(searchValue, result).call()
+          await MyBlocContract.methods.searchPost(searchValue, result).call()
         )) !== 0
       ) {
-        const post = await myBlockContract.methods
-          .getPostDetails(result)
-          .call();
+        const post = await MyBlocContract.methods.getPostDetails(result).call();
 
         postDetails.push({
           title: post.title,

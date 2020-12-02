@@ -1,13 +1,13 @@
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
 import Web3 from "web3";
-import { myBlockABI, myBlockAddress, projectId } from "../../config";
+import { MyBlocABI, MyBlocAddress, projectId } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Profile.scss";
 import ProfilePostCollapseComponent from "./ProfilePostCollapseComponent";
 
 let web3;
-let myBlockContract;
+let MyBlocContract;
 
 class Profile extends React.Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class Profile extends React.Component {
       }
 
       // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlockContract) {
+      if (!web3 || !MyBlocContract) {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
@@ -36,13 +36,13 @@ class Profile extends React.Component {
               : "http://localhost:8545"
           )
         );
-        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+        MyBlocContract = new web3.eth.Contract(MyBlocABI, MyBlocAddress);
       }
 
-      const owned = await myBlockContract.methods
+      const owned = await MyBlocContract.methods
         .getUserOwned()
         .call({ from: this.props.accountId });
-      const posted = await myBlockContract.methods
+      const posted = await MyBlocContract.methods
         .getUserPosted()
         .call({ from: this.props.accountId });
 

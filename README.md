@@ -2,11 +2,11 @@
 
 COMP-3800 (Blockchain) Final Project.
 
-# MyBlock
+# MyBloc
 
 ## Introduction
 
-MyBlock is an image sharing market platform where users are profit from their posts. The initial project was a social media app that resembled classic moguls, however the implementation as a Dapp allowed changes to the traditional formula. MyBlock takes advantage of transactional capabilities of Ethereum and treats images as commerce and profit from them. Users select images to post that can be accessed by others for a minimum fee. The image itself is stored on IPFS with its reference hash stored on the blockchain. Using the hash, the image can be rendered easily to view. When a user purchases a post, it can be viewed alongside their original posts via the profile page, which is associated with the given address. Earnings from MyBlock go directly to the user without a percantage being taken.
+MyBloc is an image sharing market platform where users are profit from their posts. The initial project was a social media app that resembled classic moguls, however the implementation as a Dapp allowed changes to the traditional formula. MyBloc takes advantage of transactional capabilities of Ethereum and treats images as commerce and profit from them. Users select images to post that can be accessed by others for a minimum fee. The image itself is stored on IPFS with its reference hash stored on the blockchain. Using the hash, the image can be rendered easily to view. When a user purchases a post, it can be viewed alongside their original posts via the profile page, which is associated with the given address. Earnings from MyBloc go directly to the user without a percantage being taken.
 
 ## Features
 
@@ -26,7 +26,7 @@ MyBlock is an image sharing market platform where users are profit from their po
    npm install
    ```
 
-2. Navigate to the `/myBlock/` folder, then run:
+2. Navigate to the `/MyBloc/` folder, then run:
 
    ```bash
    npm install @truffle/hdwallet-provider
@@ -54,7 +54,7 @@ MyBlock is an image sharing market platform where users are profit from their po
 
         `let account0 = "<YOUR ACCOUNT0 ID>";`
 
-6.  Navigate to `/myBlock/` and run:
+6.  Navigate to `/MyBloc/` and run:
 
     ```bash
     truffle migrate
@@ -70,9 +70,9 @@ MyBlock is an image sharing market platform where users are profit from their po
 
 8.  Navigate to and open `/appui/src/config.js`
 
-9.  Replace the variable value of `myBlockAddress` to your id.
+9.  Replace the variable value of `MyBlocAddress` to your id.
 
-        `let myBlockAddress = "<YOUR MYBLOCK CONTRACT ADDRESS>";`
+        `let MyBlocAddress = "<YOUR MyBloc CONTRACT ADDRESS>";`
 
 10. Navigate to `/appui/` and run
 
