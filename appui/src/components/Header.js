@@ -3,13 +3,13 @@ import CIcon from "@coreui/icons-react";
 import { CHeader, CHeaderNav } from "@coreui/react";
 import React from "react";
 import Web3 from "web3";
-import { myBlockABI, myBlockAddress, projectId } from "../config";
-import MyBlockLogo from "../MyBlockLogo.png";
+import { myBlocABI, myBlocAddress, projectId } from "../config";
+import MyBlocLogo from "../MyBlocLogo.png";
 import processError from "../util/ErrorUtil";
 import "./Components.scss";
 
 let web3;
-let myBlockContract;
+let myBlocContract;
 
 class Header extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class Header extends React.Component {
       }
 
       // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlockContract) {
+      if (!web3 || !myBlocContract) {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
@@ -39,7 +39,7 @@ class Header extends React.Component {
           )
         );
 
-        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+        myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
       }
 
       const balance = web3.utils.fromWei(
@@ -61,8 +61,8 @@ class Header extends React.Component {
     return (
       <CHeader withSubheader>
         <CHeaderNav className="px-3 width-100">
-          <a className="c-header-brand" href="//github.com/tomassurna/MyBlock">
-            <img src={MyBlockLogo} alt="[MyBlock Logo]" className="logo" />
+          <a className="c-header-brand" href="//github.com/tomassurna/MyBloc">
+            <img src={MyBlocLogo} alt="[MyBloc Logo]" className="logo" />
           </a>
           <span className="c-header-toggler">
             <span className="c-header-toggler-icon"></span>

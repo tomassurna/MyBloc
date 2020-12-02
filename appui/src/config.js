@@ -1,6 +1,6 @@
-const myBlockAddress = "0x65608b6e3845b9a9238d6d2F21129ed936F9Bf60";
-const projectId = "5fd774e20ff6441ab36b5954abae7e8c";
-const myBlockABI = [
+const myBlocAddress = "0x65608b6e3845b9a9238d6d2F21129ed936F9Bf60";
+const projectId = "cc5af11c182f411baff3ee500361ee0b";
+const myBlocABI = [
   {
     inputs: [],
     payable: false,
@@ -74,7 +74,7 @@ const myBlockABI = [
           { internalType: "uint256", name: "likes", type: "uint256" },
           { internalType: "uint256", name: "dislikes", type: "uint256" },
         ],
-        internalType: "struct MyBlock.PostDetails",
+        internalType: "struct MyBloc.PostDetails",
         name: "",
         type: "tuple",
       },
@@ -127,4 +127,4 @@ const myBlockABI = [
   },
 ];
 
-export { myBlockAddress, myBlockABI, projectId };
+export { myBlocAddress, myBlocABI, projectId };

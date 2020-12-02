@@ -6,11 +6,11 @@ const Footer = () => {
     <CFooter fixed={false}>
       <div className="mfs-auto">
         <a
-          href="https://github.com/tomassurna/MyBlock"
+          href="https://github.com/tomassurna/MyBloc"
           target="_blank"
           rel="noopener noreferrer"
         >
-          MyBlock
+          MyBloc
         </a>
         <span className="ml-1">&copy; 2020</span>
         <span className="ml-1 version">v6</span>

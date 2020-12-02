@@ -3,13 +3,13 @@ import CIcon from "@coreui/icons-react";
 import { CCard, CCardHeader, CCollapse } from "@coreui/react";
 import React from "react";
 import Web3 from "web3";
-import { myBlockABI, myBlockAddress, projectId } from "../../config";
+import { myBlocABI, myBlocAddress, projectId } from "../../config";
 import processError from "../../util/ErrorUtil";
 import PostViewComponent from "../post/PostViewComponent";
 import "./Profile.scss";
 
 let web3;
-let myBlockContract;
+let myBlocContract;
 
 class ProfilePostCollapseComponent extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class ProfilePostCollapseComponent extends React.Component {
         }
 
         // if web3 or contract haven't been intialized then do so
-        if (!web3 || !myBlockContract) {
+        if (!web3 || !myBlocContract) {
           web3 = new Web3(
             new Web3.providers.HttpProvider(
               !!this.props.privateKey
@@ -38,15 +38,15 @@ class ProfilePostCollapseComponent extends React.Component {
                 : "http://localhost:8545"
             )
           );
-          myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+          myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
         }
 
-        const post = await myBlockContract.methods
+        const post = await myBlocContract.methods
           .getPostDetails(this.state.id)
           .call();
 
         try {
-          const ipfsHash = await myBlockContract.methods
+          const ipfsHash = await myBlocContract.methods
             .viewPost(this.state.id)
             .call({ from: this.props.accountId });
 
