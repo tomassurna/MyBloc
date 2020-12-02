@@ -1,4 +1,4 @@
-const myBlocAddress = "0x65608b6e3845b9a9238d6d2F21129ed936F9Bf60";
+const myBlocAddress = "0x0e6655797c38b60A4451667619AefdD707ff27Dd";
 const projectId = "cc5af11c182f411baff3ee500361ee0b";
 const myBlocABI = [
   {
