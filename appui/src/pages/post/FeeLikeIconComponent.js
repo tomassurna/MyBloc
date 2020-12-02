@@ -1,7 +1,7 @@
-import React from "react";
+import { brandSet, freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
-import { freeSet, brandSet } from "@coreui/icons";
-import { account0, myBlockContract } from "../../config";
+import React from "react";
+import { myBlockContract } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
 
@@ -35,10 +35,14 @@ class FeeLikeIconComponent extends React.Component {
   }
 
   async dislikePost() {
+    if (!this.props.accountId) {
+      return;
+    }
+
     try {
       await myBlockContract.methods
         .ratePost(this.state.id, false)
-        .send({ from: account0 });
+        .send({ from: this.props.accountId });
 
       this.setState({ dislikes: parseInt(this.state.dislikes) + 1 });
     } catch (err) {
@@ -47,10 +51,13 @@ class FeeLikeIconComponent extends React.Component {
   }
 
   async likePost() {
+    if (!this.props.accountId) {
+      return;
+    }
     try {
       await myBlockContract.methods
         .ratePost(this.state.id, true)
-        .send({ from: account0 });
+        .send({ from: this.props.accountId });
 
       this.setState({ likes: parseInt(this.state.likes) + 1 });
     } catch (err) {

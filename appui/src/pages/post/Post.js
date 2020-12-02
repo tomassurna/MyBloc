@@ -1,10 +1,9 @@
-import { CButton } from "@coreui/react";
-import React from "react";
-import { account0, myBlockContract } from "../../config";
-import processError from "../../util/ErrorUtil";
+import { CButton, CCard, CCardBody, CCardHeader } from "@coreui/react";
 import randomWords from "random-words";
+import React from "react";
+import { myBlockContract } from "../../config";
+import processError from "../../util/ErrorUtil";
 import "./Post.scss";
-import { CCard, CCardHeader, CCardBody } from "@coreui/react";
 
 const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient({
@@ -43,6 +42,10 @@ class Post extends React.Component {
   };
 
   async onAddPost() {
+    if (!this.props.accountId) {
+      return;
+    }
+
     if (this.state.imageBuffer == null) {
       return;
     }
@@ -59,7 +62,7 @@ class Post extends React.Component {
           this.state.description,
           this.state.fee
         )
-        .send({ from: account0, gas: 6700000 });
+        .send({ from: this.props.accountId, gas: 6700000 });
 
       this.setState({
         image: null,
@@ -76,7 +79,11 @@ class Post extends React.Component {
 
   // Util method for generating fake test data. You need to select an image in the UI first. This will then generate 10 posts.
   async generateTestData() {
-    if(this.state.imageBuffer == null){
+    if (!this.props.accountId) {
+      return;
+    }
+
+    if (this.state.imageBuffer == null) {
       return;
     }
     const imageBuffer = this.state.imageBuffer;
@@ -90,8 +97,7 @@ class Post extends React.Component {
       try {
         await myBlockContract.methods
           .pushPost(imageHash, title, description, fee)
-          .send({ from: account0, gas: 6700000 });
-        console.log("Added post #" + i);
+          .send({ from: this.props.accountId, gas: 6700000 });
       } catch (error) {
         processError(error);
         return;

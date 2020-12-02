@@ -15,10 +15,14 @@ class Recent extends React.Component {
   }
 
   async loadRecentPosts() {
+    if (!this.props.accountId) {
+      return;
+    }
+
     var postDetails = [];
     var n_posts = await myBlockContract.methods
       .n_posts()
-      .call({ gas: 6700000 });
+      .call({ from: this.props.accountId, gas: 6700000 });
 
     // grab the latest 10 posts
     for (var i = n_posts - 1; i > Math.max(0, n_posts - 11); i--) {
@@ -46,7 +50,13 @@ class Recent extends React.Component {
         </CCard>
         <CCard>
           {this.state.postDetails.map((post) => {
-            return <PostSummaryComponent post={post} />;
+            return (
+              <PostSummaryComponent
+                post={post}
+                accountId={this.props.accountId}
+                privateKey={this.props.privateKey}
+              />
+            );
           })}
         </CCard>
       </>

@@ -18,6 +18,8 @@ class PostSummaryComponent extends React.Component {
               <DescriptionViewComponent
                 title={this.props.post.title}
                 description={this.props.post.description}
+                accountId={this.props.accountId}
+                privateKey={this.props.privateKey}
               />
               <FeeLikeIconComponent
                 likes={this.props.post.likes}
@@ -25,6 +27,8 @@ class PostSummaryComponent extends React.Component {
                 fee={this.props.post.fee}
                 id={this.props.post.id}
                 disableOnClick={true}
+                accountId={this.props.accountId}
+                privateKey={this.props.privateKey}
               />
             </CCardBody>
           </CCard>

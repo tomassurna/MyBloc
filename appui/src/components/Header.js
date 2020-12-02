@@ -1,11 +1,10 @@
-import React from "react";
-import { CHeader, CHeaderNav } from "@coreui/react";
-import Web3 from "web3";
-import { account0 } from "../config";
 import { brandSet, freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
-import "./Components.scss";
+import { CHeader, CHeaderNav } from "@coreui/react";
+import React from "react";
+import Web3 from "web3";
 import MyBlockLogo from "../MyBlockLogo.png";
+import "./Components.scss";
 
 let web3;
 
@@ -21,7 +20,13 @@ class Header extends React.Component {
   }
 
   async getBalance() {
-    const balance = web3.utils.fromWei(await web3.eth.getBalance(account0));
+    if (!this.props.accountId) {
+      return;
+    }
+
+    const balance = web3.utils.fromWei(
+      await web3.eth.getBalance(this.props.accountId)
+    );
 
     if (balance !== this.state.balance) {
       this.setState({ balance: balance });
@@ -35,7 +40,7 @@ class Header extends React.Component {
       <CHeader withSubheader>
         <CHeaderNav className="px-3 width-100">
           <a className="c-header-brand" href="//github.com/tomassurna/MyBlock">
-          <img src={MyBlockLogo} alt="[MyBlock Logo]"/>
+            <img src={MyBlockLogo} alt="[MyBlock Logo]" />
           </a>
           <span className="c-header-toggler">
             <span className="c-header-toggler-icon"></span>
@@ -56,20 +61,28 @@ class Header extends React.Component {
                 Post
               </a>
             </li>
-            <li className="c-header-nav-item active">
+            <li className="c-header-nav-item">
               <a className="c-header-nav-link" href="#/pages/aboutUs">
                 About Us
               </a>
             </li>
-            <li className="c-header-nav-item active">
+            <li className="c-header-nav-item">
               <a className="c-header-nav-link" href="#/pages/profile">
                 Profile
+              </a>
+            </li>
+            <li className="c-header-nav-item">
+              <a
+                className="c-header-nav-link pointer"
+                onClick={this.props.onLogoutCallback}
+              >
+                Logout
               </a>
             </li>
           </ul>
           <div className="profile-info">
             <a href="#/pages/profile">
-              <span>{account0 + " - "}</span>
+              <span>{this.props.accountId + " - "}</span>
               <span>
                 <CIcon content={brandSet.cibEthereum} />
                 {this.state.balance}

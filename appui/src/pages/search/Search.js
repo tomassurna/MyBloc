@@ -97,7 +97,13 @@ class Search extends React.Component {
           <CCardBody>
             {this.state.postDetails.length > 0 ? (
               this.state.postDetails.map((post) => {
-                return <PostSummaryComponent post={post} />;
+                return (
+                  <PostSummaryComponent
+                    post={post}
+                    accountId={this.props.accountId}
+                    privateKey={this.props.privateKey}
+                  />
+                );
               })
             ) : (
               <div className="text-align-center">
