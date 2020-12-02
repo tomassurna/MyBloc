@@ -1,5 +1,5 @@
 const myBlockAddress = "0xe34af049463Eb2Ee10Ef2aC1923F7069b0566d77";
-const projectId = "cc5eebda9d7a410f83cde8ec54342ad0";
+const projectId = "5fd774e20ff6441ab36b5954abae7e8c";
 const myBlockABI = [
   {
     inputs: [],
