@@ -73,8 +73,12 @@ class Login extends React.Component {
           </div>
           <div className={"modal-body"}>
             <div className={"form-group justify-content"}>
-              <div><b>For Ropsten: </b> Only input private key.</div>
-              <div><b>For Local (w/ Ganache): </b> Only input account id.</div>
+              <div>
+                <b>For Ropsten: </b> Only input private key.
+              </div>
+              <div>
+                <b>For Local (w/ Ganache): </b> Only input account id.
+              </div>
             </div>
 
             <div className={"form-group"}>
