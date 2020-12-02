@@ -21,7 +21,7 @@ class Login extends React.Component {
   onLogin() {
     web3 = new Web3(
       new Web3.providers.HttpProvider(
-        !!this.props.privateKey
+        !!this.state.privateKey
           ? "https://ropsten.infura.io/v3/" + projectId
           : "http://localhost:8545"
       )
