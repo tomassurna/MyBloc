@@ -1,9 +1,9 @@
+import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
-import { account0, myBlockContract } from "../../config";
+import { myBlockContract } from "../../config";
 import processError from "../../util/ErrorUtil";
-import PostViewComponent from "./PostViewComponent";
 import "./Post.scss";
-import { CCard, CCardHeader, CCardBody } from "@coreui/react";
+import PostViewComponent from "./PostViewComponent";
 
 class Post extends React.Component {
   constructor(props) {
@@ -18,6 +18,10 @@ class Post extends React.Component {
   }
 
   async loadPost(initialLoad) {
+    if (!this.props.accountId) {
+      return;
+    }
+
     try {
       const post = await myBlockContract.methods
         .getPostDetails(this.state.id)
@@ -26,7 +30,7 @@ class Post extends React.Component {
       try {
         const ipfsHash = await myBlockContract.methods
           .viewPost(this.state.id)
-          .call({ from: account0 });
+          .call({ from: this.props.accountId });
 
         this.setState({
           post: { ...post, ipfsHash: ipfsHash },
@@ -47,19 +51,25 @@ class Post extends React.Component {
   }
 
   async purchasePost() {
+    if (!this.props.accountId) {
+      return;
+    }
+
     try {
-      await myBlockContract.methods
-        .buyPost(this.state.id)
-        .send(
-          { from: account0, value: this.state.post.fee, gas: 6700000 },
-          (error) => {
-            if (!error) {
-              this.loadPost(false);
-            } else {
-              processError(error);
-            }
+      await myBlockContract.methods.buyPost(this.state.id).send(
+        {
+          from: this.props.accountId,
+          value: this.state.post.fee,
+          gas: 6700000,
+        },
+        (error) => {
+          if (!error) {
+            this.loadPost(false);
+          } else {
+            processError(error);
           }
-        );
+        }
+      );
     } catch (err) {
       processError(err);
     }
@@ -79,6 +89,8 @@ class Post extends React.Component {
               <PostViewComponent
                 post={this.state.post}
                 purchasePost={this.purchasePost.bind(this)}
+                accountId={this.props.accountId}
+                privateKey={this.props.privateKey}
               />
             ) : (
               <div className="text-align-center">Loading...</div>

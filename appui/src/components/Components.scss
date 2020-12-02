@@ -18,6 +18,31 @@
   margin: auto;
 }
 
-img{
-  height:50px;
+img {
+  height: 50px;
+}
+
+.ReactModal__Content {
+  position: unset !important;
+  inset: unset !important;
+  width: 30vw;
+  margin: auto;
+  padding: 0 !important;
+}
+
+.ReactModal__Overlay {
+  display: flex;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  margin-top: 0.5rem;
+}
+
+.justify-content {
+  text-align: justify;
 }

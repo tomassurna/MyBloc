@@ -1,8 +1,4 @@
 export default [
-  // {
-  //   _tag: 'CHeaderNavTitle',
-  //   _children: ['pages']
-  // },
   {
     _tag: "CHeaderNavItem",
     name: "Calendar",

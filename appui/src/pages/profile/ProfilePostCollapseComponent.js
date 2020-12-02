@@ -1,7 +1,7 @@
 import { CCard, CCardBody, CCardHeader, CCollapse } from "@coreui/react";
 import "./Profile.scss";
 import React from "react";
-import { account0, myBlockContract } from "../../config";
+import { myBlockContract } from "../../config";
 import PostViewComponent from "../post/PostViewComponent";
 import processError from "../../util/ErrorUtil";
 import { freeSet } from "@coreui/icons";
@@ -18,6 +18,10 @@ class ProfilePostCollapseComponent extends React.Component {
   }
 
   async toggle() {
+    if (!this.props.accountId) {
+      return;
+    }
+
     this.setState({ collapse: !this.state.collapse });
 
     if (!this.state.post) {
@@ -29,7 +33,7 @@ class ProfilePostCollapseComponent extends React.Component {
         try {
           const ipfsHash = await myBlockContract.methods
             .viewPost(this.state.id)
-            .call({ from: account0 });
+            .call({ from: this.props.accountId });
 
           this.setState({
             post: { ...post, ipfsHash: ipfsHash },
@@ -68,7 +72,11 @@ class ProfilePostCollapseComponent extends React.Component {
 
         <CCollapse show={this.state.collapse}>
           {!!this.state.post ? (
-            <PostViewComponent post={this.state.post} />
+            <PostViewComponent
+              post={this.state.post}
+              accountId={this.props.accountId}
+              privateKey={this.props.privateKey}
+            />
           ) : (
             <div className="textalign-center">Unable To Load Post</div>
           )}

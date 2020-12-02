@@ -1,7 +1,7 @@
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
-import "./Profile.scss";
 import React from "react";
-import { account0, myBlockContract } from "../../config";
+import { myBlockContract } from "../../config";
+import "./Profile.scss";
 import ProfilePostCollapseComponent from "./ProfilePostCollapseComponent";
 
 class Profile extends React.Component {
@@ -16,12 +16,16 @@ class Profile extends React.Component {
   }
 
   async loadData() {
+    if (!this.props.accountId) {
+      return;
+    }
+
     const owned = await myBlockContract.methods
       .getUserOwned()
-      .call({ from: account0 });
+      .call({ from: this.props.accountId });
     const posted = await myBlockContract.methods
       .getUserPosted()
-      .call({ from: account0 });
+      .call({ from: this.props.accountId });
 
     this.setState({ owned, posted });
   }
@@ -43,7 +47,13 @@ class Profile extends React.Component {
             <CCardBody>
               {!!this.state.posted && this.state.posted.length > 0 ? (
                 this.state.posted.map((postId) => {
-                  return <ProfilePostCollapseComponent postId={postId} />;
+                  return (
+                    <ProfilePostCollapseComponent
+                      accountId={this.props.accountId}
+                      privateKey={this.props.privateKey}
+                      postId={postId}
+                    />
+                  );
                 })
               ) : (
                 <div className="no-posts">No Posts</div>
@@ -58,7 +68,13 @@ class Profile extends React.Component {
             <CCardBody>
               {!!this.state.owned && this.state.owned.length > 0 ? (
                 this.state.owned.map((postId) => {
-                  return <ProfilePostCollapseComponent postId={postId} />;
+                  return (
+                    <ProfilePostCollapseComponent
+                      accountId={this.props.accountId}
+                      privateKey={this.props.privateKey}
+                      postId={postId}
+                    />
+                  );
                 })
               ) : (
                 <div className="no-posts">No Posts</div>
