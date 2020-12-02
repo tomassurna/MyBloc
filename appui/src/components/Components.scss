@@ -46,3 +46,7 @@
 .justify-content {
   text-align: justify;
 }
+
+.ReactModal__Overlay--after-open{
+  z-index: 10;
+}
