@@ -1,5 +1,5 @@
-import React from "react";
 import { CFooter } from "@coreui/react";
+import React from "react";
 
 const Footer = () => {
   return (
@@ -13,7 +13,7 @@ const Footer = () => {
           MyBlock
         </a>
         <span className="ml-1">&copy; 2020</span>
-        <span className="ml-1 version">v3</span>
+        <span className="ml-1 version">v4</span>
       </div>
     </CFooter>
   );

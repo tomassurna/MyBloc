@@ -3,10 +3,10 @@ import CIcon from "@coreui/icons-react";
 import { CHeader, CHeaderNav } from "@coreui/react";
 import React from "react";
 import Web3 from "web3";
-import { myBlockAddress, myBlockABI } from "../config";
+import { myBlockABI, myBlockAddress, projectId } from "../config";
 import MyBlockLogo from "../MyBlockLogo.png";
-import "./Components.scss";
 import processError from "../util/ErrorUtil";
+import "./Components.scss";
 
 let web3;
 let myBlockContract;
@@ -34,7 +34,7 @@ class Header extends React.Component {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+              ? "https://ropsten.infura.io/v3/" + projectId
               : "http://localhost:8545"
           )
         );

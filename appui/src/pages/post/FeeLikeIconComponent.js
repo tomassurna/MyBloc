@@ -2,7 +2,7 @@ import { brandSet, freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import React from "react";
 import Web3 from "web3";
-import { myBlockABI, myBlockAddress } from "../../config";
+import { myBlockABI, myBlockAddress, projectId } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
 
@@ -53,7 +53,7 @@ class FeeLikeIconComponent extends React.Component {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+              ? "https://ropsten.infura.io/v3/" + projectId
               : "http://localhost:8545"
           )
         );
@@ -116,7 +116,7 @@ class FeeLikeIconComponent extends React.Component {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+              ? "https://ropsten.infura.io/v3/" + projectId
               : "http://localhost:8545"
           )
         );

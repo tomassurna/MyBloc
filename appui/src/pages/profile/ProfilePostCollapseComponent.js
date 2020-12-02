@@ -3,7 +3,7 @@ import CIcon from "@coreui/icons-react";
 import { CCard, CCardHeader, CCollapse } from "@coreui/react";
 import React from "react";
 import Web3 from "web3";
-import { myBlockABI, myBlockAddress } from "../../config";
+import { myBlockABI, myBlockAddress, projectId } from "../../config";
 import processError from "../../util/ErrorUtil";
 import PostViewComponent from "../post/PostViewComponent";
 import "./Profile.scss";
@@ -23,25 +23,24 @@ class ProfilePostCollapseComponent extends React.Component {
 
   async toggle() {
     if (!this.state.post) {
-      // If private key is not set then do not proceed
-      if (!this.props.accountId) {
-        return;
-      }
-
-      // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlockContract) {
-        web3 = new Web3(
-          new Web3.providers.HttpProvider(
-            !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
-              : "http://localhost:8545"
-          )
-        );
-        myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
-      }
-      this.setState({ collapse: !this.state.collapse });
-
       try {
+        // If private key is not set then do not proceed
+        if (!this.props.accountId) {
+          return;
+        }
+
+        // if web3 or contract haven't been intialized then do so
+        if (!web3 || !myBlockContract) {
+          web3 = new Web3(
+            new Web3.providers.HttpProvider(
+              !!this.props.privateKey
+                ? "https://ropsten.infura.io/v3/" + projectId
+                : "http://localhost:8545"
+            )
+          );
+          myBlockContract = new web3.eth.Contract(myBlockABI, myBlockAddress);
+        }
+
         const post = await myBlockContract.methods
           .getPostDetails(this.state.id)
           .call();
@@ -66,6 +65,8 @@ class ProfilePostCollapseComponent extends React.Component {
         processError(err);
       }
     }
+
+    this.setState({ collapse: !this.state.collapse });
   }
 
   render() {

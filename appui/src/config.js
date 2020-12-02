@@ -1,4 +1,5 @@
 const myBlockAddress = "0x27b7f7DB8285299681c9518AeBa77d8636F94f10";
+const projectId = "cc5eebda9d7a410f83cde8ec54342ad0";
 const myBlockABI = [
   {
     inputs: [],
@@ -126,4 +127,4 @@ const myBlockABI = [
   },
 ];
 
-export { myBlockAddress, myBlockABI };
+export { myBlockAddress, myBlockABI, projectId };

@@ -1,9 +1,9 @@
-import "./scss/style.scss";
 import React from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import Alert from "react-s-alert";
-import "../node_modules/react-s-alert/dist/s-alert-default.css";
 import "../node_modules/react-s-alert/dist/s-alert-css-effects/stackslide.css";
+import "../node_modules/react-s-alert/dist/s-alert-default.css";
+import "./scss/style.scss";
 
 const loading = (
   <div className="pt-3 text-center">

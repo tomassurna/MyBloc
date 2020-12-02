@@ -1,7 +1,8 @@
 import React from "react";
 import Modal from "react-modal";
-import "./Components.scss";
 import Web3 from "web3";
+import { projectId } from "../config";
+import "./Components.scss";
 
 let web3;
 
@@ -21,7 +22,7 @@ class Login extends React.Component {
     web3 = new Web3(
       new Web3.providers.HttpProvider(
         !!this.props.privateKey
-          ? "https://ropsten.infura.io/v3/910f90d7d5f2414db0bb77ce3721a20b"
+          ? "https://ropsten.infura.io/v3/" + projectId
           : "http://localhost:8545"
       )
     );
