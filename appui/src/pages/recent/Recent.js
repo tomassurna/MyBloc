@@ -1,9 +1,9 @@
-import React from "react";
-import { myBlockAddress, myBlockABI } from "../../config";
-import PostSummaryComponent from "./PostSummaryComponent";
 import { CCard, CCardHeader } from "@coreui/react";
+import React from "react";
 import Web3 from "web3";
+import { myBlockABI, myBlockAddress } from "../../config";
 import processError from "../../util/ErrorUtil";
+import PostSummaryComponent from "./PostSummaryComponent";
 
 let web3;
 let myBlockContract;

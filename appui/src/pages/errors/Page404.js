@@ -1,16 +1,16 @@
-import React from "react";
+import CIcon from "@coreui/icons-react";
 import {
   CButton,
   CCol,
   CContainer,
   CInput,
   CInputGroup,
-  CInputGroupPrepend,
   CInputGroupAppend,
+  CInputGroupPrepend,
   CInputGroupText,
   CRow,
 } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
+import React from "react";
 
 const Page404 = () => {
   return (

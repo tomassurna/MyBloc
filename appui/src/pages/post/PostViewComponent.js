@@ -1,5 +1,5 @@
+import { CButton, CCard, CCardBody, CCol } from "@coreui/react";
 import React from "react";
-import { CCard, CCardBody, CCol, CButton } from "@coreui/react";
 import DescriptionViewComponent from "./DescriptionViewComponent";
 import FeeLikeIconComponent from "./FeeLikeIconComponent";
 import "./Post.scss";
@@ -24,8 +24,7 @@ class PostViewComponent extends React.Component {
                   size={"2xl"}
                   onClick={this.props.purchasePost}
                 >
-                  {" "}
-                  Purchase Post
+                  {this.props.loading ? "Purchasing..." : "Purchase Post"}
                 </CButton>
               ) : (
                 <div className="text-align-center">Post Image Missing</div>

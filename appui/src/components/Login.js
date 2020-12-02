@@ -28,13 +28,17 @@ class Login extends React.Component {
 
     if (!!this.state.privateKey) {
       try {
-        const account = web3.eth.accounts.privateKeyToAccount(
-          this.state.privateKey,
-          true
-        );
+        if (this.state.privateKey.startsWith("0x")) {
+          const account = web3.eth.accounts.privateKeyToAccount(
+            this.state.privateKey,
+            true
+          );
 
-        this.props.onLoginCallback(account.address, this.state.privateKey);
-        this.setState({ invalidPrivateKey: false });
+          this.props.onLoginCallback(account.address, this.state.privateKey);
+          this.setState({ invalidPrivateKey: false });
+        } else {
+          this.setState({ invalidPrivateKey: true });
+        }
       } catch (error) {
         this.setState({ invalidPrivateKey: true });
       }
@@ -71,7 +75,7 @@ class Login extends React.Component {
               If the UI is being ran with a local blockchain then only input the
               Account Id. Otherwise, if the UI is being used with a contract
               deployed on Robsten network, then only input the Account's Private
-              Key.
+              Key. For the Private Key, make sure the key is prefixed with "0x".
             </div>
 
             <div className={"form-group"}>

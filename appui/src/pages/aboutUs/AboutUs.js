@@ -1,11 +1,11 @@
+import { brandSet } from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
+import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
-import "./AboutUs.scss";
 import MyBlockLogo from "../../MyBlockLogo.png";
+import "./AboutUs.scss";
 import phil from "./philcover.jpg";
 import tomas from "./tomascover.jpg";
-import CIcon from "@coreui/icons-react";
-import { CCard, CCardHeader, CCardBody } from "@coreui/react";
-import { brandSet } from "@coreui/icons";
 
 class AboutUs extends React.Component {
   render() {

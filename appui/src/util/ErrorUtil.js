@@ -3,13 +3,22 @@ import Alert from "react-s-alert";
 const processError = (error) => {
   let errorCode = "";
 
+  // TODO Remove later
+  console.log(error);
+
   try {
-    const keys = Object.keys(error.data);
-    keys.forEach((key) => {
-      if (error.data[key].hasOwnProperty("reason")) {
-        errorCode = error.data[key].reason;
-      }
-    });
+    if (!!error.data) {
+      const keys = Object.keys(error.data);
+      keys.forEach((key) => {
+        if (error.data[key].hasOwnProperty("reason")) {
+          errorCode = error.data[key].reason;
+        }
+      });
+    }
+
+    if (!errorCode && error.hasOwnProperty("reason")) {
+      errorCode = error.reason;
+    }
   } catch (err) {
     // do nothing
   }

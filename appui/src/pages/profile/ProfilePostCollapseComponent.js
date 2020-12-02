@@ -1,12 +1,12 @@
-import { CCard, CCardHeader, CCollapse } from "@coreui/react";
-import "./Profile.scss";
-import React from "react";
-import { myBlockAddress, myBlockABI } from "../../config";
-import PostViewComponent from "../post/PostViewComponent";
-import processError from "../../util/ErrorUtil";
 import { freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
+import { CCard, CCardHeader, CCollapse } from "@coreui/react";
+import React from "react";
 import Web3 from "web3";
+import { myBlockABI, myBlockAddress } from "../../config";
+import processError from "../../util/ErrorUtil";
+import PostViewComponent from "../post/PostViewComponent";
+import "./Profile.scss";
 
 let web3;
 let myBlockContract;

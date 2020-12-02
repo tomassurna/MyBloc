@@ -1,10 +1,10 @@
-import React from "react";
-import { myBlockABI, myBlockAddress } from "../../config";
-import PostSummaryComponent from "./../recent/PostSummaryComponent";
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
-import "./Search.scss";
+import React from "react";
 import Web3 from "web3";
+import { myBlockABI, myBlockAddress } from "../../config";
 import processError from "../../util/ErrorUtil";
+import PostSummaryComponent from "./../recent/PostSummaryComponent";
+import "./Search.scss";
 
 let web3;
 let myBlockContract;

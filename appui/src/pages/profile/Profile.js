@@ -1,10 +1,10 @@
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
-import { myBlockAddress, myBlockABI } from "../../config";
+import Web3 from "web3";
+import { myBlockABI, myBlockAddress } from "../../config";
+import processError from "../../util/ErrorUtil";
 import "./Profile.scss";
 import ProfilePostCollapseComponent from "./ProfilePostCollapseComponent";
-import Web3 from "web3";
-import processError from "../../util/ErrorUtil";
 
 let web3;
 let myBlockContract;

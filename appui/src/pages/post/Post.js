@@ -1,10 +1,10 @@
 import { CButton, CCard, CCardBody, CCardHeader } from "@coreui/react";
 import randomWords from "random-words";
 import React from "react";
-import { myBlockAddress, myBlockABI } from "../../config";
+import Web3 from "web3";
+import { myBlockABI, myBlockAddress } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
-import Web3 from "web3";
 
 const Tx = require("ethereumjs-tx").Transaction;
 
@@ -50,6 +50,10 @@ class Post extends React.Component {
 
   async onAddPost() {
     try {
+      if (this.props.loading) {
+        return;
+      }
+
       // If private key is not set then do not proceed
       if (!this.props.accountId) {
         return;
@@ -71,6 +75,8 @@ class Post extends React.Component {
         return;
       }
 
+      this.setState({ loading: true });
+
       const result = await ipfs.add(this.state.imageBuffer);
 
       this.setState({ imageHash: result[0].hash });
@@ -83,7 +89,7 @@ class Post extends React.Component {
         const txObject = {
           nonce: web3.utils.toHex(txCount),
           gasLimit: web3.utils.toHex(6700000),
-          gasPrice: web3.utils.toHex(web3.utils.toWei("10", "wei")),
+          gasPrice: web3.utils.toHex((await web3.eth.getGasPrice()) * 1.15),
           to: myBlockContract._address,
           data: myBlockContract.methods
             .pushPost(
@@ -101,13 +107,9 @@ class Post extends React.Component {
         const serializedTx = tx.serialize();
         const raw = "0x" + serializedTx.toString("hex");
 
-        this.setState({ loading: true });
-
         await web3.eth.sendSignedTransaction(raw).catch((err) => {
           processError(err);
         });
-
-        this.setState({ loading: false });
       } else {
         await myBlockContract.methods
           .pushPost(
@@ -125,7 +127,10 @@ class Post extends React.Component {
         title: "",
         description: "",
         fee: 0,
+        loading: false,
       });
+
+      this.props.history.push("/pages/recent");
     } catch (error) {
       processError(error);
       return;
@@ -185,13 +190,6 @@ class Post extends React.Component {
           <CCardBody>
             <div className="mb-3 form-group">
               <div className="image-Container">
-                {this.state.loading ? (
-                  <div className="processing-text">
-                    Processing Transaction...
-                  </div>
-                ) : (
-                  <> </>
-                )}
                 {!!this.state.image ? (
                   <img
                     src={this.state.image}
@@ -253,7 +251,7 @@ class Post extends React.Component {
                       onClick={this.onAddPost.bind(this)}
                       className="height-25-rem"
                     >
-                      Add Post
+                      {this.state.loading ? "Posting..." : "Add Post"}
                     </CButton>
                   </div>
                 </div>
@@ -272,7 +270,7 @@ class Post extends React.Component {
             </div>
           </CCardBody>
         </CCard>
-        <CCard>
+        {/* <CCard>
           <CCardBody>
             <CButton
               color="primary"
@@ -282,7 +280,7 @@ class Post extends React.Component {
               Generate Test Data
             </CButton>
           </CCardBody>
-        </CCard>
+        </CCard> */}
       </>
     );
   }

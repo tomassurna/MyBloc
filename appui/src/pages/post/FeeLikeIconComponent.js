@@ -1,10 +1,10 @@
 import { brandSet, freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import React from "react";
-import { myBlockAddress, myBlockABI } from "../../config";
+import Web3 from "web3";
+import { myBlockABI, myBlockAddress } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
-import Web3 from "web3";
 
 const Tx = require("ethereumjs-tx").Transaction;
 
@@ -21,6 +21,7 @@ class FeeLikeIconComponent extends React.Component {
       fee: props.fee,
       id: props.id,
       disableOnClick: !!!props.disableOnClick,
+      alreadyVoted: false,
     };
   }
 
@@ -67,7 +68,7 @@ class FeeLikeIconComponent extends React.Component {
         const txObject = {
           nonce: web3.utils.toHex(txCount),
           gasLimit: web3.utils.toHex(6700000),
-          gasPrice: web3.utils.toHex(web3.utils.toWei("10", "wei")),
+          gasPrice: web3.utils.toHex((await web3.eth.getGasPrice()) * 1.15),
           to: myBlockContract._address,
           data: myBlockContract.methods
             .ratePost(this.state.id, false)
@@ -87,7 +88,10 @@ class FeeLikeIconComponent extends React.Component {
           .send({ from: this.props.accountId });
       }
 
-      this.setState({ dislikes: parseInt(this.state.dislikes) + 1 });
+      this.setState({
+        dislikes: parseInt(this.state.dislikes) + 1,
+        alreadyVoted: true,
+      });
     } catch (err) {
       console.log(err);
       processError(err);
@@ -96,6 +100,12 @@ class FeeLikeIconComponent extends React.Component {
 
   async likePost() {
     try {
+      if (this.state.alreadyVoted) {
+        processError({ reason: "E005" });
+
+        return;
+      }
+
       // If private key is not set then do not proceed
       if (!this.props.accountId) {
         return;
@@ -121,7 +131,7 @@ class FeeLikeIconComponent extends React.Component {
         const txObject = {
           nonce: web3.utils.toHex(txCount),
           gasLimit: web3.utils.toHex(6700000),
-          gasPrice: web3.utils.toHex(web3.utils.toWei("10", "wei")),
+          gasPrice: web3.utils.toHex((await web3.eth.getGasPrice()) * 1.15),
           to: myBlockContract._address,
           data: myBlockContract.methods
             .ratePost(this.state.id, true)
@@ -143,7 +153,10 @@ class FeeLikeIconComponent extends React.Component {
           .send({ from: this.props.accountId });
       }
 
-      this.setState({ likes: parseInt(this.state.likes) + 1 });
+      this.setState({
+        likes: parseInt(this.state.likes) + 1,
+        alreadyVoted: true,
+      });
     } catch (err) {
       processError(err);
     }
