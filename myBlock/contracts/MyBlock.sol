@@ -1,7 +1,7 @@
 pragma solidity >=0.5.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
-contract MyBlock {
+contract MyBloc {
     struct Post {
         uint256 id;
         string ipfsHash;
@@ -38,7 +38,7 @@ contract MyBlock {
     }
 
     /**
-     * @dev push a post to MyBlock
+     * @dev push a post to MyBloc
      * @param _ipfsHash - hash reference of image
      * @param _description - string description of post
      * @param _fee - int cost to access post

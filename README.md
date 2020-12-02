@@ -26,7 +26,7 @@ MyBloc is an image sharing market platform where users are profit from their pos
    npm install
    ```
 
-2. Navigate to the `/MyBloc/` folder, then run:
+2. Navigate to the `/myBloc/` folder, then run:
 
    ```bash
    npm install @truffle/hdwallet-provider
@@ -54,7 +54,7 @@ MyBloc is an image sharing market platform where users are profit from their pos
 
         `let account0 = "<YOUR ACCOUNT0 ID>";`
 
-6.  Navigate to `/MyBloc/` and run:
+6.  Navigate to `/myBloc/` and run:
 
     ```bash
     truffle migrate
@@ -70,9 +70,9 @@ MyBloc is an image sharing market platform where users are profit from their pos
 
 8.  Navigate to and open `/appui/src/config.js`
 
-9.  Replace the variable value of `MyBlocAddress` to your id.
+9.  Replace the variable value of `myBlocAddress` to your id.
 
-        `let MyBlocAddress = "<YOUR MyBloc CONTRACT ADDRESS>";`
+        `let myBlocAddress = "<YOUR MYBLOC CONTRACT ADDRESS>";`
 
 10. Navigate to `/appui/` and run
 

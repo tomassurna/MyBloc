@@ -2,14 +2,14 @@ import { brandSet, freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import React from "react";
 import Web3 from "web3";
-import { MyBlocABI, MyBlocAddress, projectId } from "../../config";
+import { myBlocABI, myBlocAddress, projectId } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
 
 const Tx = require("ethereumjs-tx").Transaction;
 
 let web3;
-let MyBlocContract;
+let myBlocContract;
 
 class FeeLikeIconComponent extends React.Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class FeeLikeIconComponent extends React.Component {
       }
 
       // if web3 or contract haven't been intialized then do so
-      if (!web3 || !MyBlocContract) {
+      if (!web3 || !myBlocContract) {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
@@ -57,7 +57,7 @@ class FeeLikeIconComponent extends React.Component {
               : "http://localhost:8545"
           )
         );
-        MyBlocContract = new web3.eth.Contract(MyBlocABI, MyBlocAddress);
+        myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
       }
 
       if (!!this.props.privateKey) {
@@ -71,8 +71,8 @@ class FeeLikeIconComponent extends React.Component {
           gasPrice: web3.utils.toHex(
             Math.ceil((await web3.eth.getGasPrice()) * 1.25)
           ),
-          to: MyBlocContract._address,
-          data: MyBlocContract.methods
+          to: myBlocContract._address,
+          data: myBlocContract.methods
             .ratePost(this.state.id, false)
             .encodeABI(),
         };
@@ -85,7 +85,7 @@ class FeeLikeIconComponent extends React.Component {
 
         web3.eth.sendSignedTransaction(raw);
       } else {
-        await MyBlocContract.methods
+        await myBlocContract.methods
           .ratePost(this.state.id, false)
           .send({ from: this.props.accountId });
       }
@@ -114,7 +114,7 @@ class FeeLikeIconComponent extends React.Component {
       }
 
       // if web3 or contract haven't been intialized then do so
-      if (!web3 || !MyBlocContract) {
+      if (!web3 || !myBlocContract) {
         web3 = new Web3(
           new Web3.providers.HttpProvider(
             !!this.props.privateKey
@@ -122,7 +122,7 @@ class FeeLikeIconComponent extends React.Component {
               : "http://localhost:8545"
           )
         );
-        MyBlocContract = new web3.eth.Contract(MyBlocABI, MyBlocAddress);
+        myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
       }
 
       if (!!this.props.privateKey) {
@@ -136,8 +136,8 @@ class FeeLikeIconComponent extends React.Component {
           gasPrice: web3.utils.toHex(
             Math.ceil((await web3.eth.getGasPrice()) * 1.25)
           ),
-          to: MyBlocContract._address,
-          data: MyBlocContract.methods
+          to: myBlocContract._address,
+          data: myBlocContract.methods
             .ratePost(this.state.id, true)
             .encodeABI(),
         };
@@ -152,7 +152,7 @@ class FeeLikeIconComponent extends React.Component {
           processError(err);
         });
       } else {
-        await MyBlocContract.methods
+        await myBlocContract.methods
           .ratePost(this.state.id, true)
           .send({ from: this.props.accountId });
       }
