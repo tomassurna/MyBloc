@@ -2,7 +2,7 @@ import { brandSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
-import MyBlockLogo from "../../MyBlockLogo.png";
+import MyBlocLogo from "../../MyBlocLogo.png";
 import "./AboutUs.scss";
 import phil from "./philcover.jpg";
 import tomas from "./tomascover.jpg";
@@ -18,16 +18,16 @@ class AboutUs extends React.Component {
         </CCard>
         <CCard>
           <CCardHeader>
-            <h3>What is MyBlock?</h3>
+            <h3>What is MyBloc?</h3>
           </CCardHeader>
           <CCardBody>
             <div className="person">
               <div className="bio">
                 <p>
-                  MyBlock is an image sharing market platform where users profit
+                  MyBloc is an image sharing market platform where users profit
                   from their posts. The initial project was a social media app
                   that resembled classic moguls, however the implementation as a
-                  Dapp allowed changes to the traditional formula. MyBlock takes
+                  Dapp allowed changes to the traditional formula. MyBloc takes
                   advantage of the transactional capabilities of Ethereum and
                   treats images as commerce and profit from them. Users select
                   images to post that can be accessed by others for a minimum
@@ -39,19 +39,19 @@ class AboutUs extends React.Component {
                   hash, the image can be rendered easily to view. When a user
                   purchases a post, it can be viewed alongside their original
                   posts via the profile page, which is associated with the given
-                  address. Earnings from MyBlock go directly to the user without
+                  address. Earnings from MyBloc go directly to the user without
                   a percentage being taken.
                 </p>
               </div>
               <div>
-                <img src={MyBlockLogo} className="cover" alt="[MyBlock Logo]" />
+                <img src={MyBlocLogo} className="cover" alt="[MyBloc Logo]" />
               </div>
             </div>
           </CCardBody>
           <div className="listrow">
             <CCard className="list no-border">
               <CCardHeader>
-                <b>Reasons to use MyBlock:</b>
+                <b>Reasons to use MyBloc:</b>
               </CCardHeader>
               <CCardBody>
                 <ul>
@@ -63,7 +63,7 @@ class AboutUs extends React.Component {
             </CCard>
             <CCard className="list no-border">
               <CCardHeader>
-                <b>What MyBlock can do:</b>
+                <b>What MyBloc can do:</b>
               </CCardHeader>
               <CCardBody>
                 <ul>
@@ -112,7 +112,7 @@ class AboutUs extends React.Component {
                 drifted into hostile waters. After the success of their mission,
                 Tom said to Phil, "You can be my wingman anytime!" To which Phil
                 responded, "You can be mine!" Phil took Tom up on his offer, and
-                they both then started MyBlock.
+                they both then started MyBloc.
                 <br />
                 <sub>
                   *Please note this is the plot of <i>Top Gun</i> (1986)
