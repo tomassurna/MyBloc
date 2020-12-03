@@ -16,7 +16,7 @@ MyBloc is an image sharing market platform where users are profit from their pos
 4. Search posts by keyword
 5. Profile to display posts posted and owned
 
-## Getting Started
+## Getting Started (Ropsten Test Network)
 
 ### Installation and Setup
 
@@ -29,58 +29,52 @@ MyBloc is an image sharing market platform where users are profit from their pos
 2. Navigate to the `/myBloc/` folder, then run:
 
    ```bash
+   npm install -g truffle
+
    npm install @truffle/hdwallet-provider
 
    npm install -g ganache-cli
    ```
 
+3. Navigate to https://infura.io and create an account. Once done navigate to the Dashboard and create a new project. 
+
+4. Find the project id and endpoint.
+
+    ![Infura Keys](/images/Infura_Project_Info.png)
+
+5. Navigate to `/mybloc/truffle-config.js` and update line 65 to be the same Ropsten endpoint infura gives you.
+
+    ![Truffle Config](/images/Truffle-Config-Ropsten-URL.png)
+
+6. Navigate to `/appui/src/config.js` and update the `projectId` to be the project id from Infura.
+
+    ![Config JS](/images/Config-Project-Id.PNG)
+
+7. Navigate to `/myBloc/` and create a `.secret` file. Inside the file paste the tweleve word secrets for your Ethereum Ropsten account. For info on finding the see phrase see: https://metamask.zendesk.com/hc/en-us/articles/360015290032-How-to-Reveal-Your-Seed-Phrase. 
+
 ### Run
 
-1.  Open a terminal and run:
+1.  Open a terminal and navigate to `/mybloc/` then run: ( This may take a while )
     ```bash
-    ganache-cli
+    truffle migrate --network ropsten
     ```
-2.  Scroll to the top of the `ganche-cli` output and find the first account id
+2.  The command above will deploy the contract to Ropsten. once the deployment is complete you will see the following output. You will want to copy the contract address. 
 
-    Example (values will differ):
+    ![Truffle Migrate Output](/images/Truffle-Migrate-Ropsten-Output.png)
 
-    ![Ganache CLI Output](/images/Ganache-CLI-Output.png)
+3.  Navigate to and open `/appui/src/config.js`
 
-3.  Copy the first account's id
+4.  Replace the variable value of `myBlocAddress` with the contract id.
 
-4.  Navigate to and open `/appui/src/config.js`
+        `let myBlocAddress = "<YOUR CONTRACT ADDRESS>";`
 
-5.  Replace the variable value of `account0` to your id.
-
-        `let account0 = "<YOUR ACCOUNT0 ID>";`
-
-6.  Navigate to `/myBloc/` and run:
-
-    ```bash
-    truffle migrate
-    ```
-
-    You should notice the contract being deployed on your local Etheruem blockchain by looking at the `ganache-cli`.
-
-7.  Once the deployment has finished, you will see the following:
-
-    ![Truffle Migrate Deployment Output](/images/Truffle-Migrate-Output.png)
-
-    Copy the contract address.
-
-8.  Navigate to and open `/appui/src/config.js`
-
-9.  Replace the variable value of `myBlocAddress` to your id.
-
-        `let myBlocAddress = "<YOUR MYBLOC CONTRACT ADDRESS>";`
-
-10. Navigate to `/appui/` and run
+5. Navigate to `/appui/` and run
 
     ```bash
         npm start
     ```
 
-11. The application UI will now be open in your browser and connected to the smart contract. If you want to change which account you are using, then simply change the `account0` variable in `config.js` to any existing account on the local `ganache` Etheruem blockchain.
+6. The application UI will now be open in your browser and connected to the smart contract. You can then input your private key to your account and start using the application. 
 
 ## Demo video
 
