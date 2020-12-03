@@ -65,19 +65,18 @@ class Login extends React.Component {
       <>
         <Modal isOpen={this.props.isLoginModalOpen}>
           <div className={"modal-header"}>
-            <h4 style={{ margin: 0 }}>Login</h4>
+            <h4 style={{ margin: 0 }}>Login ( Ropsten Network )</h4>
           </div>
           <div className={"modal-body"}>
-            <div className={"form-group justify-content"}>
+            {/* <div className={"form-group justify-content"}>
               <div>
                 <b>For Ropsten: </b> Only input private key.
               </div>
               <div>
                 <b>For Local (w/ Ganache): </b> Only input account id.
               </div>
-            </div>
-
-            <div className={"form-group"}>
+            </div> */}
+            {/* <div className={"form-group"}>
               <label>Account Id</label>
               <input
                 type={"text"}
@@ -96,7 +95,7 @@ class Login extends React.Component {
               ) : (
                 <></>
               )}
-            </div>
+            </div> */}
             <div className={"form-group"}>
               <label>Private Key</label>
               <input
