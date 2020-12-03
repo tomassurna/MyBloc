@@ -71,14 +71,14 @@ MyBloc is an image sharing market platform where users are profit from their pos
 5. Navigate to `/appui/` and run
 
     ```bash
-        npm start
+    npm start
     ```
 
 6. The application UI will now be open in your browser and connected to the smart contract. You can then input your private key to your account and start using the application. 
 
 ## Demo video
 
-[![Demo Video](https://img.youtube.com/vi/pt4bprY6bd8/0.jpg)](https://www.youtube.com/watch?v=pt4bprY6bd8)
+[![Demo Video](https://img.youtube.com/vi/M0d_4ZCgBuI/0.jpg)](https://youtu.be/M0d_4ZCgBuI)
 
 ## Contributors
 
