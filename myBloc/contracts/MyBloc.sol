@@ -183,28 +183,6 @@ contract MyBloc {
     }
 
     /**
-     * @dev utility method to conver string to bytes32
-     * @param source string to convert
-     * @return result
-     * Notes:
-     *      source - https://ethereum.stackexchange.com/questions/9142/how-to-convert-a-string-to-bytes32
-     */
-    function stringToBytes32(string memory source)
-        private
-        pure
-        returns (bytes32 result)
-    {
-        bytes memory tempEmptyStringTest = bytes(source);
-        if (tempEmptyStringTest.length == 0) {
-            return 0x0;
-        }
-
-        assembly {
-            result := mload(add(source, 32))
-        }
-    }
-
-    /**
      * @dev utility to match substrings for searching
      * @param _sub sequence to search for
      * @param _seq to search in
