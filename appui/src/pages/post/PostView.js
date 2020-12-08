@@ -64,10 +64,24 @@ class Post extends React.Component {
         data: myBlocContract.methods.buyPost(this.state.id).encodeABI(),
       };
 
-      await window.window.ethereum.request({
+      const txHash = await window.window.ethereum.request({
         method: "eth_sendTransaction",
         params: [transactionParameters],
       });
+
+      this.setState({ loading: true });
+
+      // Hack to wait for transaction to be mined before redirecting page
+      let loop = true;
+      while (loop) {
+        const transaction = await web3.eth.getTransaction(txHash);
+
+        if (!transaction.transactionIndex) {
+          await new Promise((resolve) => setTimeout(resolve, 6000));
+        } else {
+          loop = false;
+        }
+      }
 
       this.setState({ loading: false });
       this.loadPost(false);
