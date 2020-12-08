@@ -4,10 +4,6 @@ import "./Components.scss";
 import processError from "../util/ErrorUtil";
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   async onLoginWithMetaMask() {
     try {
       await window.window.ethereum.request({ method: "eth_requestAccounts" });
@@ -27,7 +23,7 @@ class Login extends React.Component {
             <h4 style={{ margin: 0 }}>Login ( Ropsten Network )</h4>
           </div>
           <div className="modal-body modal-body-btn-right">
-            {!window.etheruem ? (
+            {!!window.ethereum ? (
               <button
                 type="button"
                 className="btn btn-primary modal-save-btn"

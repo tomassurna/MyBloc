@@ -11,10 +11,6 @@ const loading = (
 );
 
 class Content extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   static getDerivedStateFromProps() {
     return {
       isLoginModalOpen: true,

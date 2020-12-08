@@ -11,23 +11,25 @@ class TheLayout extends React.Component {
       accountId: "",
     };
 
-    window.ethereum.on("accountsChanged", (accounts) => {
-      if (!!window.ethereum.selectedAddress && this.state.isLoginModalOpen) {
-        this.setState({ isLoginModalOpen: false });
-      }
+    if (!!window.ethereum) {
+      window.ethereum.on("accountsChanged", (accounts) => {
+        if (!!window.ethereum.selectedAddress && this.state.isLoginModalOpen) {
+          this.setState({ isLoginModalOpen: false });
+        }
 
-      if (!this.state.accountId && accounts.length > 0) {
-        this.setState({ accountId: window.ethereum.selectedAddress });
-      }
+        if (!this.state.accountId && accounts.length > 0) {
+          this.setState({ accountId: window.ethereum.selectedAddress });
+        }
 
-      if (
-        (this.state.accountId !== window.ethereum.selectedAddress ||
-          accounts.length === 0) &&
-        !this.state.isLoginModalOpen
-      ) {
-        window.location.reload();
-      }
-    });
+        if (
+          (this.state.accountId !== window.ethereum.selectedAddress ||
+            accounts.length === 0) &&
+          !this.state.isLoginModalOpen
+        ) {
+          window.location.reload();
+        }
+      });
+    }
   }
 
   onLoginCallback() {

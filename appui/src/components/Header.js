@@ -2,7 +2,6 @@ import { brandSet, freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { CHeader, CHeaderNav } from "@coreui/react";
 import React from "react";
-import Web3 from "web3";
 import { web3 } from "../config";
 import MyBlocLogo from "../MyBlocLogo.png";
 import processError from "../util/ErrorUtil";
@@ -11,7 +10,6 @@ import "./Components.scss";
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     this.state = {
       balance: 0,
     };
@@ -80,7 +78,11 @@ class Header extends React.Component {
           </ul>
           <div className="profile-info">
             <a href="#/pages/profile">
-              <span>{window.ethereum.selectedAddress + " - "}</span>
+              <span>
+                {!!window.ethereum
+                  ? window.ethereum.selectedAddress
+                  : ""} - 
+              </span>
               <span>
                 <CIcon content={brandSet.cibEthereum} />
                 {this.state.balance}
