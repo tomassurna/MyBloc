@@ -2,14 +2,10 @@ import { freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { CCard, CCardHeader, CCollapse } from "@coreui/react";
 import React from "react";
-import Web3 from "web3";
-import { myBlocABI, myBlocAddress, projectId } from "../../config";
+import { myBlocContract } from "../../config";
 import processError from "../../util/ErrorUtil";
 import PostViewComponent from "../post/PostViewComponent";
 import "./Profile.scss";
-
-let web3;
-let myBlocContract;
 
 class ProfilePostCollapseComponent extends React.Component {
   constructor(props) {
@@ -24,21 +20,8 @@ class ProfilePostCollapseComponent extends React.Component {
   async toggle() {
     if (!this.state.post) {
       try {
-        // If private key is not set then do not proceed
-        if (!this.props.accountId) {
+        if (!window.ethereum || !window.ethereum.selectedAddress) {
           return;
-        }
-
-        // if web3 or contract haven't been intialized then do so
-        if (!web3 || !myBlocContract) {
-          web3 = new Web3(
-            new Web3.providers.HttpProvider(
-              !!this.props.privateKey
-                ? "https://ropsten.infura.io/v3/" + projectId
-                : "http://localhost:8545"
-            )
-          );
-          myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
         }
 
         const post = await myBlocContract.methods
@@ -48,7 +31,7 @@ class ProfilePostCollapseComponent extends React.Component {
         try {
           const ipfsHash = await myBlocContract.methods
             .viewPost(this.state.id)
-            .call({ from: this.props.accountId });
+            .call({ from: window.ethereum.selectedAddress });
 
           this.setState({
             post: { ...post, ipfsHash: ipfsHash },
@@ -89,11 +72,7 @@ class ProfilePostCollapseComponent extends React.Component {
 
         <CCollapse show={this.state.collapse}>
           {!!this.state.post ? (
-            <PostViewComponent
-              post={this.state.post}
-              accountId={this.props.accountId}
-              privateKey={this.props.privateKey}
-            />
+            <PostViewComponent post={this.state.post} />
           ) : (
             <div className="textalign-center">Unable To Load Post</div>
           )}

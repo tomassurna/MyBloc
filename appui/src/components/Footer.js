@@ -13,7 +13,7 @@ const Footer = () => {
           MyBloc
         </a>
         <span className="ml-1">&copy; 2020</span>
-        <span className="ml-1 version">v6</span>
+        <span className="ml-1 version">v7</span>
       </div>
     </CFooter>
   );

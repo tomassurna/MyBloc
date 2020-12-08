@@ -1,13 +1,9 @@
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
-import Web3 from "web3";
-import { myBlocABI, myBlocAddress, projectId } from "../../config";
+import { myBlocContract } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Profile.scss";
 import ProfilePostCollapseComponent from "./ProfilePostCollapseComponent";
-
-let web3;
-let myBlocContract;
 
 class Profile extends React.Component {
   constructor(props) {
@@ -22,29 +18,16 @@ class Profile extends React.Component {
 
   async loadData() {
     try {
-      // If private key is not set then do not proceed
-      if (!this.props.accountId) {
+      if (!window.ethereum || !window.ethereum.selectedAddress) {
         return;
-      }
-
-      // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlocContract) {
-        web3 = new Web3(
-          new Web3.providers.HttpProvider(
-            !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/" + projectId
-              : "http://localhost:8545"
-          )
-        );
-        myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
       }
 
       const owned = await myBlocContract.methods
         .getUserOwned()
-        .call({ from: this.props.accountId });
+        .call({ from: window.ethereum.selectedAddress });
       const posted = await myBlocContract.methods
         .getUserPosted()
-        .call({ from: this.props.accountId });
+        .call({ from: window.ethereum.selectedAddress });
 
       this.setState({ owned, posted });
     } catch (error) {
@@ -71,8 +54,6 @@ class Profile extends React.Component {
                 this.state.posted.map((postId) => {
                   return (
                     <ProfilePostCollapseComponent
-                      accountId={this.props.accountId}
-                      privateKey={this.props.privateKey}
                       postId={postId}
                       key={postId}
                     />
@@ -93,8 +74,6 @@ class Profile extends React.Component {
                 this.state.owned.map((postId) => {
                   return (
                     <ProfilePostCollapseComponent
-                      accountId={this.props.accountId}
-                      privateKey={this.props.privateKey}
                       postId={postId}
                       key={postId}
                     />

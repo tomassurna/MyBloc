@@ -1,12 +1,8 @@
 import { CCard, CCardHeader } from "@coreui/react";
 import React from "react";
-import Web3 from "web3";
-import { myBlocABI, myBlocAddress, projectId } from "../../config";
+import { myBlocContract } from "../../config";
 import processError from "../../util/ErrorUtil";
 import PostSummaryComponent from "./PostSummaryComponent";
-
-let web3;
-let myBlocContract;
 
 class Recent extends React.Component {
   constructor(props) {
@@ -21,27 +17,14 @@ class Recent extends React.Component {
 
   async loadRecentPosts() {
     try {
-      // If private key is not set then do not proceed
-      if (!this.props.accountId) {
+      if (!window.ethereum || !window.ethereum.selectedAddress) {
         return;
-      }
-
-      // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlocContract) {
-        web3 = new Web3(
-          new Web3.providers.HttpProvider(
-            !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/" + projectId
-              : "http://localhost:8545"
-          )
-        );
-        myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
       }
 
       var postDetails = [];
       var n_posts = await myBlocContract.methods
         .n_posts()
-        .call({ from: this.props.accountId, gas: 6700000 });
+        .call({ from: window.ethereum.selectedAddress, gas: 6700000 });
 
       // grab the latest 10 posts
       for (var i = n_posts - 1; i > Math.max(0, n_posts - 11); i--) {
@@ -73,14 +56,7 @@ class Recent extends React.Component {
         </CCard>
         <CCard>
           {this.state.postDetails.map((post) => {
-            return (
-              <PostSummaryComponent
-                post={post}
-                accountId={this.props.accountId}
-                privateKey={this.props.privateKey}
-                key={post.id}
-              />
-            );
+            return <PostSummaryComponent post={post} key={post.id} />;
           })}
         </CCard>
       </>

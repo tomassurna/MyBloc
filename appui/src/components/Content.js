@@ -13,18 +13,11 @@ const loading = (
 class Content extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      accountId: this.props.accountId,
-      privateKey: this.props.privateKey,
-    };
   }
 
-  static getDerivedStateFromProps(newProps, state) {
+  static getDerivedStateFromProps() {
     return {
       isLoginModalOpen: true,
-      accountId: newProps.accountId,
-      privateKey: newProps.privateKey,
     };
   }
 
@@ -44,11 +37,7 @@ class Content extends React.Component {
                       name={route.name}
                       render={(props) => (
                         <CFade>
-                          <route.component
-                            {...props}
-                            accountId={this.state.accountId}
-                            privateKey={this.state.privateKey}
-                          />
+                          <route.component {...props} />
                         </CFade>
                       )}
                     />

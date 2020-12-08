@@ -36,21 +36,21 @@ MyBloc is an image sharing market platform where users are profit from their pos
    npm install -g ganache-cli
    ```
 
-3. Navigate to https://infura.io and create an account. Once done navigate to the Dashboard and create a new project. 
+3. Navigate to https://infura.io and create an account. Once done navigate to the Dashboard and create a new project.
 
 4. Find the project id and endpoint.
 
-    ![Infura Keys](/images/Infura_Project_Info.png)
+   ![Infura Keys](/images/Infura_Project_Info.png)
 
 5. Navigate to `/mybloc/truffle-config.js` and update line 65 to be the same Ropsten endpoint infura gives you.
 
-    ![Truffle Config](/images/Truffle-Config-Ropsten-URL.png)
+   ![Truffle Config](/images/Truffle-Config-Ropsten-URL.png)
 
 6. Navigate to `/appui/src/config.js` and update the `projectId` to be the project id from Infura.
 
-    ![Config JS](/images/Config-Project-Id.PNG)
+   ![Config JS](/images/Config-Project-Id.PNG)
 
-7. Navigate to `/myBloc/` and create a `.secret` file. Inside the file paste the tweleve word secrets for your Ethereum Ropsten account. For info on finding the see phrase see: https://metamask.zendesk.com/hc/en-us/articles/360015290032-How-to-Reveal-Your-Seed-Phrase. 
+7. Navigate to `/myBloc/` and create a `.secret` file. Inside the file paste the tweleve word secrets for your Ethereum Ropsten account. For info on finding the see phrase see: https://metamask.zendesk.com/hc/en-us/articles/360015290032-How-to-Reveal-Your-Seed-Phrase.
 
 ### Run
 
@@ -58,7 +58,7 @@ MyBloc is an image sharing market platform where users are profit from their pos
     ```bash
     truffle migrate --network ropsten
     ```
-2.  The command above will deploy the contract to Ropsten. once the deployment is complete you will see the following output. You will want to copy the contract address. 
+2.  The command above will deploy the contract to Ropsten. once the deployment is complete you will see the following output. You will want to copy the contract address.
 
     ![Truffle Migrate Output](/images/Truffle-Migrate-Ropsten-Output.png)
 
@@ -68,13 +68,13 @@ MyBloc is an image sharing market platform where users are profit from their pos
 
         `let myBlocAddress = "<YOUR CONTRACT ADDRESS>";`
 
-5. Navigate to `/appui/` and run
+5.  Navigate to `/appui/` and run
 
     ```bash
         npm start
     ```
 
-6. The application UI will now be open in your browser and connected to the smart contract. You can then input your private key to your account and start using the application. 
+6.  The application UI will now be open in your browser and connected to the smart contract. You can then input your private key to your account and start using the application.
 
 ## Demo video
 

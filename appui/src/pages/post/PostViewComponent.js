@@ -34,16 +34,12 @@ class PostViewComponent extends React.Component {
               <DescriptionViewComponent
                 title={this.props.post.title}
                 description={this.props.post.description}
-                accountId={this.props.accountId}
-                privateKey={this.props.privateKey}
               />
               <FeeLikeIconComponent
                 likes={this.props.post.likes}
                 dislikes={this.props.post.dislikes}
                 fee={this.props.post.fee}
                 id={this.props.post.id}
-                accountId={this.props.accountId}
-                privateKey={this.props.privateKey}
               />
             </div>
           </CCardBody>

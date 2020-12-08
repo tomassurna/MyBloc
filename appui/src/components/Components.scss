@@ -26,12 +26,18 @@
   position: unset !important;
   inset: unset !important;
   width: 30vw;
+  min-width: 300px;
   margin: auto;
   padding: 0 !important;
+  float: right;
 }
 
 .ReactModal__Overlay {
   display: flex;
+}
+
+.modal-body-btn-right {
+  float: right;
 }
 
 .pointer {

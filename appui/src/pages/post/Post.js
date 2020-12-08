@@ -1,12 +1,8 @@
 import { CButton, CCard, CCardBody, CCardHeader } from "@coreui/react";
-import randomWords from "random-words";
 import React from "react";
-import Web3 from "web3";
-import { myBlocABI, myBlocAddress, projectId } from "../../config";
+import { myBlocAddress, myBlocContract, web3 } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
-
-const Tx = require("ethereumjs-tx").Transaction;
 
 const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient({
@@ -14,9 +10,6 @@ const ipfs = ipfsClient({
   port: 5001,
   protocol: "https",
 });
-
-let web3;
-let myBlocContract;
 
 class Post extends React.Component {
   constructor(props) {
@@ -54,24 +47,11 @@ class Post extends React.Component {
         return;
       }
 
-      // If private key is not set then do not proceed
-      if (!this.props.accountId) {
+      if (this.state.imageBuffer == null) {
         return;
       }
 
-      // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlocContract) {
-        web3 = new Web3(
-          new Web3.providers.HttpProvider(
-            !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/" + projectId
-              : "http://localhost:8545"
-          )
-        );
-        myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
-      }
-
-      if (this.state.imageBuffer == null) {
+      if (!window.ethereum || !window.ethereum.selectedAddress) {
         return;
       }
 
@@ -81,46 +61,34 @@ class Post extends React.Component {
 
       this.setState({ imageHash: result[0].hash });
 
-      if (!!this.props.privateKey) {
-        const txCount = await web3.eth.getTransactionCount(
-          this.props.accountId
-        );
-
-        const txObject = {
-          nonce: web3.utils.toHex(txCount),
-          gasLimit: web3.utils.toHex(6700000),
-          gasPrice: web3.utils.toHex(
-            Math.ceil((await web3.eth.getGasPrice()) * 1.25)
-          ),
-          to: myBlocContract._address,
-          data: myBlocContract.methods
-            .pushPost(
-              this.state.imageHash,
-              this.state.title,
-              this.state.description,
-              this.state.fee
-            )
-            .encodeABI(),
-        };
-
-        const tx = new Tx(txObject, { chain: "ropsten" });
-        tx.sign(Buffer.from(this.props.privateKey.substr(2), "hex"));
-
-        const serializedTx = tx.serialize();
-        const raw = "0x" + serializedTx.toString("hex");
-
-        await web3.eth.sendSignedTransaction(raw).catch((err) => {
-          processError(err);
-        });
-      } else {
-        await myBlocContract.methods
+      const transactionParameters = {
+        to: myBlocAddress,
+        from: window.ethereum.selectedAddress,
+        data: myBlocContract.methods
           .pushPost(
             this.state.imageHash,
             this.state.title,
             this.state.description,
             this.state.fee
           )
-          .send({ from: this.props.accountId, gas: 6700000 });
+          .encodeABI(),
+      };
+
+      const txHash = await window.window.ethereum.request({
+        method: "eth_sendTransaction",
+        params: [transactionParameters],
+      });
+
+      // Hack to wait for transaction to be mined before redirecting page
+      let loop = true;
+      while (loop) {
+        const transaction = await web3.eth.getTransaction(txHash);
+
+        if (!transaction.transactionIndex) {
+          await new Promise((resolve) => setTimeout(resolve, 6000));
+        } else {
+          loop = false;
+        }
       }
 
       this.setState({
@@ -136,47 +104,6 @@ class Post extends React.Component {
     } catch (error) {
       processError(error);
       return;
-    }
-  }
-
-  // Util method for generating fake test data. You need to select an image in the UI first. This will then generate 10 posts.
-  async generateTestData() {
-    // If private key is not set then do not proceed
-    if (!this.props.accountId) {
-      return;
-    }
-
-    // if web3 or contract haven't been intialized then do so
-    if (!web3 || !myBlocContract) {
-      web3 = new Web3(
-        new Web3.providers.HttpProvider(
-          !!this.props.privateKey
-            ? "https://ropsten.infura.io/v3/" + projectId
-            : "http://localhost:8545"
-        )
-      );
-      myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
-    }
-
-    if (this.state.imageBuffer == null) {
-      return;
-    }
-    const imageBuffer = this.state.imageBuffer;
-    const imageHash = (await ipfs.add(imageBuffer))[0].hash;
-
-    for (let i = 0; i < 10; i++) {
-      const title = randomWords(8).join(" ").substring(0, 25);
-      const description = randomWords(100).join(" ").substring(0, 800);
-      const fee = Math.floor(Math.random() * 6700000);
-
-      try {
-        await myBlocContract.methods
-          .pushPost(imageHash, title, description, fee)
-          .send({ from: this.props.accountId, gas: 6700000 });
-      } catch (error) {
-        processError(error);
-        return;
-      }
     }
   }
 
@@ -272,17 +199,6 @@ class Post extends React.Component {
             </div>
           </CCardBody>
         </CCard>
-        {/* <CCard>
-          <CCardBody>
-            <CButton
-              color="primary"
-              onClick={this.generateTestData.bind(this)}
-              className="height-25-rem"
-            >
-              Generate Test Data
-            </CButton>
-          </CCardBody>
-        </CCard> */}
       </>
     );
   }

@@ -1,3 +1,5 @@
+import Web3 from "web3";
+
 const myBlocAddress = "0x0e6655797c38b60A4451667619AefdD707ff27Dd";
 const projectId = "cc5af11c182f411baff3ee500361ee0b";
 const myBlocABI = [
@@ -126,5 +128,9 @@ const myBlocABI = [
     type: "function",
   },
 ];
+const web3 = new Web3(
+  new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/" + projectId)
+);
+const myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
 
-export { myBlocAddress, myBlocABI, projectId };
+export { web3, myBlocContract, myBlocAddress };

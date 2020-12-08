@@ -1,15 +1,9 @@
 import { brandSet, freeSet } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import React from "react";
-import Web3 from "web3";
-import { myBlocABI, myBlocAddress, projectId } from "../../config";
+import { myBlocAddress, myBlocContract } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
-
-const Tx = require("ethereumjs-tx").Transaction;
-
-let web3;
-let myBlocContract;
 
 class FeeLikeIconComponent extends React.Component {
   constructor(props) {
@@ -43,59 +37,26 @@ class FeeLikeIconComponent extends React.Component {
 
   async dislikePost() {
     try {
-      // If private key is not set then do not proceed
-      if (!this.props.accountId) {
+      if (!window.ethereum || !window.ethereum.selectedAddress) {
         return;
       }
 
-      // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlocContract) {
-        web3 = new Web3(
-          new Web3.providers.HttpProvider(
-            !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/" + projectId
-              : "http://localhost:8545"
-          )
-        );
-        myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
-      }
+      const transactionParameters = {
+        to: myBlocAddress,
+        from: window.ethereum.selectedAddress,
+        data: myBlocContract.methods.ratePost(this.state.id, false).encodeABI(),
+      };
 
-      if (!!this.props.privateKey) {
-        const txCount = await web3.eth.getTransactionCount(
-          this.props.accountId
-        );
-
-        const txObject = {
-          nonce: web3.utils.toHex(txCount),
-          gasLimit: web3.utils.toHex(6700000),
-          gasPrice: web3.utils.toHex(
-            Math.ceil((await web3.eth.getGasPrice()) * 1.25)
-          ),
-          to: myBlocContract._address,
-          data: myBlocContract.methods
-            .ratePost(this.state.id, false)
-            .encodeABI(),
-        };
-
-        const tx = new Tx(txObject, { chain: "ropsten" });
-        tx.sign(Buffer.from(this.props.privateKey.substr(2), "hex"));
-
-        const serializedTx = tx.serialize();
-        const raw = "0x" + serializedTx.toString("hex");
-
-        web3.eth.sendSignedTransaction(raw);
-      } else {
-        await myBlocContract.methods
-          .ratePost(this.state.id, false)
-          .send({ from: this.props.accountId });
-      }
+      await window.ethereum.request({
+        method: "eth_sendTransaction",
+        params: [transactionParameters],
+      });
 
       this.setState({
         dislikes: parseInt(this.state.dislikes) + 1,
         alreadyVoted: true,
       });
     } catch (err) {
-      console.log(err);
       processError(err);
     }
   }
@@ -104,58 +65,23 @@ class FeeLikeIconComponent extends React.Component {
     try {
       if (this.state.alreadyVoted) {
         processError({ reason: "E005" });
-
         return;
       }
 
-      // If private key is not set then do not proceed
-      if (!this.props.accountId) {
+      if (!window.ethereum || !window.ethereum.selectedAddress) {
         return;
       }
 
-      // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlocContract) {
-        web3 = new Web3(
-          new Web3.providers.HttpProvider(
-            !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/" + projectId
-              : "http://localhost:8545"
-          )
-        );
-        myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
-      }
+      const transactionParameters = {
+        to: myBlocAddress,
+        from: window.ethereum.selectedAddress,
+        data: myBlocContract.methods.ratePost(this.state.id, true).encodeABI(),
+      };
 
-      if (!!this.props.privateKey) {
-        const txCount = await web3.eth.getTransactionCount(
-          this.props.accountId
-        );
-
-        const txObject = {
-          nonce: web3.utils.toHex(txCount),
-          gasLimit: web3.utils.toHex(6700000),
-          gasPrice: web3.utils.toHex(
-            Math.ceil((await web3.eth.getGasPrice()) * 1.25)
-          ),
-          to: myBlocContract._address,
-          data: myBlocContract.methods
-            .ratePost(this.state.id, true)
-            .encodeABI(),
-        };
-
-        const tx = new Tx(txObject, { chain: "ropsten" });
-        tx.sign(Buffer.from(this.props.privateKey.substr(2), "hex"));
-
-        const serializedTx = tx.serialize();
-        const raw = "0x" + serializedTx.toString("hex");
-
-        web3.eth.sendSignedTransaction(raw).catch((err) => {
-          processError(err);
-        });
-      } else {
-        await myBlocContract.methods
-          .ratePost(this.state.id, true)
-          .send({ from: this.props.accountId });
-      }
+      await window.ethereum.request({
+        method: "eth_sendTransaction",
+        params: [transactionParameters],
+      });
 
       this.setState({
         likes: parseInt(this.state.likes) + 1,

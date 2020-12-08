@@ -1,15 +1,9 @@
 import { CCard, CCardBody, CCardHeader } from "@coreui/react";
 import React from "react";
-import Web3 from "web3";
-import { myBlocABI, myBlocAddress, projectId } from "../../config";
+import { myBlocAddress, myBlocContract, web3 } from "../../config";
 import processError from "../../util/ErrorUtil";
 import "./Post.scss";
 import PostViewComponent from "./PostViewComponent";
-
-const Tx = require("ethereumjs-tx").Transaction;
-
-let web3;
-let myBlocContract;
 
 class Post extends React.Component {
   constructor(props) {
@@ -25,116 +19,58 @@ class Post extends React.Component {
   }
 
   async loadPost(initialLoad) {
+    let post;
+
     try {
-      // If private key is not set then do not proceed
-      if (!this.props.accountId) {
-        return;
-      }
-
-      // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlocContract) {
-        web3 = new Web3(
-          new Web3.providers.HttpProvider(
-            !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/" + projectId
-              : "http://localhost:8545"
-          )
-        );
-        myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
-      }
-
-      const post = await myBlocContract.methods
-        .getPostDetails(this.state.id)
-        .call();
-
-      try {
-        const ipfsHash = await myBlocContract.methods
-          .viewPost(this.state.id)
-          .call({ from: this.props.accountId });
-
-        this.setState({
-          post: { ...post, ipfsHash: ipfsHash },
-        });
-      } catch (err) {
-        if (!initialLoad) {
-          processError(err);
-        }
-
-        this.setState({
-          post,
-        });
-      }
+      post = await myBlocContract.methods.getPostDetails(this.state.id).call();
     } catch (err) {
       // invalid post
       processError(err);
+    }
+
+    if (!post) {
+      return;
+    }
+
+    try {
+      const ipfsHash = await myBlocContract.methods
+        .viewPost(this.state.id)
+        .call({ from: window.ethereum.selectedAddress });
+
+      this.setState({
+        post: { ...post, ipfsHash: ipfsHash },
+      });
+    } catch (err) {
+      if (!initialLoad) {
+        processError(err);
+      }
+
+      this.setState({
+        post,
+      });
     }
   }
 
   async purchasePost() {
     try {
-      // If private key is not set then do not proceed
-      if (!this.props.accountId) {
+      if (!window.ethereum || !window.ethereum.selectedAddress) {
         return;
       }
 
-      // if web3 or contract haven't been intialized then do so
-      if (!web3 || !myBlocContract) {
-        web3 = new Web3(
-          new Web3.providers.HttpProvider(
-            !!this.props.privateKey
-              ? "https://ropsten.infura.io/v3/" + projectId
-              : "http://localhost:8545"
-          )
-        );
-        myBlocContract = new web3.eth.Contract(myBlocABI, myBlocAddress);
-      }
+      const transactionParameters = {
+        to: myBlocAddress,
+        from: window.ethereum.selectedAddress,
+        value: web3.utils.toHex(this.state.post.fee),
+        data: myBlocContract.methods.buyPost(this.state.id).encodeABI(),
+      };
 
-      if (!!this.props.privateKey) {
-        const txCount = await web3.eth.getTransactionCount(
-          this.props.accountId
-        );
+      await window.window.ethereum.request({
+        method: "eth_sendTransaction",
+        params: [transactionParameters],
+      });
 
-        const txObject = {
-          nonce: web3.utils.toHex(txCount),
-          gasLimit: web3.utils.toHex(6700000),
-          gasPrice: web3.utils.toHex(
-            Math.ceil((await web3.eth.getGasPrice()) * 1.25)
-          ),
-          to: myBlocContract._address,
-          value: web3.utils.toHex(this.state.post.fee),
-          data: myBlocContract.methods.buyPost(this.state.id).encodeABI(),
-        };
-
-        const tx = new Tx(txObject, { chain: "ropsten" });
-        tx.sign(Buffer.from(this.props.privateKey.substr(2), "hex"));
-
-        const serializedTx = tx.serialize();
-        const raw = "0x" + serializedTx.toString("hex");
-
-        this.setState({ loading: true });
-
-        await web3.eth.sendSignedTransaction(raw).catch((err) => {
-          processError(err);
-        });
-
-        this.setState({ loading: false });
-        this.loadPost(false);
-      } else {
-        await myBlocContract.methods.buyPost(this.state.id).send(
-          {
-            from: this.props.accountId,
-            value: this.state.post.fee,
-            gas: 6700000,
-          },
-          (error) => {
-            if (!error) {
-              this.loadPost(false);
-            } else {
-              processError(error);
-            }
-          }
-        );
-      }
+      this.setState({ loading: false });
+      this.loadPost(false);
     } catch (err) {
       processError(err);
     }
@@ -154,8 +90,6 @@ class Post extends React.Component {
               <PostViewComponent
                 post={this.state.post}
                 purchasePost={this.purchasePost.bind(this)}
-                accountId={this.props.accountId}
-                privateKey={this.props.privateKey}
                 loading={this.state.loading}
                 key={this.state.post.id}
               />
